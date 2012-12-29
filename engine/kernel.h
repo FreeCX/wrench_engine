@@ -21,6 +21,7 @@
 
 /* export function */
 
+int WE_Init(int argc, char **argv);
 void WE_Info(void);
 void WE_About(char **name, int *major_v, int *minor_v);
 

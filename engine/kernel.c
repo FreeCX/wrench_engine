@@ -15,6 +15,13 @@ static int major_version = 0;
 static int minor_version = 1;
 static int build_version = 0;
 
+int __DEBUG__ = 0;
+
+int WE_Init(int argc, char **argv)
+{
+    /* insert code */
+}
+
 #ifdef __WIN32__
 void WE_Info(void)
 {

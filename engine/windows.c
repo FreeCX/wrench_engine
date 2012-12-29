@@ -8,11 +8,6 @@
 
 #include "windows.h"
 
-int WE_Init(int argc, char **argv)
-{
-    /* insert code */
-}
-
 int WE_InitOpenGL(int mask)
 {
     /* insert code */

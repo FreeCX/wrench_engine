@@ -17,7 +17,6 @@
 
 /* export function */
 
-int WE_Init(int argc, char **argv);
 int WE_InitOpenGL(int mask);
 int WE_CreateWindow(we_engine * engine);
 
