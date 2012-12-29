@@ -3,7 +3,7 @@
 //        Type:  Header
 //      Module:  Input
 // Last update:  05/12/12
-// Description:  Система ввода
+// Description:  Input system
 //
 
 #ifndef __KERNEL_INPUT__

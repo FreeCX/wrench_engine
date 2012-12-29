@@ -2,8 +2,8 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Input
-// Last update:  05/12/12
-// Description:  Система ввода
+// Last update:  29/12/12
+// Description:  Input system
 //
 
 #include "input.h"
