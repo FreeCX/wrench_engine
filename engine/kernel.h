@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Kernel
-// Last update:  29/12/12
+// Last update:  30/12/12
 // Description:  The core of the system
 //
 
@@ -16,6 +16,7 @@
 #endif
 
 #include <stdio.h>
+#include <getopt.h>
 
 #include "memory.h"
 
