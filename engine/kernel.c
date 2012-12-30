@@ -19,7 +19,29 @@ int __DEBUG__ = 0;
 
 int WE_Init(int argc, char **argv)
 {
-    /* insert code */
+    const char* const short_options = "d";
+    const struct option long_options[] = {
+        {"debug",   0, NULL, 'd'},
+        {NULL,      0, NULL, 0}
+    };
+    int next_option;
+    
+    do {
+        next_option = getopt_long(argc, argv, short_options, 
+            long_options, NULL);
+        
+        switch (next_option) {
+            case 'd':
+                __DEBUG__ = 1;
+                printf("> Debug mode: [on]\n");
+                break;
+            case -1:
+                break;
+            default:
+                abort();
+        }
+    }
+    while (next_option != -1);
 }
 
 #ifdef __WIN32__
