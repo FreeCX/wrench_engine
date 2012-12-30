@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Kernel
-// Last update:  29/12/12
+// Last update:  30/12/12
 // Description:  The core of the system
 //
 
@@ -68,6 +68,6 @@ void WE_Info(void)
 void WE_About(char **name, int *major_v, int *minor_v)
 {
     *name = engine_name;
-    major_v = major_version;
-    minor_v = minor_version;
+    *major_v = major_version;
+    *minor_v = minor_version;
 }

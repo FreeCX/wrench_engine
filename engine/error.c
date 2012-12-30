@@ -2,14 +2,14 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Error
-// Last update:  29/12/12
+// Last update:  30/12/12
 // Description:  Error handling system
 //
 
 #include "error.h"
 
 static int last_error = 0;
-static int str_error[] = "> ERROR: %s\n";
+static char str_error[] = "> ERROR: %s\n";
 
 static char *str_error_msg[] = {
     "No error",
@@ -28,7 +28,7 @@ int WE_GetError(void)
 
 char ** WE_GetErrorString(void)
 {
-    return str_error_msg[last_error];
+    return &str_error_msg[last_error];
 }
 
 void WE_PrintError(void)
