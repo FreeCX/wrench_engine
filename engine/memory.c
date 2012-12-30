@@ -21,7 +21,7 @@ void * WE_Malloc(size_t size)
     if (__DEBUG__) {
 #ifdef __WIN32__
         printf("  [>] address of pointer 0x%08x\n", ptr);
-#elif __LINUX__
+#elif __linux__
         printf("  [>] address of pointer %p\n", ptr);
 #endif
         printf("  [+] allocating %lu bytes\n", 
@@ -44,16 +44,16 @@ void * WE_Realloc(void *ptr, size_t size)
 
 #ifdef __WIN32__
 	alloc_memory -= _msize(ptr);
-#elif __LINUX__
+#elif __linux__
 	alloc_memory -= malloc_usable_size(ptr);
 #endif
 
 	buf = realloc(ptr, size);
 
 	if (__DEBUG__) {
-#ifdef __WIN32__
+#ifdef __WIN32
         printf("  [>] address of pointer 0x%08x\n", buf);
-#elif __LINUX__
+#else
         printf("  [>] address of pointer %p\n", buf);
 #endif
         printf("  [+] reallocating %lu bytes\n", 
@@ -61,7 +61,7 @@ void * WE_Realloc(void *ptr, size_t size)
     }
     
 	if (!ptr) {
-		we_error_send(WE_ERROR_ALLOC_MEMORY);
+		WE_SendError(WE_ERROR_ALLOC_MEMORY);
 		exit(WE_FAILED);
 	}
 
@@ -74,7 +74,7 @@ void WE_Free(void *ptr)
 {
 #ifdef __WIN32__
     alloc_memory -= _msize(ptr);
-#elif __LINUX__
+#elif __linux__
     alloc_memory -= malloc_usable_size(ptr);
 #endif
     
@@ -82,7 +82,7 @@ void WE_Free(void *ptr)
 #ifdef __WIN32__
     printf("  [-] free %lu bytes at 0x%08x\n", 
     	(unsigned long) _msize(ptr), ptr);
-#else
+#elif __linux__
 	printf("  [-] free %lu bytes at %p\n", 
 		(unsigned long) malloc_usable_size(ptr), ptr);
 #endif

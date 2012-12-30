@@ -42,6 +42,8 @@ int WE_Init(int argc, char **argv)
         }
     }
     while (next_option != -1);
+
+    return WE_SUCCESS;
 }
 
 #ifdef __WIN32__
@@ -74,7 +76,7 @@ void WE_Info(void)
         minor_version, build_version, engine_date);
     printf("Working at %s\n", buffer);
 }
-#elif __LINUX__
+#elif __linux__
 void WE_Info(void)
 {
     struct utsname _system;

@@ -11,13 +11,16 @@
 
 #ifdef __WIN32__
     #include "windows.h"
-#elif __LINUX__
+#elif __linux__
+	#include <sys/utsname.h>
     #include "linux.h"
 #endif
 
 #include <stdio.h>
 #include <getopt.h>
 
+#include "error.h"
+#include "input.h"
 #include "memory.h"
 
 /* export function */

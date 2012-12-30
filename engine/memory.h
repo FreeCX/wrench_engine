@@ -2,11 +2,13 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Memory
-// Last update:  29/12/12
+// Last update:  30/12/12
 // Description:  Memory allocation system
 //
 
 #include <stdlib.h>
+#include <stddef.h>
+#include <malloc.h>
 
 #include "structures.h"
 #include "error.h"
