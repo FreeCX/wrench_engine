@@ -1,0 +1,20 @@
+EXPORTS
+	WE_SendError @ 1
+	WE_GetError @ 2
+	WE_GetErrorString @ 3
+	WE_PrintError @ 4
+	
+	WE_Init @ 5
+	WE_Info @ 6
+	WE_About @ 7
+	
+	WE_InitOpenGL @ 8
+	WE_CreateWindow @ 9
+	WE_Loop @ 10
+	WE_Kill @ 11
+	WE_SwapBuffers @ 12
+	
+	WE_malloc @ 13
+	WE_realloc @ 14
+	WE_free @ 15
+	WE_MemoryUsage @ 16
