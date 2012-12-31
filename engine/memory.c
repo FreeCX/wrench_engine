@@ -12,7 +12,7 @@ static size_t alloc_memory = 0;
 
 extern int __DEBUG__;
 
-void * WE_Malloc(size_t size)
+void * WE_malloc(size_t size)
 {
     void *ptr;
 
@@ -38,7 +38,7 @@ void * WE_Malloc(size_t size)
     return ptr;
 }
 
-void * WE_Realloc(void *ptr, size_t size)
+void * WE_realloc(void *ptr, size_t size)
 {
 	void *buf;
 
@@ -70,7 +70,7 @@ void * WE_Realloc(void *ptr, size_t size)
 	return buf;
 }
 
-void WE_Free(void *ptr)
+void WE_free(void *ptr)
 {
 #ifdef __WIN32__
     alloc_memory -= _msize(ptr);

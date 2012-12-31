@@ -15,8 +15,8 @@
 
 /* export function */
 
-void * WE_Malloc(size_t size);
-void * WE_Realloc(void *ptr, size_t size);
-void WE_Free(void *ptr);
+void * WE_malloc(size_t size);
+void * WE_realloc(void *ptr, size_t size);
+void WE_free(void *ptr);
 
 size_t WE_MemoryUsage(void);
