@@ -9,11 +9,12 @@
 #include "kernel.h"
 
 static char *engine_name = "Wrench Engine";
-static char *engine_date = "29/12/12";
+static char *engine_date = "31/12/12";
 
-static int major_version = 0;
-static int minor_version = 1;
-static int build_version = 0;
+static int major_version   = 0;
+static int minor_version   = 1;
+static int release_version = 0;
+static int build_version   = 1;
 
 int __DEBUG__ = 0;
 
@@ -72,8 +73,8 @@ void WE_Info(void)
             dwMajor, dwMinor, dwBuild);
 	}
 
-    printf("%s %d.%d.%d [%s]\n", engine_name, major_version, 
-        minor_version, build_version, engine_date);
+    printf("%s %d.%d.%d.%d [%s]\n", engine_name, major_version, 
+        minor_version, release_version, build_version, engine_date);
     printf("Working at %s\n", buffer);
 }
 #elif __linux__
@@ -81,8 +82,8 @@ void WE_Info(void)
 {
     struct utsname _system;
 
-    printf("%s %d.%d.%d [%s]\n", engine_name, major_version, 
-        minor_version, build_version, engine_date);
+    printf("%s %d.%d.%d.%d [%s]\n", engine_name, major_version, 
+        minor_version, release_version, build_version, engine_date);
     if (!uname(&_system))
         printf("Working at %s %s %s\n", _system.sysname, 
             _system.release, _system.machine);
