@@ -16,12 +16,12 @@
 
 /* export function */
 
-int WE_InitOpenGL(int mask);
-int WE_CreateWindow(we_engine * engine);
+int weInitOpenGL( const int mask );
+int weCreateWindow( we_engine * engine );
 
-int WE_Loop(void);
-void WE_Kill(void);
+int weLoop( void );
+void weKill( void );
 
-void WE_SwapBuffers(void);
+void weSwapBuffers( void );
 
 #endif

@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Kernel
-// Last update:  30/12/12
+// Last update:  19/01/13
 // Description:  The core of the system
 //
 
@@ -25,8 +25,8 @@
 
 /* export function */
 
-int WE_Init(int argc, char **argv);
-void WE_Info(void);
-void WE_About(char **name, int *major_v, int *minor_v);
+int weInit( const int argc, char **argv );
+void weInfo( void );
+void weAbout( char **name, int *major_v, int *minor_v );
 
 #endif

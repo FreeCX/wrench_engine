@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Memory
-// Last update:  30/12/12
+// Last update:  19/01/13
 // Description:  Memory allocation system
 //
 
@@ -15,8 +15,8 @@
 
 /* export function */
 
-void * WE_malloc(size_t size);
-void * WE_realloc(void *ptr, size_t size);
-void WE_free(void *ptr);
+void * weMalloc( size_t size );
+void * weRealloc( void *ptr, size_t size );
+void weFree( void *ptr );
 
-size_t WE_MemoryUsage(void);
+size_t weMemoryUsage( void );

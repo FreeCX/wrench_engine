@@ -2,33 +2,33 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Window
-// Last update:  29/12/12
+// Last update:  19/01/13
 // Description:  Window system (linux)
 //
 
 #include "linux.h"
 
-int WE_InitOpenGL(int mask)
+int weInitOpenGL( const int mask )
 {
     /* insert code */
 }
 
-int WE_CreateWindow(we_engine * engine)
+int weCreateWindow(we_engine * engine)
 {
     /* insert code */
 }
 
-int WE_Loop(void)
+int weLoop( void )
 {
     /* insert code */
 }
 
-void WE_Kill(void)
+void weKill( void )
 {
     /* insert code */
 }
 
-void WE_SwapBuffers(void)
+void weSwapBuffers( void )
 {
     /* insert code */
 }

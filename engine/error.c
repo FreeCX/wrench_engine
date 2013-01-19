@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Error
-// Last update:  30/12/12
+// Last update:  19/01/13
 // Description:  Error handling system
 //
 
@@ -16,22 +16,22 @@ static char *str_error_msg[] = {
     "Can't allocate memory"
 };
 
-void WE_SendError(int error)
+void weSendError( const int error )
 {
     last_error = error;
 }
 
-int WE_GetError(void)
+int weGetError( void )
 {
     return last_error;
 }
 
-char ** WE_GetErrorString(void)
+char ** weGetErrorString( void )
 {
     return &str_error_msg[last_error];
 }
 
-void WE_PrintError(void)
+void wePrintError( void )
 {
-    printf(str_error, str_error_msg[last_error]);
+    printf( str_error, str_error_msg[last_error] );
 }

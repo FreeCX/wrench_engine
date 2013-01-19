@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Error
-// Last update:  29/12/12
+// Last update:  19/01/13
 // Description:  Error handling system
 //
 
@@ -20,9 +20,9 @@ enum {
 
 /* export function */
 
-void WE_SendError(int error);
-int WE_GetError(void);
-char ** WE_GetErrorString(void);
-void WE_PrintError(void);
+void weSendError( const int error );
+int weGetError( void );
+char ** weGetErrorString( void );
+void wePrintError( void );
 
 #endif
