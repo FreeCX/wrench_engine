@@ -34,7 +34,7 @@ int weInit( const int argc, char **argv )
         switch ( next_option ) {
             case 'd':
                 __DEBUG__ = 1;
-                printf("> Debug mode: [on]\n");
+                printf( "> Debug mode: [on]\n" );
                 break;
             case -1:
                 break;
