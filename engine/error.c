@@ -16,7 +16,9 @@ static char *str_error_msg[] = {
     "Can't allocate memory",
     "Release of DC and RC failed",
     "Release Rendering Context Failed",
-    "Failed to register the Window class"
+    "Failed to register the Window class",
+
+    "Couldt release drawing context"
 };
 
 void weSendError( const int error )
