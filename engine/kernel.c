@@ -9,7 +9,7 @@
 #include "kernel.h"
 
 static char *engine_name = "Wrench Engine";
-static char *engine_date = "19/01/13";
+static char *engine_date = "29/01/13";
 
 static int major_version   = 0;
 static int minor_version   = 1;
