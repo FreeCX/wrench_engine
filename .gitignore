@@ -2,7 +2,6 @@
 *.dll
 *.o
 *.a
-*.win
 *.rc
 *.res
 *.bat
