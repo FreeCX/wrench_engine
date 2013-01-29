@@ -9,7 +9,7 @@
 #include "kernel.h"
 
 static char *engine_name = "Wrench Engine";
-static char *engine_date = "31/12/12";
+static char *engine_date = "19/01/13";
 
 static int major_version   = 0;
 static int minor_version   = 1;
@@ -34,7 +34,7 @@ int weInit( const int argc, char **argv )
         switch ( next_option ) {
             case 'd':
                 __DEBUG__ = 1;
-                printf("> Debug mode: [on]\n");
+                printf( "> Debug mode: [on]\n" );
                 break;
             case -1:
                 break;
