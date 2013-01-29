@@ -1,0 +1,10 @@
+LIB="libwrench-`uname -m`.dll"
+ENGINE=../engine
+CFLAGS=-O3 -shared -Wl,-add-stdcall-alias -lopengl32 -lglu32 -lwinmm -lgdi32 
+SOURCE=$(ENGINE)/error.c $(ENGINE)/input.c $(ENGINE)/kernel.c $(ENGINE)/windows.c $(ENGINE)/memory.c
+
+all:
+	$(CC) $(SOURCE) $(CFLAGS) -o $(LIB) wrench.def
+	strip -s $(LIB)
+clean:
+	$(RM) $(LIB) 

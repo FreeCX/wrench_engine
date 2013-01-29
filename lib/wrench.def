@@ -1,20 +1,20 @@
 EXPORTS
-	weSendError @ 1
-	weGetError @ 2
-	weGetErrorString @ 3
-	wePrintError @ 4
-	
-	weInit @ 5
-	weInfo @ 6
-	weAbout @ 7
-	
-	weInitOpenGL @ 8
-	weCreateWindow @ 9
-	weLoop @ 10
-	weKill @ 11
-	weSwapBuffers @ 12
-	
-	weMalloc @ 13
-	weRealloc @ 14
-	weFree @ 15
-	weMemoryUsage @ 16
+	weSendError			@1
+	weGetError			@2
+	weGetErrorString	@3
+	wePrintError		@4
+
+	weInit				@5
+	weInfo				@6
+	weAbout				@7
+
+	weMalloc			@8
+	weRealloc			@9
+	weFree				@10
+	weMemoryUsage		@11
+
+	weInitOpenGL		@12
+	weCreateWindow		@13
+	weLoop				@14
+	weKill				@15
+	weSwapBuffers		@16
