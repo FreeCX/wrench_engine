@@ -29,7 +29,7 @@ void * weMalloc( size_t size )
 
     if ( !ptr ) {
         weSendError( WE_ERROR_ALLOC_MEMORY );
-        exit( WE_FAILED );
+        exit( WE_FAILURE );
     }
 
     alloc_memory += size;
@@ -60,7 +60,7 @@ void * weRealloc( void *ptr, size_t size )
     
 	if ( !ptr ) {
 		weSendError( WE_ERROR_ALLOC_MEMORY );
-		exit( WE_FAILED );
+		exit( WE_FAILURE );
 	}
 
 	alloc_memory += size;

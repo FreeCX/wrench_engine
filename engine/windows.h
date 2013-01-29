@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Window
-// Last update:  19/01/13
+// Last update:  29/01/13
 // Description:  Window system (windows)
 //
 
@@ -14,6 +14,7 @@
 #include <gl/glu.h>
 
 #include "structures.h"
+#include "error.h"
 
 /* export function */
 

@@ -10,7 +10,8 @@
 #define __KERNEL_STRUCTURES__
 
 enum {
-	WE_FAILED = -1, 
+	WE_FAILURE = -1, 
+	WE_NULL = 0,
 	WE_SUCCESS = 1
 };
 
