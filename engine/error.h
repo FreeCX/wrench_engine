@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Error
-// Last update:  19/01/13
+// Last update:  30/01/13
 // Description:  Error handling system
 //
 
@@ -20,11 +20,13 @@ enum {
     WE_ERROR_DELETE_CONTEXT,
     WE_ERROR_REGISTER_WINDOW,
 
-    WE_ERROR_DRAW_CONTEXT
+    WE_ERROR_DRAW_CONTEXT,
+    WE_ERROR_OPEN_DISPLAY,
+    WE_ERROR_GLX_SUPPORT,
+    WE_ERROR_GLX_VERSION
 };
 
 /* export function */
-
 void weSendError( const int error );
 int weGetError( void );
 char ** weGetErrorString( void );
