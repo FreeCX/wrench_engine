@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Kernel
-// Last update:  19/01/13
+// Last update:  30/01/13
 // Description:  The core of the system
 //
 
@@ -24,7 +24,6 @@
 #include "memory.h"
 
 /* export function */
-
 int weInit( const int argc, char **argv );
 void weInfo( void );
 void weAbout( char **name, int *major_v, int *minor_v );

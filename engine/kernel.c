@@ -2,14 +2,14 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Kernel
-// Last update:  29/01/13
+// Last update:  30/01/13
 // Description:  The core of the system
 //
 
 #include "kernel.h"
 
 static char *engine_name = "Wrench Engine";
-static char *engine_date = "29/01/13";
+static char *engine_date = "30/01/13";
 
 static int major_version   = 0;
 static int minor_version   = 1;
@@ -30,7 +30,6 @@ int weInit( const int argc, char **argv )
     do {
         next_option = getopt_long( argc, argv, short_options, 
             long_options, NULL );
-        
         switch ( next_option ) {
             case 'd':
                 __DEBUG__ = 1;
@@ -42,7 +41,6 @@ int weInit( const int argc, char **argv )
                 abort();
         }
     } while ( next_option != -1 );
-
     return WE_SUCCESS;
 }
 
@@ -51,7 +49,6 @@ void weInfo( void )
 {
     char buffer[256];
     int dwBuild, i;
-
     int dwVersion = GetVersion();
     int dwMajor = ( LOBYTE( LOWORD( dwVersion ) ) );
     int dwMinor = ( HIBYTE( LOWORD( dwVersion ) ) );
@@ -69,7 +66,6 @@ void weInfo( void )
 		sprintf( buffer, "Win95/Win98 [Version %d.%d.%d]", 
             dwMajor, dwMinor, dwBuild );
 	}
-
     printf( "%s %d.%d.%d.%d [%s]\n", engine_name, major_version, 
         minor_version, release_version, build_version, engine_date );
     printf( "Working at %s\n", buffer );
