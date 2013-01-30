@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Window
-// Last update:  29/01/13
+// Last update:  30/01/13
 // Description:  Window system (windows)
 //
 
@@ -18,8 +18,8 @@
 
 /* export function */
 
-int weInitOpenGL( const int mask );
-int weCreateWindow( we_engine * engine );
+int weInitOpenGL( const int glFlag );
+int weCreateWindow( we_engine_t * engine );
 
 int weLoop( void );
 void weKill( void );
