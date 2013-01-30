@@ -18,7 +18,7 @@ static char *str_error_msg[] = {
     "Release Rendering Context Failed",
     "Failed to register the Window class",
 
-    "Couldt release drawing context"
+    "Couldn't release drawing context"
 };
 
 void weSendError( const int error )
