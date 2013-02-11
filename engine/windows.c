@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Window
-// Last update:  30/01/13
+// Last update:  11/02/13
 // Description:  Window system (windows)
 //
 
@@ -11,6 +11,10 @@
 static HWND hWnd;
 static HDC hDC;
 static HGLRC hRC; 
+static PIXELFORMATDESCRIPTOR pfd;
+static char buffer[TEXT_SIZE];
+static char def_name[] = "Wrench Engine Window";
+extern int __DEBUG__;
 
 LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
@@ -33,10 +37,10 @@ int ChangeScreenResolution( const int width, const int height, const int bpp )
     dm.dmPelsHeight = height;
     dm.dmBitsPerPel = bpp;
     dm.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
-    if ( ChangeDisplaySettings(&dm, CDS_FULLSCREEN) != DISP_CHANGE_SUCCESSFUL) {
-    	return WE_FAILURE;
+    if ( ChangeDisplaySettings( &dm, CDS_FULLSCREEN ) != DISP_CHANGE_SUCCESSFUL ) {
+    	return WE_EXIT_FAILURE;
     }
-    return WE_SUCCESS;
+    return WE_EXIT_SUCCESS;
 }
 
 void SetClientSize( HWND hWnd, const int clientWidth, int const clientHeight )
@@ -60,15 +64,17 @@ int weInitOpenGL( const int glFlag )
     return WE_NULL;
 }
 
-int weCreateWindow( we_engine_t * engine )
+int weCreateWindow( const int width, const int height, const int fullscreen, const int debug )
 {
 	static int count = 0;
+    int iFormat = 0;
 	char WE_APPCLASS[] = "WRENCH ENGiNE";
     DWORD dwStyle = WS_CAPTION | WS_VISIBLE | WS_SYSMENU;
     DWORD dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
     HINSTANCE hInstance;
     WNDCLASS wc; 
 
+    __DEBUG__ = debug;
     hInstance = GetModuleHandle( NULL );
     wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
     wc.lpfnWndProc = WndProc;
@@ -86,11 +92,69 @@ int weCreateWindow( we_engine_t * engine )
     }
     if ( !RegisterClass( &wc ) ) {
 		weSendError( WE_ERROR_REGISTER_WINDOW );
-		return WE_FAILURE;
+		return WE_EXIT_FAILURE;
 	}
+    if ( fullscreen ) {
+        /* insert init code */
+    } else {
+        /* insert init code */
+    }
+    hWnd = CreateWindowEx( dwExStyle, WE_APPCLASS, def_name, 
+        WS_CLIPSIBLINGS | WS_CLIPCHILDREN | dwStyle, 0, 0, 
+        width, height, 0, 0, hInstance, 0); 
+    if ( !hWnd ) {
+        weSendError( WE_ERROR_CREATE_WINDOW );
+        return WE_EXIT_FAILURE;
+    }
+    ShowWindow( hWnd, SW_SHOW );
+    SetForegroundWindow( hWnd );
+    SetFocus( hWnd );
+    SetClientSize( hWnd, width, height );
+    if ( !( hDC = GetDC( hWnd ) ) ) {
+        weSendError( WE_ERROR_DC_CONTEXT );
+        return WE_EXIT_FAILURE;
+    }
+    ZeroMemory( &pfd, sizeof(pfd) );
+    pfd.nSize = sizeof(pfd);
+    pfd.nVersion = 1;
+    pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+    pfd.iPixelType = PFD_TYPE_RGBA;
+    pfd.cColorBits = 24;
+    pfd.cDepthBits = 32;
+    pfd.iLayerType = PFD_MAIN_PLANE;
+    if ( !( iFormat = ChoosePixelFormat( hDC, &pfd ) ) ) {
+        weSendError( WE_ERROR_CHOOSE_PIXELFORMAT );
+        return WE_EXIT_FAILURE;
+    }
+    if ( !SetPixelFormat( hDC, iFormat, &pfd ) ) {
+        weSendError( WE_ERROR_SET_PIXELFORMAT );
+        return WE_EXIT_FAILURE;
+    }
+    if ( !( hRC = wglCreateContext( hDC ) ) ) {
+        weSendError( WE_ERROR_CREATE_CONTEXT );
+        return WE_EXIT_FAILURE;
+    }
+    if ( !wglMakeCurrent( hDC, hRC ) ) {
+        weSendError( WE_ERROR_MAKE_CONTEXT );
+        return WE_EXIT_FAILURE;
+    }
 	/* some code */
     count++;
     return WE_NULL;
+}
+
+void weSetCaption( const char *fmt, ... )
+{
+    va_list text;
+    int count;
+    
+    if ( fmt == NULL ) {
+        return ;
+    }
+    va_start( text, fmt );
+    count = vsnprintf( buffer, TEXT_SIZE, fmt, text ); 
+    va_end( text ); 
+    SetWindowText( hWnd, buffer);
 }
 
 int weLoop( void )

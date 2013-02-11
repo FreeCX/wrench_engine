@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Memory
-// Last update:  19/01/13
+// Last update:  11/02/13
 // Description:  Memory allocation system
 //
 
@@ -29,7 +29,7 @@ void * weMalloc( size_t size )
 
     if ( !ptr ) {
         weSendError( WE_ERROR_ALLOC_MEMORY );
-        exit( WE_FAILURE );
+        exit( WE_EXIT_FAILURE );
     }
 
     alloc_memory += size;
@@ -60,7 +60,7 @@ void * weRealloc( void *ptr, size_t size )
     
 	if ( !ptr ) {
 		weSendError( WE_ERROR_ALLOC_MEMORY );
-		exit( WE_FAILURE );
+		exit( WE_EXIT_FAILURE );
 	}
 
 	alloc_memory += size;

@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Error
-// Last update:  30/01/13
+// Last update:  11/02/13
 // Description:  Error handling system
 //
 
@@ -16,9 +16,16 @@
 enum {
     WE_ERROR_NONE,
     WE_ERROR_ALLOC_MEMORY, 
+    
     WE_ERROR_CLEAR_CONTEXT,
     WE_ERROR_DELETE_CONTEXT,
     WE_ERROR_REGISTER_WINDOW,
+    WE_ERROR_CREATE_WINDOW,
+    WE_ERROR_DC_CONTEXT,
+    WE_ERROR_CHOOSE_PIXELFORMAT,
+    WE_ERROR_SET_PIXELFORMAT,
+    WE_ERROR_CREATE_CONTEXT,
+    WE_ERROR_MAKE_CONTEXT,
 
     WE_ERROR_DRAW_CONTEXT,
     WE_ERROR_OPEN_DISPLAY,

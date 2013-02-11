@@ -2,20 +2,18 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Kernel
-// Last update:  30/01/13
+// Last update:  11/02/13
 // Description:  The core of the system
 //
 
 #include "kernel.h"
 
 static char *engine_name = "Wrench Engine";
-static char *engine_date = "30/01/13";
-
+static char *engine_date = "11/02/13";
 static int major_version   = 0;
 static int minor_version   = 1;
 static int release_version = 0;
 static int build_version   = 1;
-
 int __DEBUG__ = 0;
 
 int weInit( const int argc, char **argv )
@@ -41,7 +39,7 @@ int weInit( const int argc, char **argv )
                 abort();
         }
     } while ( next_option != -1 );
-    return WE_SUCCESS;
+    return WE_EXIT_SUCCESS;
 }
 
 #ifdef __WIN32__

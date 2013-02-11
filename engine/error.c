@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Error
-// Last update:  30/01/13
+// Last update:  11/02/13
 // Description:  Error handling system
 //
 
@@ -14,10 +14,16 @@ static char str_error[] = "> ERROR: %s\n";
 static char *str_error_msg[] = {
     "No error",
     "Can't allocate memory",
-
+    
     "Release of DC and RC failed",
     "Release Rendering Context Failed",
     "Failed to register the Window class",
+    "Window creation error",
+    "Couldn't create GL device context",
+    "Couldn't find suitable PixelFormat",
+    "Couldn't set PixelFormat",
+    "Couldn't create GL rendering context",
+    "Couldn't ativate GL rendering context",
 
     "Couldn't release drawing context",
     "Couldn't open display",

@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Window
-// Last update:  30/01/13
+// Last update:  11/02/13
 // Description:  Window system (windows)
 //
 
@@ -17,13 +17,11 @@
 #include "error.h"
 
 /* export function */
-
 int weInitOpenGL( const int glFlag );
-int weCreateWindow( we_engine_t * engine );
-
+int weCreateWindow( const int width, const int height, const int fullscreen, const int debug );
+void weSetCaption( const char *fmt, ... );
 int weLoop( void );
 void weKill( void );
-
 void weSwapBuffers( void );
 
 #endif
