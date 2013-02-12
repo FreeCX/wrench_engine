@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Window
-// Last update:  11/02/13
+// Last update:  12/02/13
 // Description:  Window system (windows)
 //
 
@@ -12,7 +12,7 @@ static HWND hWnd;
 static HDC hDC;
 static HGLRC hRC; 
 static PIXELFORMATDESCRIPTOR pfd;
-static char buffer[TEXT_SIZE];
+static char buffer[WE_TEXT_SIZE];
 static char def_name[] = "Wrench Engine Window";
 extern int __DEBUG__;
 
@@ -64,7 +64,8 @@ int weInitOpenGL( const int glFlag )
     return WE_NULL;
 }
 
-int weCreateWindow( const int width, const int height, const int fullscreen, const int debug )
+int weCreateWindow( const int width, const int height, const int fullscreen, 
+    const int debug )
 {
 	static int count = 0;
     int iFormat = 0;

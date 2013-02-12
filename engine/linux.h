@@ -13,7 +13,6 @@
 #include <GL/glu.h>
 #include <GL/glx.h>
 #include <X11/extensions/xf86vmode.h>
-
 #include "structures.h"
 #include "error.h"
 
@@ -36,7 +35,8 @@ typedef struct {
 
 /* export function */
 int weInitOpenGL( const int glFlag );
-int weCreateWindow( const int width, const int height, const int fullscreen, const int debug );
+int weCreateWindow( const int width, const int height, const int fullscreen, 
+    const int debug );
 void weSetCaption( const char *fmt, ... );
 int weLoop( void );
 void weKill( void );
