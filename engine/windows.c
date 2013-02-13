@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Window
-// Last update:  11/02/13
+// Last update:  12/02/13
 // Description:  Window system (windows)
 //
 
@@ -13,7 +13,7 @@ static HDC hDC;
 static HGLRC hRC; 
 static PIXELFORMATDESCRIPTOR pfd;
 static char buffer[TEXT_SIZE];
-static char def_name[] = "Wrench Engine Window";
+int window_width, window_height;
 extern int __DEBUG__;
 
 LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
@@ -59,14 +59,21 @@ void SetClientSize( HWND hWnd, const int clientWidth, int const clientHeight )
     }
 }
 
+int weInitWindow( const int width, const int height, const int flag )
+{
+    window_width = width;
+    window_height = height;
+    return WE_NULL;
+}
+
 int weInitOpenGL( const int glFlag )
 {
     return WE_NULL;
 }
 
-int weCreateWindow( const int width, const int height, const int fullscreen, const int debug )
+int weCreateWindow( const char *title )
 {
-	static int count = 0;
+	static int counter = 0;
     int iFormat = 0;
 	char WE_APPCLASS[] = "WRENCH ENGiNE";
     DWORD dwStyle = WS_CAPTION | WS_VISIBLE | WS_SYSMENU;
@@ -74,7 +81,6 @@ int weCreateWindow( const int width, const int height, const int fullscreen, con
     HINSTANCE hInstance;
     WNDCLASS wc; 
 
-    __DEBUG__ = debug;
     hInstance = GetModuleHandle( NULL );
     wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
     wc.lpfnWndProc = WndProc;
@@ -99,9 +105,9 @@ int weCreateWindow( const int width, const int height, const int fullscreen, con
     } else {
         /* insert init code */
     }
-    hWnd = CreateWindowEx( dwExStyle, WE_APPCLASS, def_name, 
+    hWnd = CreateWindowEx( dwExStyle, WE_APPCLASS, title, 
         WS_CLIPSIBLINGS | WS_CLIPCHILDREN | dwStyle, 0, 0, 
-        width, height, 0, 0, hInstance, 0); 
+        window_width, window_height, 0, 0, hInstance, 0); 
     if ( !hWnd ) {
         weSendError( WE_ERROR_CREATE_WINDOW );
         return WE_EXIT_FAILURE;
@@ -139,8 +145,31 @@ int weCreateWindow( const int width, const int height, const int fullscreen, con
         return WE_EXIT_FAILURE;
     }
 	/* some code */
-    count++;
+    counter++;
     return WE_NULL;
+}
+
+int weLoop( void )
+{
+    return WE_NULL;
+}
+
+void weKill( void )
+{
+    if ( !wglMakeCurrent( hDC, NULL ) ) {
+        weSendError( WE_ERROR_CLEAR_CONTEXT );
+        return;
+    }
+    if ( !wglDeleteContext( hRC ) ) {
+        weSendError( WE_ERROR_DELETE_CONTEXT );
+        return;
+    }
+    ReleaseDC( hWnd, hDC );
+}
+
+void weSwapBuffers( void )
+{
+    SwapBuffers( hDC );
 }
 
 void weSetCaption( const char *fmt, ... )
@@ -154,28 +183,5 @@ void weSetCaption( const char *fmt, ... )
     va_start( text, fmt );
     count = vsnprintf( buffer, TEXT_SIZE, fmt, text ); 
     va_end( text ); 
-    SetWindowText( hWnd, buffer);
-}
-
-int weLoop( void )
-{
-    return WE_NULL;
-}
-
-void weKill( void )
-{
-    if ( !wglMakeCurrent( hDC, NULL ) ) {
-		weSendError( WE_ERROR_CLEAR_CONTEXT );
-		return;
-	}
-    if ( !wglDeleteContext( hRC ) ) {
-		weSendError( WE_ERROR_DELETE_CONTEXT );
-		return;
-	}
-    ReleaseDC( hWnd, hDC );
-}
-
-void weSwapBuffers( void )
-{
-    SwapBuffers( hDC );
+    SetWindowText( hWnd, buffer );
 }

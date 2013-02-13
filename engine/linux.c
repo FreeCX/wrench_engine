@@ -10,15 +10,22 @@
 
 static we_window_t wgl;
 static char buffer[TEXT_SIZE];
-static char def_name[] = "Wrench Engine Window";
+int window_width, window_height;
 extern int __DEBUG__;
+
+int weInitWindow( const int width, const int height, const int flag )
+{
+    window_width = width;
+    window_height = height;
+    return WE_NULL;
+}
 
 int weInitOpenGL( const int glFlag )
 {
     return WE_NULL;
 }
 
-int weCreateWindow( const int width, const int height, const int fullscreen, const int debug )
+int weCreateWindow( const char *title )
 {
     static int counter = 0;
     XF86VidModeModeInfo **modes;
@@ -27,7 +34,6 @@ int weCreateWindow( const int width, const int height, const int fullscreen, con
     int modeNum, bestMode, i;
     char *env = getenv("DISPLAY");
 
-    __DEBUG__ = debug;
     if ( !( wgl.display = XOpenDisplay( env ) ) ) {
         weSendError( WE_ERROR_OPEN_DISPLAY );
         return WE_EXIT_FAILURE;
@@ -47,8 +53,8 @@ int weCreateWindow( const int width, const int height, const int fullscreen, con
     if ( fullscreen ) {
         wgl.deskMode = *modes[0];
         for ( i = 0; i < modeNum; i++ ) {
-            if ( ( modes[i]->hdisplay == width ) && 
-                ( modes[i]->vdisplay == height ) ) {
+            if ( ( modes[i]->hdisplay == window_width ) && 
+                ( modes[i]->vdisplay == window_height ) ) {
                 bestMode = i;
             }
         }
