@@ -28,7 +28,7 @@ static int double_attr[] = {
 };
 
 static we_window_t wgl;
-static char buffer[WE_TEXT_SIZE];
+char *buffer;
 int fullscreen = 0;
 int window_width, window_height;
 extern int __DEBUG__;
@@ -141,22 +141,23 @@ int weCreateWindow( const char *title )
             wgl.vInfo->visual, CWBorderPixel | CWColormap | CWEventMask, 
             &wgl.setWindowAttr );
         if ( !wgl.window ) {
-            we_error_send( WE_ERROR_CREATE_WINDOW );
+            weSendError( WE_ERROR_CREATE_WINDOW );
             XCloseDisplay( wgl.display );
             return WE_EXIT_FAILURE;
         }
         if ( __DEBUG__ ) {
-            printf("> Window mode: %dx%dx%d\n", width, height, wgl.vInfo->depth);
+            printf("> Window mode: %dx%dx%d\n", window_width, 
+                window_height, wgl.vInfo->depth);
         }
         wmDelete = XInternAtom( wgl.display, "WM_DELETE_WINDOW", True );
         XSetWMProtocols( wgl.display, wgl.window, &wmDelete, 1 );
-        XSetStandardProperties( wgl.display, wgl.window, def_name, def_name, 
+        XSetStandardProperties( wgl.display, wgl.window, title, title, 
             None, NULL, 0, NULL );
         XMapRaised( wgl.display, wgl.window );
     }
     wgl.context = glXCreateContext( wgl.display, wgl.vInfo, 0, 1 );
     if ( !wgl.context ) {
-        we_error_send( WE_ERROR_CREATE_CONTEXT );
+        weSendError( WE_ERROR_CREATE_CONTEXT );
         XCloseDisplay( wgl.display );
         return WE_EXIT_FAILURE;
     }

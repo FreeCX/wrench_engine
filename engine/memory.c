@@ -37,6 +37,31 @@ void * weMalloc( size_t size )
     return ptr;
 }
 
+void * weCalloc( size_t nmemb, size_t size )
+{
+    void *ptr;
+
+    ptr = calloc( nmemb, size );
+
+    if ( __DEBUG__ ) {
+#ifdef __WIN32__
+        printf( "  [>] address of pointer 0x%08x\n", ptr );
+#elif __linux__
+        printf( "  [>] address of pointer %p\n", ptr );
+#endif
+        printf( "  [+] allocating %lu bytes\n", (unsigned long) size );
+    }
+
+    if ( !ptr ) {
+        weSendError( WE_ERROR_ALLOC_MEMORY );
+        exit( WE_EXIT_FAILURE );
+    }
+
+    alloc_memory += size;
+
+    return ptr;
+}
+
 void * weRealloc( void *ptr, size_t size )
 {
 	void *buf;
