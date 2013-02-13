@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Window
-// Last update:  12/02/13
+// Last update:  13/02/13
 // Description:  Window system (windows)
 //
 
@@ -12,7 +12,8 @@ static HWND hWnd;
 static HDC hDC;
 static HGLRC hRC; 
 static PIXELFORMATDESCRIPTOR pfd;
-static char buffer[TEXT_SIZE];
+static char buffer[WE_TEXT_SIZE];
+int fullscreen = 0;
 int window_width, window_height;
 extern int __DEBUG__;
 
@@ -92,7 +93,7 @@ int weCreateWindow( const char *title )
     wc.hbrBackground = (HBRUSH) GetStockObject ( BLACK_BRUSH );
     wc.lpszMenuName = NULL;
     wc.lpszClassName = WE_APPCLASS;
-    if ( count > 0 ) {
+    if ( counter > 0 ) {
     	DestroyWindow( hWnd );
         UnregisterClass( WE_APPCLASS, hInstance );
     }
@@ -115,7 +116,7 @@ int weCreateWindow( const char *title )
     ShowWindow( hWnd, SW_SHOW );
     SetForegroundWindow( hWnd );
     SetFocus( hWnd );
-    SetClientSize( hWnd, width, height );
+    SetClientSize( hWnd, window_width, window_height );
     if ( !( hDC = GetDC( hWnd ) ) ) {
         weSendError( WE_ERROR_DC_CONTEXT );
         return WE_EXIT_FAILURE;
@@ -181,7 +182,7 @@ void weSetCaption( const char *fmt, ... )
         return ;
     }
     va_start( text, fmt );
-    count = vsnprintf( buffer, TEXT_SIZE, fmt, text ); 
+    count = vsnprintf( buffer, WE_TEXT_SIZE, fmt, text ); 
     va_end( text ); 
     SetWindowText( hWnd, buffer );
 }

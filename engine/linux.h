@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Window
-// Last update:  12/02/13
+// Last update:  13/02/13
 // Description:  Window system (linux)
 //
 
@@ -13,7 +13,6 @@
 #include <GL/glu.h>
 #include <GL/glx.h>
 #include <X11/extensions/xf86vmode.h>
-
 #include "structures.h"
 #include "error.h"
 

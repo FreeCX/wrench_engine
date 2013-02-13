@@ -28,7 +28,8 @@ static char *str_error_msg[] = {
     "Couldn't release drawing context",
     "Couldn't open display",
     "X Server no support GLX Extension",
-    "GLX 1.3 or greater necessary"
+    "GLX 1.3 or greater necessary",
+    "Couldn't choose visual context"
 };
 
 void weSendError( const int error )
