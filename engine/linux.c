@@ -37,6 +37,7 @@ int weInitWindow( const int width, const int height, const int flag )
 {
     window_width = width;
     window_height = height;
+    buffer = (char *) weCalloc( 256, sizeof(char) );
     return WE_NULL;
 }
 

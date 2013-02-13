@@ -14,6 +14,7 @@
 #include <gl/glu.h>
 #include "structures.h"
 #include "error.h"
+#include "memory.h"
 
 /* export function */
 int weInitWindow( const int width, const int height, const int flag );

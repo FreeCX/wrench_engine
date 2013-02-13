@@ -14,6 +14,7 @@
 #include <GL/glx.h>
 #include <X11/extensions/xf86vmode.h>
 #include "structures.h"
+#include "memory.h"
 #include "error.h"
 
 typedef struct {
