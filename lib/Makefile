@@ -1,8 +1,8 @@
 ENGINE=../engine
 SOURCES=$(ENGINE)/error.c $(ENGINE)/input.c $(ENGINE)/kernel.c $(ENGINE)/memory.c
 LDFLAGS=
-OS=$(exec uname)
-ifeq "$(OS)" "Linux"
+OS=$(shell uname -s)
+ifeq ($(OS),Linux)
 	LIB=libwrench.so
 	CFLAGS=--def wrench.def -s -O3 -fPIC -shared -W -Wall -g \
 		-lGL -lGLU -lX11 -lXxf86vm 
