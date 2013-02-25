@@ -9,12 +9,15 @@ EXPORTS
 	weAbout				@7
 
 	weMalloc			@8
-	weRealloc			@9
-	weFree				@10
-	weMemoryUsage		@11
+	weCalloc			@9
+	weRealloc			@10
+	weFree				@11
+	weMemoryUsage		@12
 
-	weInitOpenGL		@12
-	weCreateWindow		@13
-	weLoop				@14
-	weKill				@15
-	weSwapBuffers		@16
+	weInitWindow 		@13
+	weInitOpenGL		@14
+	weCreateWindow		@15
+	weLoop				@16
+	weKill				@17
+	weSwapBuffers		@18
+	weSetCaption		@19
