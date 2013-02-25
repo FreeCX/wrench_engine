@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Window
-// Last update:  14/02/13
+// Last update:  25/02/13
 // Description:  Window system (linux)
 //
 
@@ -31,6 +31,7 @@ static we_window_t wgl;
 char *buffer;
 int fullscreen = 0;
 int window_width, window_height;
+int running = 1;
 extern int __DEBUG__;
 
 int weInitWindow( const int width, const int height, const int flag )
@@ -57,6 +58,9 @@ int weCreateWindow( const char *title )
     Atom wmDelete;
     char *env = getenv("DISPLAY");
 
+    if ( counter < 1 ) {
+        weInfo();
+    }
     if ( !( wgl.display = XOpenDisplay( env ) ) ) {
         weSendError( WE_ERROR_OPEN_DISPLAY );
         return WE_EXIT_FAILURE;
@@ -69,7 +73,7 @@ int weCreateWindow( const char *title )
     }
     XF86VidModeQueryVersion( wgl.display, &vme_major, &vme_minor );
     if ( !counter ) {
-        printf( "Supported XF86VidModeExtension version %d.%d\n", 
+        printf( "Supported XF86VidModeExtension version - %d.%d\n", 
             vme_major, vme_minor );
     }
     XF86VidModeGetAllModeLines( wgl.display, wgl.screen, &modeNum, &modes );
@@ -174,12 +178,27 @@ int weCreateWindow( const char *title )
 
 int weLoop( void )
 {
-    return WE_NULL;
+    XEvent event;
+    
+    while ( running ) {
+        while ( XPending( wgl.display ) ) {
+            XNextEvent( wgl.display, &event );
+            switch ( event.type ) {
+                case ClientMessage:
+                    running = 0;
+                    break;
+            }
+        }
+        /* render */
+        usleep(1200);
+    }
+    we_kill();
+    return WE_EXIT_SUCCESS;
 }
 
 void weKill( void )
 {
-    weFree( buffer );
+    running = 0;
     if ( wgl.context ) {
         if ( !glXMakeCurrent( wgl.display, wgl.window, wgl.context ) ) {
 			weSendError( WE_ERROR_DRAW_CONTEXT );
@@ -192,6 +211,7 @@ void weKill( void )
         XF86VidModeSetViewPort( wgl.display, wgl.screen, 0, 0 );
     }
     XCloseDisplay( wgl.display );
+    weFree( buffer );
 }
 
 void weSwapBuffers( void )
