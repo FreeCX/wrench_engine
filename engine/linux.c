@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Window
-// Last update:  13/02/13
+// Last update:  14/02/13
 // Description:  Window system (linux)
 //
 
@@ -172,25 +172,6 @@ int weCreateWindow( const char *title )
     return WE_EXIT_SUCCESS;
 }
 
-void weSetCaption( const char *fmt, ... )
-{
-    va_list text;
-    XTextProperty wn;
-    int count = 0;
-    
-    if ( fmt == NULL ) {
-        return ;
-    }
-    va_start( text, fmt );
-    count = vsnprintf( buffer, WE_TEXT_SIZE, fmt, text ); 
-    va_end( text ); 
-    if ( XStringListToTextProperty( &buffer, 1, &wn ) == 0) {
-        return ;
-    }
-    XSetWMName( wgl.display, wgl.window, &wn );
-    XFree( wn.value );
-}
-
 int weLoop( void )
 {
     return WE_NULL;
@@ -198,6 +179,7 @@ int weLoop( void )
 
 void weKill( void )
 {
+    weFree( buffer );
     if ( wgl.context ) {
         if ( !glXMakeCurrent( wgl.display, wgl.window, wgl.context ) ) {
 			weSendError( WE_ERROR_DRAW_CONTEXT );
@@ -217,3 +199,21 @@ void weSwapBuffers( void )
     glXSwapBuffers( wgl.display, wgl.window );
 }
 
+void weSetCaption( const char *fmt, ... )
+{
+    va_list text;
+    XTextProperty wn;
+    int count = 0;
+    
+    if ( fmt == NULL ) {
+        return ;
+    }
+    va_start( text, fmt );
+    count = vsnprintf( buffer, WE_TEXT_SIZE, fmt, text ); 
+    va_end( text ); 
+    if ( XStringListToTextProperty( &buffer, 1, &wn ) == 0) {
+        return ;
+    }
+    XSetWMName( wgl.display, wgl.window, &wn );
+    XFree( wn.value );
+}
