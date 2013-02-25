@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Window
-// Last update:  13/02/13
+// Last update:  25/02/13
 // Description:  Window system (windows)
 //
 
@@ -15,6 +15,7 @@ static PIXELFORMATDESCRIPTOR pfd;
 static char buffer[WE_TEXT_SIZE];
 int fullscreen = 0;
 int window_width, window_height;
+int running = 1;
 extern int __DEBUG__;
 
 LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
@@ -82,6 +83,9 @@ int weCreateWindow( const char *title )
     HINSTANCE hInstance;
     WNDCLASS wc; 
 
+    if ( counter < 1 ) {
+        weInfo();
+    }
     hInstance = GetModuleHandle( NULL );
     wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
     wc.lpfnWndProc = WndProc;
@@ -147,16 +151,35 @@ int weCreateWindow( const char *title )
     }
 	/* some code */
     counter++;
-    return WE_NULL;
+    return WE_EXIT_SUCCESS;
 }
 
 int weLoop( void )
 {
-    return WE_NULL;
+    MSG msg;
+    
+    running = 1;
+    timeBeginPeriod( 1 );
+    while ( running ) {
+        if ( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) ) {
+            if ( msg.message == WM_QUIT ) {
+                running = 0;
+            } else {
+                TranslateMessage( &msg );
+                DispatchMessage( &msg );
+            }
+        } else {
+            /* render */
+        }
+        /* to offload the CPU */
+        Sleep(1);
+    }
+    return WE_EXIT_SUCCESS;
 }
 
 void weKill( void )
 {
+    running = 0;
     if ( !wglMakeCurrent( hDC, NULL ) ) {
         weSendError( WE_ERROR_CLEAR_CONTEXT );
         return;
