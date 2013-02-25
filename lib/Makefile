@@ -1,17 +1,26 @@
-LIB=libwrench.so
-OUT=libwrench-`uname -m`.so
 ENGINE=../engine
+SOURCES=$(ENGINE)/error.c $(ENGINE)/input.c $(ENGINE)/kernel.c $(ENGINE)/memory.c
 LDFLAGS=
-CFLAGS=--def wrench.def -s -O3 -fPIC -shared -W -Wall -g \
-	-lm -lGL -lGLU -lX11 -lXxf86vm 
-SOURCES=$(ENGINE)/error.c $(ENGINE)/input.c $(ENGINE)/kernel.c \
-	$(ENGINE)/linux.c $(ENGINE)/memory.c
+OS=$(exec uname)
+ifeq "$(OS)" "Linux"
+	LIB=libwrench.so
+	OUT=libwrench-`uname -m`.so
+	CFLAGS=--def wrench.def -s -O3 -fPIC -shared -W -Wall -g \
+		-lGL -lGLU -lX11 -lXxf86vm 
+	SOURCES+=$(ENGINE)/linux.c
+else
+	LIB=libwrench.dll
+	OUT=libwrench-`uname -m`.dll
+	CFLAGS=-O3 -shared -Wl,-add-stdcall-alias -lopengl32 -lglu32 -lwinmm -lgdi32 wrench.def
+	SOURCES+=$(ENGINE)/windows.c
+endif
 
 OBJS := $(patsubst %.c, %.o, $(SOURCES))
 DEPS := $(patsubst %.o, %.d, $(OBJS))
 
 $(LIB): $(OBJS) $(DEPS)
 	$(CC) $(OBJS) -o $@ $(CFLAGS)
+	strip -s $(LIB)
 	chmod -x $(LIB)
 	mv $(LIB) $(OUT)
  
