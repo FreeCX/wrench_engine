@@ -2,13 +2,14 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Window
-// Last update:  13/02/13
+// Last update:  25/02/13
 // Description:  Window system (linux)
 //
 
 #ifndef __KERNEL_WINDOW_LINUX__
 #define __KERNEL_WINDOW_LINUX__
 
+#include <stdarg.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glx.h>

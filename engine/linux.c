@@ -192,7 +192,7 @@ int weLoop( void )
         /* render */
         usleep(1200);
     }
-    we_kill();
+    weKill();
     return WE_EXIT_SUCCESS;
 }
 

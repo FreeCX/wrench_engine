@@ -174,6 +174,7 @@ int weLoop( void )
         /* to offload the CPU */
         Sleep(1);
     }
+    weKill();
     return WE_EXIT_SUCCESS;
 }
 
