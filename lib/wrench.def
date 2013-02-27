@@ -21,3 +21,4 @@ EXPORTS
 	weKill				@17
 	weSwapBuffers		@18
 	weSetCaption		@19
+	weRenderFunc		@20
