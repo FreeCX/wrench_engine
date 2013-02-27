@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Window
-// Last update:  25/02/13
+// Last update:  27/02/13
 // Description:  Window system (linux)
 //
 
@@ -26,6 +26,8 @@ static int double_attr[] = {
     GLX_BLUE_SIZE, 4,
     None
 };
+
+void ( *render_callback )( void );
 
 static we_window_t wgl;
 char *buffer;
@@ -189,7 +191,9 @@ int weLoop( void )
                     break;
             }
         }
-        /* render */
+        if ( render_callback ) {
+            render_callback();
+        }
         usleep(1200);
     }
     weKill();
@@ -236,4 +240,9 @@ void weSetCaption( const char *fmt, ... )
     }
     XSetWMName( wgl.display, wgl.window, &wn );
     XFree( wn.value );
+}
+
+void weRenderFunc( void ( *param )( void ) ) 
+{
+    render_callback = param;
 }

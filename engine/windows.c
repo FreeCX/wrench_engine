@@ -2,11 +2,13 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Window
-// Last update:  25/02/13
+// Last update:  27/02/13
 // Description:  Window system (windows)
 //
 
 #include "windows.h"
+
+void ( *render_callback )( void );
 
 static HWND hWnd;
 static HDC hDC;
@@ -209,4 +211,9 @@ void weSetCaption( const char *fmt, ... )
     count = vsnprintf( buffer, WE_TEXT_SIZE, fmt, text ); 
     va_end( text ); 
     SetWindowText( hWnd, buffer );
+}
+
+void weRenderFunc( void ( *param )( void ) ) 
+{
+    render_callback = param;
 }
