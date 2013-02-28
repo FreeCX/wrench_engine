@@ -89,9 +89,6 @@ int weCreateWindow( const char *title )
     HINSTANCE hInstance;
     WNDCLASS wc; 
 
-    if ( counter < 1 ) {
-        weInfo();
-    }
     hInstance = GetModuleHandle( NULL );
     wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
     wc.lpfnWndProc = WndProc;

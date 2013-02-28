@@ -61,9 +61,6 @@ int weCreateWindow( const char *title )
     Atom wmDelete;
     char *env = getenv("DISPLAY");
 
-    if ( counter < 1 ) {
-        weInfo();
-    }
     if ( !( wgl.display = XOpenDisplay( env ) ) ) {
         weSendError( WE_ERROR_OPEN_DISPLAY );
         return WE_EXIT_FAILURE;

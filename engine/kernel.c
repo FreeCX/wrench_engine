@@ -25,6 +25,7 @@ int weInit( const int argc, char **argv )
     };
     int next_option;
     
+    weInfo();
     do {
         next_option = getopt_long( argc, argv, short_options, 
             long_options, NULL );
