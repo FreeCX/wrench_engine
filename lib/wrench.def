@@ -22,3 +22,4 @@ EXPORTS
 	weSwapBuffers		@18
 	weSetCaption		@19
 	weRenderFunc		@20
+	weResizeFunc		@21
