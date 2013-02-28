@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Window
-// Last update:  27/02/13
+// Last update:  28/02/13
 // Description:  Window system (windows)
 //
 
@@ -25,5 +25,6 @@ void weKill( void );
 void weSwapBuffers( void );
 void weSetCaption( const char *fmt, ... );
 void weRenderFunc( void ( *param )( void ) );
+void weResizeFunc( void ( *param )( int, int ) );
 
 #endif

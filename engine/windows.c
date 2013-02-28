@@ -2,13 +2,14 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Window
-// Last update:  27/02/13
+// Last update:  28/02/13
 // Description:  Window system (windows)
 //
 
 #include "windows.h"
 
 void ( *render_callback )( void );
+void ( *resize_callback )( int, int );
 
 static HWND hWnd;
 static HDC hDC;
@@ -23,8 +24,11 @@ extern int __DEBUG__;
 LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
 	switch ( message ) {
-		//case /* MESSAGE */
-		//	break;
+        case WM_SIZE:
+            if ( resize_callback ) {
+                resize_callback( LOWORD( lParam ), HIWORD( lParam ) );
+            }
+            return 0;
 		default:
 			return DefWindowProc( hWnd, message, wParam, lParam );
 	}
@@ -216,4 +220,9 @@ void weSetCaption( const char *fmt, ... )
 void weRenderFunc( void ( *param )( void ) ) 
 {
     render_callback = param;
+}
+
+void weResizeFunc( void ( *param )( int, int ) )
+{
+    resize_callback = param;
 }

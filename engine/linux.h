@@ -44,5 +44,6 @@ void weKill( void );
 void weSwapBuffers( void );
 void weSetCaption( const char *fmt, ... );
 void weRenderFunc( void ( *param )( void ) );
+void weResizeFunc( void ( *param )( int, int ) );
 
 #endif

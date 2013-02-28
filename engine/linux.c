@@ -28,6 +28,7 @@ static int double_attr[] = {
 };
 
 void ( *render_callback )( void );
+void ( *resize_callback )( int, int );
 
 static we_window_t wgl;
 char *buffer;
@@ -186,6 +187,13 @@ int weLoop( void )
         while ( XPending( wgl.display ) ) {
             XNextEvent( wgl.display, &event );
             switch ( event.type ) {
+                case Expose:
+                    XGetWindowAttributes( wgl.display, wgl.window, &wgl.windowAttr );
+                    if ( resize_callback ) {
+                        resize_callback( wgl.windowAttr.width, 
+                            wgl.windowAttr.height );
+                    }
+                    break;
                 case ClientMessage:
                     running = 0;
                     break;
@@ -245,4 +253,9 @@ void weSetCaption( const char *fmt, ... )
 void weRenderFunc( void ( *param )( void ) ) 
 {
     render_callback = param;
+}
+
+void weResizeFunc( void ( *param )( int, int ) )
+{
+    resize_callback = param;
 }
