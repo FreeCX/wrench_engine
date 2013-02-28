@@ -31,7 +31,7 @@ void render( void )
 	glClear( GL_COLOR_BUFFER_BIT );
 	glLoadIdentity();
 	glTranslatef( 0.0f, 0.0f, 1.0f );
-	glPointSize( 8.0f );
+	glPointSize( 5.0f );
 	glBegin( GL_POINTS );
 		glColor3f( 1.0f, 0.0f, 0.0f );
 		for ( n = 0.0f; n < M_PI; n += 0.01f ) {
