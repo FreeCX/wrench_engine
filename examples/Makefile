@@ -3,11 +3,11 @@ OS=$(shell uname -s)
 ifeq ($(OS),Linux)
 	LIB=../lib/libwrench.so
 	PROG=window
-	CFLAGS+=-lGL
+	CFLAGS+=-lGL -lGLU
 else
 	LIB=libwrench.dll
 	PROG=window.exe
-	CFLAGS+=-lopengl32
+	CFLAGS+=-lopengl32 -lglu32
 endif
 
 all:
