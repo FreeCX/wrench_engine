@@ -17,7 +17,7 @@ void resize( int width, int height )
 	if ( width <= height ) {
 		glOrtho( -n, n, -n/param1, n/param1, n, -n );
 	} else {
-	glOrtho( -n * param1, n * param1, -n, n, n, -n );
+		glOrtho( -n * param1, n * param1, -n, n, n, -n );
 	}
 	gluPerspective( 0.0f, param1, 0.0f, 10.0f );
 	glMatrixMode( GL_MODELVIEW);
