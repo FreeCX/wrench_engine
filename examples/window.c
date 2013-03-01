@@ -1,5 +1,5 @@
-#include <math.h>
 #include "../engine/kernel.h"
+#include <math.h>
 
 void init( void )
 {
