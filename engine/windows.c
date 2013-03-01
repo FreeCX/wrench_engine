@@ -172,7 +172,9 @@ int weLoop( void )
                 DispatchMessage( &msg );
             }
         } else {
-            /* render */
+            if ( render_callback ) {
+                render_callback();
+            }
         }
         /* to offload the CPU */
         Sleep(1);
