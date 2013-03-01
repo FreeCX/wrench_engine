@@ -1,6 +1,6 @@
 ENGINE=../engine
 SOURCES=$(ENGINE)/error.c $(ENGINE)/input.c $(ENGINE)/kernel.c $(ENGINE)/memory.c
-LDFLAGS=
+LDFLAGS=-fPIC
 OS=$(shell uname -s)
 ifeq ($(OS),Linux)
 	LIB=libwrench.so
