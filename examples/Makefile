@@ -11,6 +11,6 @@ else
 endif
 
 all:
-	$(CC) $(CFLAGS) -L . $(LIB) window.c -o $(PROG)
+	$(CC) window.c $(CFLAGS) -L . $(LIB) -o $(PROG)
 clean:
 	$(RM) $(PROG)
