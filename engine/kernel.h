@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Kernel
-// Last update:  12/02/13
+// Last update:  01/03/13
 // Description:  The core of the system
 //
 
@@ -21,10 +21,12 @@
 #include "error.h"
 #include "input.h"
 #include "memory.h"
+#include "structures.h"
 
 /* export function */
 int weInit( const int argc, char **argv );
 void weInfo( void );
 void weAbout( char **name, int *major_v, int *minor_v );
+uint weTicks( void );
 
 #endif

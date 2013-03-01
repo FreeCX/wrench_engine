@@ -179,7 +179,8 @@ int weCreateWindow( const char *title )
 int weLoop( void )
 {
     XEvent event;
-    
+    uint now = 0, start = 0, stop = 1000 / 60;
+
     while ( running ) {
         while ( XPending( wgl.display ) ) {
             XNextEvent( wgl.display, &event );
@@ -196,10 +197,13 @@ int weLoop( void )
                     break;
             }
         }
-        if ( render_callback ) {
+        /* need a update this rendering callback code */
+        now = weTicks();
+        if ( render_callback && ( now - start > stop ) ) {
+            start = weTicks();
             render_callback();
         }
-        usleep(1200);
+        usleep( 1200 );
     }
     weKill();
     return WE_EXIT_SUCCESS;

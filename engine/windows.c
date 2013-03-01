@@ -160,6 +160,7 @@ int weCreateWindow( const char *title )
 int weLoop( void )
 {
     MSG msg;
+    uint now = 0, start = 0, stop = 1000 / 60;
     
     running = 1;
     timeBeginPeriod( 1 );
@@ -172,12 +173,15 @@ int weLoop( void )
                 DispatchMessage( &msg );
             }
         } else {
-            if ( render_callback ) {
+            /* need a update this rendering callback code */
+            now = weTicks();
+            if ( render_callback && ( now - start > stop ) ) {
+                start = weTicks();
                 render_callback();
             }
         }
         /* to offload the CPU */
-        Sleep(1);
+        Sleep( 1 );
     }
     weKill();
     return WE_EXIT_SUCCESS;

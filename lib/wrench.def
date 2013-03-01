@@ -23,3 +23,4 @@ EXPORTS
 	weSetCaption		@19
 	weRenderFunc		@20
 	weResizeFunc		@21
+	weTicks				@22

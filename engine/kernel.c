@@ -2,14 +2,14 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Kernel
-// Last update:  28/02/13
+// Last update:  01/03/13
 // Description:  The core of the system
 //
 
 #include "kernel.h"
 
 static char *engine_name = "Wrench Engine";
-static char *engine_date = "28/02/13";
+static char *engine_date = "01/03/13";
 static int major_version   = 0;
 static int minor_version   = 1;
 static int release_version = 0;
@@ -88,4 +88,15 @@ void weAbout( char **name, int *major_v, int *minor_v )
     *name = engine_name;
     *major_v = major_version;
     *minor_v = minor_version;
+}
+
+uint weTicks( void )
+{
+#ifdef __WIN32__
+    return timeGetTime();
+#elif __linux__
+    struct timeval tv;
+    gettimeofday(&tv, 0);
+    return (tv.tv_sec*1000+tv.tv_usec/1000);
+#endif
 }
