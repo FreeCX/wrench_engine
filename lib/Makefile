@@ -1,12 +1,13 @@
 ENGINE=../engine
 SOURCES=$(ENGINE)/error.c $(ENGINE)/input.c $(ENGINE)/kernel.c $(ENGINE)/memory.c
-LDFLAGS=-fPIC
 OS=$(shell uname -s)
+LDFLAGS=
 ifeq ($(OS),Linux)
 	LIB=libwrench.so
 	CFLAGS=--def wrench.def -s -O3 -fPIC -shared -W -Wall -g \
 		-lGL -lGLU -lX11 -lXxf86vm 
 	SOURCES+=$(ENGINE)/linux.c
+	LDFLAGS+=-fPIC
 else
 	LIB=libwrench.dll
 	CFLAGS=-O3 -shared -Wl,-add-stdcall-alias -lopengl32 -lglu32 -lwinmm -lgdi32 wrench.def
