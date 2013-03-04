@@ -32,9 +32,9 @@ void ( *resize_callback )( int, int );
 
 static we_window_t wgl;
 char *buffer;
-int fullscreen = 0;
+int fullscreen = 0, running = 1;
 int window_width, window_height;
-int running = 1;
+int *x_pos, *y_pos;
 extern int __DEBUG__;
 
 int weInitWindow( const int width, const int height, const int flag )
@@ -184,6 +184,9 @@ int weLoop( void )
     if ( resize_callback ) {
         resize_callback( window_width, window_height );
     }
+    XSelectInput( wgl.display, wgl.window, PointerMotionMask );
+    x_pos = &event.xmotion.x;
+    y_pos = &event.xmotion.y;
     while ( running ) {
         while ( XPending( wgl.display ) ) {
             XNextEvent( wgl.display, &event );

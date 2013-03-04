@@ -18,7 +18,7 @@ static PIXELFORMATDESCRIPTOR pfd;
 static char buffer[WE_TEXT_SIZE];
 int fullscreen = 0, running = 1;
 int window_width, window_height;
-int xPos, yPos;
+int x_pos, y_pos;
 extern int __DEBUG__;
 
 LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
@@ -33,8 +33,8 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
             }
             break;
         case WM_MOUSEMOVE:
-            xPos = GET_X_LPARAM( lParam );
-            yPos = GET_Y_LPARAM( lParam );
+            x_pos = GET_X_LPARAM( lParam );
+            y_pos = GET_Y_LPARAM( lParam );
             break;
 		default:
 			return DefWindowProc( hWnd, message, wParam, lParam );
