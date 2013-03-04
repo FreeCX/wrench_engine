@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Window
-// Last update:  01/03/13
+// Last update:  03/03/13
 // Description:  Window system (windows)
 //
 
@@ -24,6 +24,8 @@ extern int __DEBUG__;
 LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
 	switch ( message ) {
+        case WM_CLOSE:
+            PostQuitMessage( 0 );
         case WM_SIZE:
             if ( resize_callback ) {
                 resize_callback( LOWORD( lParam ), HIWORD( lParam ) );
@@ -84,7 +86,7 @@ int weCreateWindow( const char *title )
 	static int counter = 0;
     int iFormat = 0;
 	char WE_APPCLASS[] = "WRENCH ENGiNE";
-    DWORD dwStyle = WS_CAPTION | WS_VISIBLE | WS_SYSMENU;
+    DWORD dwStyle = WS_OVERLAPPEDWINDOW | WS_SIZEBOX;
     DWORD dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
     HINSTANCE hInstance;
     WNDCLASS wc; 
@@ -164,6 +166,9 @@ int weLoop( void )
     
     running = 1;
     timeBeginPeriod( 1 );
+    if ( resize_callback ) {
+        resize_callback( window_width, window_height );
+    }
     while ( running ) {
         if ( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) ) {
             if ( msg.message == WM_QUIT ) {

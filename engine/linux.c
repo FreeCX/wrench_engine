@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Window
-// Last update:  28/02/13
+// Last update:  03/03/13
 // Description:  Window system (linux)
 //
 
@@ -181,6 +181,9 @@ int weLoop( void )
     XEvent event;
     uint now = 0, start = 0, stop = 1000 / 60;
 
+    if ( resize_callback ) {
+        resize_callback( window_width, window_height );
+    }
     while ( running ) {
         while ( XPending( wgl.display ) ) {
             XNextEvent( wgl.display, &event );
