@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Kernel
-// Last update:  01/03/13
+// Last update:  04/03/13
 // Description:  The core of the system
 //
 

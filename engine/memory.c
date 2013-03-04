@@ -2,14 +2,13 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Memory
-// Last update:  13/02/13
+// Last update:  04/03/13
 // Description:  Memory allocation system
 //
 
 #include "memory.h"
 
 static size_t alloc_memory = 0;
-
 extern int __DEBUG__;
 
 void * weMalloc( size_t size )
