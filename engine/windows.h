@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Window
-// Last update:  28/02/13
+// Last update:  03/03/13
 // Description:  Window system (windows)
 //
 
@@ -15,6 +15,9 @@
 #include "structures.h"
 #include "error.h"
 #include "memory.h"
+
+#define GET_X_LPARAM( a ) ((int)(short)LOWORD( a ))
+#define GET_Y_LPARAM( a ) ((int)(short)HIWORD( a ))
 
 /* export function */
 int weInitWindow( const int width, const int height, const int flag );

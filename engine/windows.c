@@ -16,9 +16,9 @@ static HDC hDC;
 static HGLRC hRC; 
 static PIXELFORMATDESCRIPTOR pfd;
 static char buffer[WE_TEXT_SIZE];
-int fullscreen = 0;
+int fullscreen = 0, running = 1;
 int window_width, window_height;
-int running = 1;
+int xPos, yPos;
 extern int __DEBUG__;
 
 LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
@@ -26,11 +26,16 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 	switch ( message ) {
         case WM_CLOSE:
             PostQuitMessage( 0 );
+            break;
         case WM_SIZE:
             if ( resize_callback ) {
                 resize_callback( LOWORD( lParam ), HIWORD( lParam ) );
             }
-            return 0;
+            break;
+        case WM_MOUSEMOVE:
+            xPos = GET_X_LPARAM( lParam );
+            yPos = GET_Y_LPARAM( lParam );
+            break;
 		default:
 			return DefWindowProc( hWnd, message, wParam, lParam );
 	}
@@ -186,7 +191,7 @@ int weLoop( void )
             }
         }
         /* to offload the CPU */
-        Sleep( 1 );
+        usleep( 1500 );
     }
     weKill();
     return WE_EXIT_SUCCESS;
