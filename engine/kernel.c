@@ -2,19 +2,42 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Kernel
-// Last update:  04/03/13
+// Last update:  06/03/13
 // Description:  The core of the system
 //
 
 #include "kernel.h"
 
 static char *engine_name = "Wrench Engine";
-static char *engine_date = "04/03/13";
+static char *engine_date = "06/03/13";
 static int major_version   = 0;
 static int minor_version   = 1;
 static int release_version = 0;
-static int build_version   = 3;
+static int build_version   = 4;
 int __DEBUG__ = 0;
+
+void catch_crash( int signum )
+{
+#ifdef __WIN32__
+    printf( "segmentation violation!\n" );
+    getch();
+#elif __linux__
+    int i;
+    int *callstack[128];
+    int frame;
+    char **str;
+
+    frame = backtrace( (void **) callstack, 128 );
+    str = (char **) backtrace_symbols( (void* const*) callstack, frame );
+    printf( "> backtrace log:\n" );
+    for ( i = 0; i < frame; i++ ) {
+        printf("  %s\n", str[i] );
+    }
+    free( str );
+    signal( signum, SIG_DFL );
+#endif
+    exit( 3 );
+}
 
 int weInit( const int argc, char **argv )
 {
@@ -25,6 +48,7 @@ int weInit( const int argc, char **argv )
     };
     int next_option;
     
+    signal( SIGSEGV, catch_crash );
     weInfo();
     do {
         next_option = getopt_long( argc, argv, short_options, 
