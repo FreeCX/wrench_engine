@@ -1,5 +1,18 @@
 #include "../engine/kernel.h"
 #include <math.h>
+#include <time.h>
+
+void get_time( int *hour, int *min, int *sec )
+{
+	time_t now;
+	struct tm * t_info;
+	
+	now = time( NULL );
+	t_info = localtime( &now );
+	*hour = t_info->tm_hour;
+	*min = t_info->tm_min;
+	*sec = t_info->tm_sec;
+}
 
 void init( void )
 {
@@ -27,20 +40,14 @@ void resize( int width, int height )
 void render( void )
 {
 	static float t = 0.0f, n = 0.0f;
+	int h, m, s;
 
+	get_time( &h, &m, &s );
 	glClear( GL_COLOR_BUFFER_BIT );
 	glLoadIdentity();
 	glTranslatef( 0.0f, 0.0f, 1.0f );
 	glPointSize( 5.0f );
 	glBegin( GL_POINTS );
-	for ( n = 0.0f; n < M_PI; n += 0.01f ) {
-		glColor3f( 1.0f, 0.0f, 0.0f );
-		glVertex2f( 1.0f * sin( t + n ), 1.0f * cos( t + n ) );
-		glColor3f( 0.0f, 1.0f, 0.0f );
-		glVertex2f( 0.8f * sin( 1.0f - t + n ), 0.8f * cos( 1.0f - t + n ) );
-		glColor3f( 0.0f, 0.0f, 1.0f );
-		glVertex2f( 0.6f * sin( t + n + 1.0f ), 0.6f * cos( t + n + 1.0f ) );
-	}
 	glEnd();
 	weSwapBuffers();
 	t += 0.05f;
