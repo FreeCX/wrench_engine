@@ -46,8 +46,19 @@ void render( void )
 	glClear( GL_COLOR_BUFFER_BIT );
 	glLoadIdentity();
 	glTranslatef( 0.0f, 0.0f, 1.0f );
-	glPointSize( 5.0f );
+	glPointSize( 3.0f );
 	glBegin( GL_POINTS );
+	for ( n = -3.9f*M_PI; n < 14.1f*M_PI; n += 0.1f ) {
+		glColor3f( 1.0f, 0.0f, 0.0f );
+		glVertex2f( 0.6f * cosf( -( 6.0f * (s+n) * M_PI ) / 180.0f), 
+			0.6f * sinf( -( 6.0f * (s+n) * M_PI ) / 180.0f) );
+		glColor3f( 0.0f, 1.0f, 0.0f );
+		glVertex2f( 0.8f * cosf( -( 6.0f * (m+n) * M_PI ) / 180.0f), 
+			0.8f * sinf( -( 6.0f * (m+n) * M_PI ) / 180.0f) );
+		glColor3f( 0.0f, 0.0f, 1.0f );
+		glVertex2f( cosf( -( 15.0f * (h+n) * 0.4f * M_PI ) / 180.0f + 1.35f ), 
+			sinf( -( 15.0f * (h+n) * 0.4f * M_PI ) / 180.0f + 1.35f ) );
+	}
 	glEnd();
 	weSwapBuffers();
 	t += 0.05f;
