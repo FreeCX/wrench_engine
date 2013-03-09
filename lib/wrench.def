@@ -21,6 +21,7 @@ EXPORTS
 	weKill				@17
 	weSwapBuffers		@18
 	weSetCaption		@19
-	weRenderFunc		@20
-	weResizeFunc		@21
-	weTicks				@22
+	weGetCursorPos		@20
+	weRenderFunc		@21
+	weResizeFunc		@22
+	weTicks				@23
