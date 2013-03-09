@@ -13,7 +13,7 @@ static char *engine_date = "09/03/13";
 static int major_version   = 0;
 static int minor_version   = 1;
 static int release_version = 0;
-static int build_version   = 6;
+static int build_version   = 7;
 int __DEBUG__ = 0;
 
 void catch_crash( int signum )
