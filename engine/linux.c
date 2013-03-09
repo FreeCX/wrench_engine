@@ -259,8 +259,8 @@ void weSetCaption( const char *fmt, ... )
 
 void weGetCursorPos( int *x, int *y )
 {
-    *x = x_pos;
-    *y = y_pos;
+    *x = *x_pos;
+    *y = *y_pos;
 }
 
 void weRenderFunc( void ( *param )( void ) ) 
