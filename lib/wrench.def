@@ -3,25 +3,32 @@ EXPORTS
 	weGetError			@2
 	weGetErrorString	@3
 	wePrintError		@4
+	weModuleError		@5
 
-	weInit				@5
-	weInfo				@6
-	weAbout				@7
+	weInit				@6
+	weInfo				@7
+	weAbout				@8
 
-	weMalloc			@8
-	weCalloc			@9
-	weRealloc			@10
-	weFree				@11
-	weMemoryUsage		@12
+	weMalloc			@9
+	weCalloc			@10
+	weRealloc			@11
+	weFree				@12
+	weMemoryUsage		@13
 
-	weInitWindow 		@13
-	weInitOpenGL		@14
-	weCreateWindow		@15
-	weLoop				@16
-	weKill				@17
-	weSwapBuffers		@18
-	weSetCaption		@19
-	weGetCursorPos		@20
-	weRenderFunc		@21
-	weResizeFunc		@22
-	weTicks				@23
+	weInitWindow 		@14
+	weInitOpenGL		@15
+	weCreateWindow		@16
+	weLoop				@17
+	weKill				@18
+	weSwapBuffers		@19
+	weSetCaption		@20
+	weGetCursorPos		@21
+	weRenderFunc		@22
+	weResizeFunc		@23
+	weMouseFunc			@24
+	weTicks				@25
+
+	uiButtonDraw		@26
+	uiFontBuild			@27
+	uiFontPrintf		@28
+	uiFontKill			@29
