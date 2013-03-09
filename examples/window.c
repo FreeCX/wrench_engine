@@ -1,7 +1,12 @@
 #include "../engine/kernel.h"
 #include "../engine/gui.h"
 
-uiButton MyBut = { 10, 10, 100, 25, "The But!" };
+void MyButTest( void )
+{
+	printf( "Hi Jack!\n" );
+}
+
+uiButton MyBut = { 10, 10, 100, 25, 0, 0, "The But!", MyButTest };
 uiFont font = { 14, 14, "Terminus", 0 };
 
 void init( void )
@@ -33,7 +38,12 @@ void mouse( int state, int button, int x, int y )
 {
 	if ( state == WE_STATE_DOWN ) {
 		if ( button == WE_LEFT_BUTTON ) {
-			/* input some code */
+			uiButtonPress( &MyBut, x, y );
+		}
+	}
+	if ( state == WE_STATE_UP ) {
+		if ( button == WE_LEFT_BUTTON ) {
+			uiButtonRelease( &MyBut, x, y );
 		}
 	}
 }
