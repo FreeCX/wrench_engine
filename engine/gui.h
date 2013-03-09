@@ -24,6 +24,8 @@
 #include "error.h"
 #include "structures.h"
 
+typedef void (*ButtonCallback)();
+
 typedef struct {
 	int size;
 	int weight;
@@ -34,7 +36,10 @@ typedef struct {
 typedef struct {
 	int x, y;
 	int w, h;
+	int state;
+	int highlighted;
 	char *label;
+	ButtonCallback callbackFunc;
 } uiButton;
 
 #define UI_FONT_MEDIUM              0
@@ -42,6 +47,10 @@ typedef struct {
 #define UI_FONT_LIST        		96
 
 /* button */
+int uiButtonClick( uiButton *B, int x, int y );
+void uiButtonRelease( uiButton *b, int x, int y );
+void uiButtonPress( uiButton *b, int x, int y );
+void uiButtonPassive( uiButton *b, int x, int y );
 void uiButtonDraw( uiButton *b, uiFont *f );
 
 /* font module */

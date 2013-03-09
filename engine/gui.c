@@ -10,12 +10,69 @@
 
 static char *text;
 
+int uiButtonClick( uiButton *b, int x, int y )
+{
+    if ( b ) {
+        if( x > b->x && x < b->x + b->w && 
+            y > b->y && y < b->y + b->h ) {
+                return 1;
+        }
+    }
+    return 0;
+}
+
+void uiButtonRelease( uiButton *b, int x_press, int y_press )
+{
+    int x_pos, y_pos;
+
+    weGetCursorPos( &x_pos, &y_pos );
+    if ( b ) {
+        if ( uiButtonClick( b, x_press, y_press ) && 
+            uiButtonClick( b, x_pos, y_pos ) ) {
+            if ( b->callbackFunc ) {
+                b->callbackFunc();
+            }
+        }
+        b->state = 0;
+    }
+}
+
+void uiButtonPress( uiButton *b, int x, int y )
+{
+    if ( b ) {
+        if ( uiButtonClick( b, x, y ) ) {
+            b->state = 1;
+        }
+    }
+}
+
+void uiButtonPassive( uiButton *b, int x, int y )
+{
+    if ( b ) {
+        if ( uiButtonClick( b, x, y ) ) {
+            if ( b->highlighted == 0 ) {
+                b->highlighted == 1;
+                weRedraw();
+            }
+        } else {
+            if ( b->highlighted == 1 ) {
+                b->highlighted == 0;
+                weRedraw();
+            }
+        }
+    }
+}
+
 void uiButtonDraw( uiButton *b, uiFont *f )
 {
 	int fontx, fonty;
 
 	if ( b && f ) {
-		glColor3f( 0.6f, 0.6f, 0.6f );
+        if ( b->highlighted ) { 
+            glColor3f( 0.7f, 0.7f, 0.8f );
+        } else { 
+            glColor3f( 0.6f, 0.6f, 0.6f );
+        }
 		glBegin( GL_QUADS );
 			glVertex2i( b->x     , b->y      );
 			glVertex2i( b->x     , b->y+b->h );
@@ -23,21 +80,39 @@ void uiButtonDraw( uiButton *b, uiFont *f )
 			glVertex2i( b->x+b->w, b->y      );
 		glEnd();
 		glLineWidth( 3 );
-		glColor3f( 0.8f, 0.8f, 0.8f );
+		if ( b->state ) { 
+            glColor3f( 0.4f, 0.4f, 0.4f );
+        } else {
+            glColor3f( 0.8f, 0.8f, 0.8f );
+        }
 		glBegin( GL_LINE_STRIP );
 			glVertex2i( b->x+b->w, b->y      );
 			glVertex2i( b->x     , b->y      );
 			glVertex2i( b->x     , b->y+b->h );
 		glEnd();
-		glColor3f( 0.4f, 0.4f, 0.4f );
+		if ( b->state ) { 
+            glColor3f( 0.8f, 0.8f, 0.8f );
+        } else {
+            glColor3f( 0.4f, 0.4f, 0.4f );
+        }
 		glBegin( GL_LINE_STRIP );
 			glVertex2i( b->x     , b->y+b->h );
 			glVertex2i( b->x+b->w, b->y+b->h );
 			glVertex2i( b->x+b->w, b->y      );
 		glEnd();
 		glLineWidth( 1 );
-		fontx = b->x + ( b->w - 50 ) / 2 ;
+		fontx = b->x + ( b->w - 50 ) / 2;
 		fonty = b->y + ( b->h + 10 ) / 2;
+        if ( b->state ) {
+            fontx += 2;
+            fonty += 2;
+        }
+        if( b->highlighted ) {
+            glColor3f( 0.0f, 0.0f, 0.0f );
+            uiFontPrintf( f, fontx, fonty, b->label );
+            fontx--;
+            fonty--;
+        }
 		glColor3f( 1.0f, 1.0f, 1.0f );
 		uiFontPrintf( f, fontx, fonty, b->label );
 	}

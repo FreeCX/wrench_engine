@@ -26,6 +26,7 @@ void weKill( void );
 void weSwapBuffers( void );
 void weSetCaption( const char *fmt, ... );
 void weGetCursorPos( int *x, int *y );
+void weRedraw( void );
 void weRenderFunc( void ( *param )( void ) );
 void weResizeFunc( void ( *param )( int, int ) );
 void weMouseFunc( void ( *param )( int, int, int, int ));

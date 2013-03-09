@@ -187,7 +187,8 @@ int weLoop( void )
         resize_callback( window_width, window_height );
     }
     XSelectInput( wgl.display, wgl.window, PointerMotionMask | 
-        ButtonPress | ButtonRelease );
+        ButtonPressMask | ButtonReleaseMask | ButtonPress | 
+        ButtonRelease | KeyPressMask | KeyReleaseMask );
     x_pos = &event.xmotion.x;
     y_pos = &event.xmotion.y;
     while ( running ) {
@@ -278,6 +279,13 @@ void weGetCursorPos( int *x, int *y )
 {
     *x = *x_pos;
     *y = *y_pos;
+}
+
+void weRedraw( void )
+{
+    if ( render_callback ) {
+        render_callback();
+    }
 }
 
 void weRenderFunc( void ( *param )( void ) ) 

@@ -250,6 +250,13 @@ void weGetCursorPos( int *x, int *y )
     }
 }
 
+void weRedraw( void )
+{
+    if ( render_callback ) {
+        render_callback();
+    }
+}
+
 void weRenderFunc( void ( *param )( void ) ) 
 {
     render_callback = param;
