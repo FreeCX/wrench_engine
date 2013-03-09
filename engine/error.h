@@ -39,5 +39,6 @@ void weSendError( const int error );
 int weGetError( void );
 char ** weGetErrorString( void );
 void wePrintError( void );
+void weModuleError( char *error );
 
 #endif

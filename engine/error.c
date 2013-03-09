@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Error
-// Last update:  11/02/13
+// Last update:  09/03/13
 // Description:  Error handling system
 //
 
@@ -50,4 +50,10 @@ char ** weGetErrorString( void )
 void wePrintError( void )
 {
     printf( str_error, str_error_msg[last_error] );
+}
+
+void weModuleError( char *error )
+{
+    /* update to send all types of data */
+    printf( str_error, error );
 }

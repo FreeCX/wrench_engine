@@ -29,6 +29,7 @@ static int double_attr[] = {
 
 void ( *render_callback )( void );
 void ( *resize_callback )( int, int );
+void ( *mouse_callback ) ( int, int, int, int );
 
 static we_window_t wgl;
 char *buffer;
@@ -180,11 +181,13 @@ int weLoop( void )
 {
     XEvent event;
     uint now = 0, start = 0, stop = 1000 / 60;
+    int mouse_state, mouse_button;
 
     if ( resize_callback ) {
         resize_callback( window_width, window_height );
     }
-    XSelectInput( wgl.display, wgl.window, PointerMotionMask );
+    XSelectInput( wgl.display, wgl.window, PointerMotionMask | 
+        ButtonPress | ButtonRelease );
     x_pos = &event.xmotion.x;
     y_pos = &event.xmotion.y;
     while ( running ) {
@@ -196,6 +199,20 @@ int weLoop( void )
                     if ( resize_callback ) {
                         resize_callback( wgl.windowAttr.width, 
                             wgl.windowAttr.height );
+                    }
+                    break;
+                case ButtonPress:
+                    mouse_state = WE_STATE_DOWN;
+                    mouse_button = event.xbutton.button;
+                    if ( mouse_callback ) {
+                        mouse_callback( mouse_state, mouse_button, *x_pos, *y_pos );
+                    }
+                    break;
+                case ButtonRelease:
+                    mouse_state = WE_STATE_UP;
+                    mouse_button = event.xbutton.button;
+                    if ( mouse_callback ) {
+                        mouse_callback( mouse_state, mouse_button, *x_pos, *y_pos );
                     }
                     break;
                 case ClientMessage:
@@ -271,4 +288,9 @@ void weRenderFunc( void ( *param )( void ) )
 void weResizeFunc( void ( *param )( int, int ) )
 {
     resize_callback = param;
+}
+
+void weMouseFunc( void ( *param )( int, int, int, int ) )
+{
+    mouse_callback = param;
 }

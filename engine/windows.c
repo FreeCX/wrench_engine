@@ -10,12 +10,13 @@
 
 void ( *render_callback )( void );
 void ( *resize_callback )( int, int );
+void ( *mouse_callback )( int, int, int, int );
 
 static HWND hWnd;
-static HDC hDC;
 static HGLRC hRC; 
 static PIXELFORMATDESCRIPTOR pfd;
 static char buffer[WE_TEXT_SIZE];
+HDC hDC;
 int fullscreen = 0, running = 1;
 int window_width, window_height;
 int x_pos, y_pos;
@@ -257,4 +258,9 @@ void weRenderFunc( void ( *param )( void ) )
 void weResizeFunc( void ( *param )( int, int ) )
 {
     resize_callback = param;
+}
+
+void weMouseFunc( void ( *param )( int, int, int, int ))
+{
+    mouse_callback = param;
 }
