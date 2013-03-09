@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Window
-// Last update:  04/03/13
+// Last update:  09/03/13
 // Description:  Window system (linux)
 //
 
@@ -255,6 +255,12 @@ void weSetCaption( const char *fmt, ... )
     }
     XSetWMName( wgl.display, wgl.window, &wn );
     XFree( wn.value );
+}
+
+void weGetCursorPos( int *x, int *y )
+{
+    *x = x_pos;
+    *y = y_pos;
 }
 
 void weRenderFunc( void ( *param )( void ) ) 

@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Window
-// Last update:  04/03/13
+// Last update:  09/03/13
 // Description:  Window system (windows)
 //
 
@@ -10,14 +10,12 @@
 #define __KERNEL_WINDOW_WINDOWS__
 
 #include <windows.h>
+#include <winuser.h>
 #include <gl/gl.h>
 #include <gl/glu.h>
 #include "structures.h"
 #include "error.h"
 #include "memory.h"
-
-#define GET_X_LPARAM( a ) ((int)(short)LOWORD( a ))
-#define GET_Y_LPARAM( a ) ((int)(short)HIWORD( a ))
 
 /* export function */
 int weInitWindow( const int width, const int height, const int flag );
@@ -27,6 +25,7 @@ int weLoop( void );
 void weKill( void );
 void weSwapBuffers( void );
 void weSetCaption( const char *fmt, ... );
+void weGetCursorPos( int *x, int *y );
 void weRenderFunc( void ( *param )( void ) );
 void weResizeFunc( void ( *param )( int, int ) );
 

@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Window
-// Last update:  04/03/13
+// Last update:  09/03/13
 // Description:  Window system (windows)
 //
 
@@ -31,10 +31,6 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
             if ( resize_callback ) {
                 resize_callback( LOWORD( lParam ), HIWORD( lParam ) );
             }
-            break;
-        case WM_MOUSEMOVE:
-            x_pos = GET_X_LPARAM( lParam );
-            y_pos = GET_Y_LPARAM( lParam );
             break;
 		default:
 			return DefWindowProc( hWnd, message, wParam, lParam );
@@ -183,6 +179,7 @@ int weLoop( void )
                 DispatchMessage( &msg );
             }
         } else {
+            weGetCursorPos( &x_pos, &y_pos );
             /* need a update this rendering callback code */
             now = weTicks();
             if ( render_callback && ( now - start > stop ) ) {
@@ -228,6 +225,28 @@ void weSetCaption( const char *fmt, ... )
     count = vsnprintf( buffer, WE_TEXT_SIZE, fmt, text ); 
     va_end( text ); 
     SetWindowText( hWnd, buffer );
+}
+
+void weGetCursorPos( int *x, int *y )
+{
+    POINT pt;
+
+    GetCursorPos( &pt );
+    ScreenToClient( hWnd, &pt );
+    if ( pt.x < 0 ) {
+        *x = 0;
+    } else if ( pt.x > window_width ) {
+        *x = window_width;
+    } else {
+        *x = pt.x;
+    }
+    if ( pt.y < 0 ) {
+        *y = 0;
+    } else if ( pt.y > window_height ) {
+        *y = window_height;
+    } else {
+        *y = pt.y;
+    }
 }
 
 void weRenderFunc( void ( *param )( void ) ) 
