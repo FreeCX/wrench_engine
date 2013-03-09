@@ -23,12 +23,17 @@ EXPORTS
 	weSwapBuffers		@19
 	weSetCaption		@20
 	weGetCursorPos		@21
-	weRenderFunc		@22
-	weResizeFunc		@23
-	weMouseFunc			@24
-	weTicks				@25
+	weRedraw			@22
+	weRenderFunc		@23
+	weResizeFunc		@24
+	weMouseFunc			@25
+	weTicks				@26
 
-	uiButtonDraw		@26
-	uiFontBuild			@27
-	uiFontPrintf		@28
-	uiFontKill			@29
+	uiButtonClick		@27
+	uiButtonRelease		@28
+	uiButtonPress		@29
+	uiButtonPassive		@30
+	uiButtonDraw		@31
+	uiFontBuild			@32
+	uiFontPrintf		@33
+	uiFontKill			@34
