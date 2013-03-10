@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Window
-// Last update:  09/03/13
+// Last update:  10/03/13
 // Description:  Window system (windows)
 //
 
@@ -24,6 +24,7 @@ extern int __DEBUG__;
 
 LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
+    int mouse_state, mouse_button, mouse_active;
 	switch ( message ) {
         case WM_CLOSE:
             PostQuitMessage( 0 );
@@ -33,9 +34,43 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
                 resize_callback( LOWORD( lParam ), HIWORD( lParam ) );
             }
             break;
+        case WM_LBUTTONDOWN:
+            mouse_state = WE_STATE_DOWN;
+            mouse_button = WE_LEFT_BUTTON;
+            mouse_active = 1;
+            break;
+        case WM_LBUTTONUP:
+            mouse_state = WE_STATE_UP;
+            mouse_button = WE_LEFT_BUTTON;
+            mouse_active = 1;
+            break;
+        case WM_MBUTTONDOWN:
+            mouse_state = WE_STATE_DOWN;
+            mouse_button = WE_MIDDLE_BUTTON;
+            mouse_active = 1;
+            break;
+        case WM_MBUTTONUP:
+            mouse_state = WE_STATE_UP;
+            mouse_button = WE_MIDDLE_BUTTON;
+            mouse_active = 1;
+            break;
+        case WM_RBUTTONDOWN:
+            mouse_state = WE_STATE_DOWN;
+            mouse_button = WE_RIGHT_BUTTON;
+            mouse_active = 1;
+            break;
+        case WM_RBUTTONUP:
+            mouse_state = WE_STATE_UP;
+            mouse_button = WE_RIGHT_BUTTON;
+            mouse_active = 1;
+            break;
 		default:
 			return DefWindowProc( hWnd, message, wParam, lParam );
 	}
+    if ( mouse_active && mouse_callback ) {
+        mouse_callback( mouse_state, mouse_button, x_pos, y_pos );
+        mouse_active = 0;
+    }
 	return WE_NULL;
 }
 
