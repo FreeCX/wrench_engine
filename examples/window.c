@@ -1,25 +1,32 @@
 #include "../engine/kernel.h"
 #include "../engine/gui.h"
 
-void MyButTest( void )
+int b01, b02;
+uiFont font = { 14, 14, "Terminus", 0 };
+
+void ButtonTest01 ( void )
 {
-	printf( "Hi Jack!\n" );
+	printf( "#01\n" );
 }
 
-uiButton MyBut = { 10, 10, 100, 25, 0, 0, "The But!", MyButTest };
-uiFont font = { 14, 14, "Terminus", 0 };
+void ButtonTest02( void )
+{
+	printf( "#02\n" );
+}
 
 void init( void )
 {
 	glClearColor( 0.3f, 0.3f, 0.4f, 1.0f );
 	uiFontBuild( &font );
+	b01 = uiButtonCreate( "Test01", ButtonTest01, 10, 10, 100, 25 );
+	b02 = uiButtonCreate( "Test02", ButtonTest02, 10, 45, 100, 25 );
 }
 
 void render( void )
 {
 	glClear( GL_COLOR_BUFFER_BIT );
 	glLoadIdentity();
-	uiButtonDraw( &MyBut, &font );
+	uiButtonDraw( &font );
 	weSwapBuffers();
 }
 
@@ -38,14 +45,21 @@ void mouse( int state, int button, int x, int y )
 {
 	if ( state == WE_STATE_DOWN ) {
 		if ( button == WE_LEFT_BUTTON ) {
-			uiButtonPress( &MyBut, x, y );
+			uiButtonPress( x, y );
 		}
 	}
 	if ( state == WE_STATE_UP ) {
 		if ( button == WE_LEFT_BUTTON ) {
-			uiButtonRelease( &MyBut, x, y );
+			uiButtonRelease( x, y );
 		}
 	}
+}
+
+void destroy( void )
+{
+	uiButtonDeleteById( b01 );
+	uiButtonDeleteById( b02 );
+	uiFontKill();
 }
 
 int main( int argc, char *argv[] )
@@ -59,6 +73,6 @@ int main( int argc, char *argv[] )
 	weMouseFunc( mouse );
 	init();
 	weLoop();
-	uiFontKill();
+	destroy();
 	return 0;
 }
