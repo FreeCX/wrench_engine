@@ -2,13 +2,76 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  GUI
-// Last update:  09/03/13
+// Last update:  10/03/13
 // Description:  Experimental GUI
 //
 
 #include "gui.h"
 
 static char *text;
+static int bGlobalId = 0;
+uiButton *pButtonList = NULL;
+
+int uiButtonCreate( char *label, ButtonCallback cb, int x, int y, int w, int h )
+{
+    uiButton *p = (uiButton *) weMalloc( sizeof(uiButton) );
+    assert( p );
+    memset( p, 0, sizeof(uiButton) );
+    p->x = x; p->y = y;
+    p->w = w; p->h = h;
+    p->callbackFunc = cb;
+    p->label = (char *) weMalloc( strlen(label) + 1 );
+    if ( p->label ) {
+        sprintf( p->label, label );
+    }
+    p->next = pButtonList;
+    pButtonList = p;
+    return p->id = ++bGlobalId;
+}
+
+int uiButtonDeleteByName( char *label )
+{
+    uiButton *previous = NULL, *curr = pButtonList;
+    while ( curr != NULL ) {
+        if ( !strcmp( label, curr->label ) ) {
+            if( previous ) {
+                previous->next = curr->next;
+            } else {
+                pButtonList = curr->next;
+            }
+            if ( curr->label ) {
+                weFree( curr->label );
+            }
+            weFree( curr );
+            return 1;
+        }
+        previous = curr;
+        curr = curr->next;
+    }
+    return 0;
+}
+
+int uiButtonDeleteById( int id )
+{
+    uiButton *previous = NULL, *curr = pButtonList;
+    while ( curr != NULL ) {
+        if ( id == curr->id ) {
+            if ( previous ) {
+                previous->next = curr->next;
+            } else {
+                pButtonList = curr->next;
+            }
+            if ( curr->label ) {
+                weFree( curr->label );
+            }
+            weFree( curr );
+            return 1;
+        }
+        previous = curr;
+        curr = curr->next;
+    }
+    return 0;
+}
 
 int uiButtonClick( uiButton *b, int x, int y )
 {
@@ -21,12 +84,13 @@ int uiButtonClick( uiButton *b, int x, int y )
     return 0;
 }
 
-void uiButtonRelease( uiButton *b, int x_press, int y_press )
+void uiButtonRelease( int x_press, int y_press )
 {
     int x_pos, y_pos;
+    uiButton *b = pButtonList;
 
     weGetCursorPos( &x_pos, &y_pos );
-    if ( b ) {
+    while ( b ) {
         if ( uiButtonClick( b, x_press, y_press ) && 
             uiButtonClick( b, x_pos, y_pos ) ) {
             if ( b->callbackFunc ) {
@@ -34,40 +98,54 @@ void uiButtonRelease( uiButton *b, int x_press, int y_press )
             }
         }
         b->state = 0;
+        b = b->next;
     }
 }
 
-void uiButtonPress( uiButton *b, int x, int y )
+void uiButtonPress( int x, int y )
 {
-    if ( b ) {
+    uiButton *b = pButtonList;
+    while ( b ) {
         if ( uiButtonClick( b, x, y ) ) {
             b->state = 1;
         }
+        b = b->next;
     }
 }
 
-void uiButtonPassive( uiButton *b, int x, int y )
+void uiButtonPassive( int x, int y )
 {
-    if ( b ) {
+    int redraw = 0;
+    uiButton *b = pButtonList;
+    while ( b ) {
         if ( uiButtonClick( b, x, y ) ) {
             if ( b->highlighted == 0 ) {
                 b->highlighted == 1;
-                weRedraw();
+                redraw = 1;
             }
         } else {
             if ( b->highlighted == 1 ) {
                 b->highlighted == 0;
-                weRedraw();
+                redraw = 1;
             }
         }
+        b = b->next;
+    }
+    if ( redraw ) {
+        weRedraw();
     }
 }
 
-void uiButtonDraw( uiButton *b, uiFont *f )
+void uiButtonDraw( uiFont *f )
 {
 	int fontx, fonty;
+    uiButton *b = pButtonList;
 
-	if ( b && f ) {
+    if ( f == NULL ) {
+        return;
+    } 
+
+	while ( b ) {
         if ( b->highlighted ) { 
             glColor3f( 0.7f, 0.7f, 0.8f );
         } else { 
@@ -101,7 +179,7 @@ void uiButtonDraw( uiButton *b, uiFont *f )
 			glVertex2i( b->x+b->w, b->y      );
 		glEnd();
 		glLineWidth( 1 );
-		fontx = b->x + ( b->w - 50 ) / 2;
+		fontx = b->x + ( b->w - 40 ) / 2;
 		fonty = b->y + ( b->h + 10 ) / 2;
         if ( b->state ) {
             fontx += 2;
@@ -115,6 +193,7 @@ void uiButtonDraw( uiButton *b, uiFont *f )
         }
 		glColor3f( 1.0f, 1.0f, 1.0f );
 		uiFontPrintf( f, fontx, fonty, b->label );
+        b = b->next;
 	}
 }
 

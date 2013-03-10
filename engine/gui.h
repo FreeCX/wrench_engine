@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  GUI
-// Last update:  09/03/13
+// Last update:  10/03/13
 // Description:  Experimental GUI
 //
 
@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+#include <assert.h>
 #include "error.h"
 #include "structures.h"
 
@@ -33,25 +34,31 @@ typedef struct {
 	GLuint base;
 } uiFont;
 
-typedef struct {
+struct uiButton {
 	int x, y;
 	int w, h;
+	int id;
 	int state;
 	int highlighted;
 	char *label;
 	ButtonCallback callbackFunc;
-} uiButton;
+	struct uiButton *next;
+};
+typedef struct uiButton uiButton;
 
 #define UI_FONT_MEDIUM              0
 #define UI_FONT_BOLD                1
 #define UI_FONT_LIST        		96
 
 /* button */
-int uiButtonClick( uiButton *B, int x, int y );
-void uiButtonRelease( uiButton *b, int x, int y );
-void uiButtonPress( uiButton *b, int x, int y );
-void uiButtonPassive( uiButton *b, int x, int y );
-void uiButtonDraw( uiButton *b, uiFont *f );
+int uiButtonCreate( char *label, ButtonCallback cb, int x, int y, int w, int h );
+int uiButtonDeleteByName( char *label );
+int uiButtonDeleteById( int id );
+int uiButtonClick( uiButton *b, int x, int y );
+void uiButtonRelease( int x, int y );
+void uiButtonPress( int x, int y );
+void uiButtonPassive( int x, int y );
+void uiButtonDraw( uiFont *f );
 
 /* font module */
 void uiFontBuild( uiFont *f );
