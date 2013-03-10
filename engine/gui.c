@@ -210,14 +210,14 @@ void uiFontBuild( uiFont * f )
             f->weight = FW_MEDIUM;
             break;
         case UI_FONT_BOLD:
-            font->weight = FW_BOLD;
+            f->weight = FW_BOLD;
             break;
     }
     w_font = CreateFont( -f->size, 0, 0, 0, f->weight, 0, 0, 0, 
         ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, 
         ANTIALIASED_QUALITY, FF_DONTCARE | DEFAULT_PITCH, f->name );
     if ( !w_font ) {
-        w_font = CreateFont( -font->size, 0, 0, 0, f->weight, 0, 0, 0, 
+        w_font = CreateFont( -f->size, 0, 0, 0, f->weight, 0, 0, 0, 
             ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, 
             ANTIALIASED_QUALITY, FF_DONTCARE | DEFAULT_PITCH, "Arial" );
         weModuleError( "Can't load font!" );
