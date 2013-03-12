@@ -16,7 +16,7 @@ void ButtonTest02( void )
 
 void init( void )
 {
-	glClearColor( 0.3f, 0.3f, 0.4f, 1.0f );
+	glClearColor( 0.22f, 0.25f, 0.25f, 1.0f );
 	uiFontBuild( &font );
 	b01 = uiButtonCreate( "Test01", ButtonTest01, 10, 10, 100, 25 );
 	b02 = uiButtonCreate( "Test02", ButtonTest02, 10, 45, 100, 25 );
