@@ -33,7 +33,7 @@ $(LIB): $(OBJS) $(DEPS)
 	@echo create $@
 	
 clean:
-	rm -f $(OUT) $(OBJS) $(DEPS)
+	rm -f $(OUT) $(OBJS) $(DEPS) $(LIB)
 	rm -f *~
  
 -include $(DEPS)
