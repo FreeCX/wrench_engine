@@ -1,13 +1,13 @@
 // 
 //    Programm:  Wrench Engine
 //        Type:  Header
-//      Module:  GUI
-// Last update:  10/03/13
-// Description:  Experimental GUI
+//      Module:  UI
+// Last update:  12/03/13
+// Description:  Experimental UI
 //
 
-#ifndef __MODULE_GUI__
-#define __MODULE_GUI__
+#ifndef __MODULE_UI__
+#define __MODULE_UI__
 
 #ifdef __WIN32__
 	#include <windows.h>
@@ -22,6 +22,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <assert.h>
+#include <math.h>
 #include "error.h"
 #include "structures.h"
 
@@ -52,6 +53,7 @@ typedef struct uiButton uiButton;
 
 /* button */
 int uiButtonCreate( char *label, ButtonCallback cb, int x, int y, int w, int h );
+void uiButtonDelete( void );
 int uiButtonDeleteByName( char *label );
 int uiButtonDeleteById( int id );
 int uiButtonClick( uiButton *b, int x, int y );

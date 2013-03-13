@@ -1,12 +1,12 @@
 // 
 //    Programm:  Wrench Engine
 //        Type:  Source Code
-//      Module:  GUI
-// Last update:  10/03/13
-// Description:  Experimental GUI
+//      Module:  UI
+// Last update:  12/03/13
+// Description:  Experimental UI
 //
 
-#include "gui.h"
+#include "ui.h"
 
 static char *text;
 static int bGlobalId = 0;
@@ -27,6 +27,18 @@ int uiButtonCreate( char *label, ButtonCallback cb, int x, int y, int w, int h )
     p->next = pButtonList;
     pButtonList = p;
     return p->id = ++bGlobalId;
+}
+
+void uiButtonDelete( void )
+{
+    uiButton *c = pButtonList;
+    while ( c != NULL ) {
+        if ( c->label ) {
+            weFree( c->label );
+        }
+        weFree( c );
+        c = c->next;
+    }
 }
 
 int uiButtonDeleteByName( char *label )
@@ -139,6 +151,7 @@ void uiButtonPassive( int x, int y )
 void uiButtonDraw( uiFont *f )
 {
 	int fontx, fonty;
+    float xpos;
     uiButton *b = pButtonList;
 
     if ( f == NULL ) {
@@ -179,7 +192,7 @@ void uiButtonDraw( uiFont *f )
 			glVertex2i( b->x+b->w, b->y      );
 		glEnd();
 		glLineWidth( 1 );
-		fontx = b->x + ( b->w - 40 ) / 2;
+        fontx = b->x + b->w - f->size * strlen(b->label);
 		fonty = b->y + ( b->h + 10 ) / 2;
         if ( b->state ) {
             fontx += 2;
@@ -192,7 +205,7 @@ void uiButtonDraw( uiFont *f )
             fonty--;
         }
 		glColor3f( 1.0f, 1.0f, 1.0f );
-		uiFontPrintf( f, fontx, fonty, b->label );
+        uiFontPrintf( f, fontx, fonty, b->label );
         b = b->next;
 	}
 }
