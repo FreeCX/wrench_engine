@@ -30,13 +30,14 @@ EXPORTS
 	weTicks						@26
 
 	uiButtonCreate				@27
-	uiButtonDeleteByName		@28
-	uiButtonDeleteById			@29
-	uiButtonClick				@30
-	uiButtonRelease				@31
-	uiButtonPress				@32
-	uiButtonPassive				@33
-	uiButtonDraw				@34
-	uiFontBuild					@35
-	uiFontPrintf				@36
-	uiFontKill					@37
+	uiButtonDelete 				@28
+	uiButtonDeleteByName		@29
+	uiButtonDeleteById			@30
+	uiButtonClick				@31
+	uiButtonRelease				@32
+	uiButtonPress				@33
+	uiButtonPassive				@34
+	uiButtonDraw				@35
+	uiFontBuild					@36
+	uiFontPrintf				@37
+	uiFontKill					@38
