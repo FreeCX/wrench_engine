@@ -1,8 +1,7 @@
 #include "../engine/kernel.h"
-#include "../engine/gui.h"
+#include "../engine/ui.h"
 
-int b01, b02;
-uiFont font = { 14, 14, "Terminus", 0 };
+uiFont font;
 
 void ButtonTest01 ( void )
 {
@@ -16,10 +15,12 @@ void ButtonTest02( void )
 
 void init( void )
 {
+	font.size = 14;
+	font.name = "Terminus";
 	glClearColor( 0.22f, 0.25f, 0.25f, 1.0f );
 	uiFontBuild( &font );
-	b01 = uiButtonCreate( "Test01", ButtonTest01, 10, 10, 100, 25 );
-	b02 = uiButtonCreate( "Test02", ButtonTest02, 10, 45, 100, 25 );
+	uiButtonCreate( "Test01", ButtonTest01, 10, 10, 100, 25 );
+	uiButtonCreate( "Test02", ButtonTest02, 10, 45, 100, 25 );
 }
 
 void render( void )
@@ -57,8 +58,7 @@ void mouse( int state, int button, int x, int y )
 
 void destroy( void )
 {
-	uiButtonDeleteById( b01 );
-	uiButtonDeleteById( b02 );
+	uiButtonDelete();
 	uiFontKill();
 }
 
