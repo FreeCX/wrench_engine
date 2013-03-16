@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Kernel
-// Last update:  09/03/13
+// Last update:  16/03/13
 // Description:  Basic structure of the system
 //
 
@@ -12,6 +12,9 @@
 #ifdef __WIN32__
     typedef unsigned __int64 uint;
 #endif
+
+#define WE_TRUE                 1
+#define WE_FALSE                0
 
 /* exit state */
 #define WE_EXIT_FAILURE			-1

@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  UI
-// Last update:  12/03/13
+// Last update:  16/03/13
 // Description:  Experimental UI
 //
 
@@ -127,18 +127,18 @@ void uiButtonPress( int x, int y )
 
 void uiButtonPassive( int x, int y )
 {
-    int redraw = 0;
+    int redraw = WE_FALSE;
     uiButton *b = pButtonList;
     while ( b ) {
         if ( uiButtonClick( b, x, y ) ) {
-            if ( b->highlighted == 0 ) {
-                b->highlighted == 1;
-                redraw = 1;
+            if ( b->highlighted == WE_FALSE ) {
+                b->highlighted = WE_TRUE;
+                redraw = WE_TRUE;
             }
         } else {
-            if ( b->highlighted == 1 ) {
-                b->highlighted == 0;
-                redraw = 1;
+            if ( b->highlighted == WE_TRUE ) {
+                b->highlighted = WE_FALSE;
+                redraw = WE_TRUE;
             }
         }
         b = b->next;

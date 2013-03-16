@@ -2,22 +2,23 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Window
-// Last update:  10/03/13
+// Last update:  16/03/13
 // Description:  Window system (windows)
 //
 
 #include "windows.h"
 
-void ( *render_callback )( void );
-void ( *resize_callback )( int, int );
-void ( *mouse_callback )( int, int, int, int );
+void ( *render_context_callback )( void );
+void ( *resize_context_callback )( int, int );
+void ( *mouse_action_callback )( int, int, int, int );
+void ( *mouse_motion_callback )( int, int );
 
 static HWND hWnd;
 static HGLRC hRC; 
 static PIXELFORMATDESCRIPTOR pfd;
 static char buffer[WE_TEXT_SIZE];
 HDC hDC;
-int fullscreen = 0, running = 1;
+int fullscreen = WE_FALSE, running = WE_TRUE;
 int window_width, window_height;
 int x_pos, y_pos;
 extern int __DEBUG__;
@@ -30,45 +31,45 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
             PostQuitMessage( 0 );
             break;
         case WM_SIZE:
-            if ( resize_callback ) {
-                resize_callback( LOWORD( lParam ), HIWORD( lParam ) );
+            if ( resize_context_callback ) {
+                resize_context_callback( LOWORD( lParam ), HIWORD( lParam ) );
             }
             break;
         case WM_LBUTTONDOWN:
             mouse_state = WE_STATE_DOWN;
             mouse_button = WE_LEFT_BUTTON;
-            mouse_active = 1;
+            mouse_active = WE_TRUE;
             break;
         case WM_LBUTTONUP:
             mouse_state = WE_STATE_UP;
             mouse_button = WE_LEFT_BUTTON;
-            mouse_active = 1;
+            mouse_active = WE_TRUE;
             break;
         case WM_MBUTTONDOWN:
             mouse_state = WE_STATE_DOWN;
             mouse_button = WE_MIDDLE_BUTTON;
-            mouse_active = 1;
+            mouse_active = WE_TRUE;
             break;
         case WM_MBUTTONUP:
             mouse_state = WE_STATE_UP;
             mouse_button = WE_MIDDLE_BUTTON;
-            mouse_active = 1;
+            mouse_active = WE_TRUE;
             break;
         case WM_RBUTTONDOWN:
             mouse_state = WE_STATE_DOWN;
             mouse_button = WE_RIGHT_BUTTON;
-            mouse_active = 1;
+            mouse_active = WE_TRUE;
             break;
         case WM_RBUTTONUP:
             mouse_state = WE_STATE_UP;
             mouse_button = WE_RIGHT_BUTTON;
-            mouse_active = 1;
+            mouse_active = WE_TRUE;
             break;
 		default:
 			return DefWindowProc( hWnd, message, wParam, lParam );
 	}
-    if ( mouse_active && mouse_callback ) {
-        mouse_callback( mouse_state, mouse_button, x_pos, y_pos );
+    if ( mouse_active && mouse_action_callback ) {
+        mouse_action_callback( mouse_state, mouse_button, x_pos, y_pos );
         mouse_active = 0;
     }
 	return WE_NULL;
@@ -154,7 +155,7 @@ int weCreateWindow( const char *title )
     }
     hWnd = CreateWindowEx( dwExStyle, WE_APPCLASS, title, 
         WS_CLIPSIBLINGS | WS_CLIPCHILDREN | dwStyle, 0, 0, 
-        window_width, window_height, 0, 0, hInstance, 0); 
+        window_width, window_height, 0, 0, hInstance, 0 ); 
     if ( !hWnd ) {
         weSendError( WE_ERROR_CREATE_WINDOW );
         return WE_EXIT_FAILURE;
@@ -201,26 +202,29 @@ int weLoop( void )
     MSG msg;
     uint now = 0, start = 0, stop = 1000 / 60;
     
-    running = 1;
+    running = WE_TRUE;
     timeBeginPeriod( 1 );
-    if ( resize_callback ) {
-        resize_callback( window_width, window_height );
+    if ( resize_context_callback ) {
+        resize_context_callback( window_width, window_height );
     }
     while ( running ) {
         if ( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) ) {
             if ( msg.message == WM_QUIT ) {
-                running = 0;
+                running = WE_FALSE;
             } else {
                 TranslateMessage( &msg );
                 DispatchMessage( &msg );
             }
         } else {
             weGetCursorPos( &x_pos, &y_pos );
+            if ( mouse_motion_callback ) {
+                mouse_motion_callback( x_pos, y_pos );
+            }
             /* need a update this rendering callback code */
             now = weTicks();
-            if ( render_callback && ( now - start > stop ) ) {
+            if ( render_context_callback && ( now - start > stop ) ) {
                 start = weTicks();
-                render_callback();
+                render_context_callback();
             }
         }
         /* to offload the CPU */
@@ -232,7 +236,7 @@ int weLoop( void )
 
 void weKill( void )
 {
-    running = 0;
+    running = WE_FALSE;
     if ( !wglMakeCurrent( hDC, NULL ) ) {
         weSendError( WE_ERROR_CLEAR_CONTEXT );
         return;
@@ -287,22 +291,27 @@ void weGetCursorPos( int *x, int *y )
 
 void weRedraw( void )
 {
-    if ( render_callback ) {
-        render_callback();
+    if ( render_context_callback ) {
+        render_context_callback();
     }
 }
 
 void weRenderFunc( void ( *param )( void ) ) 
 {
-    render_callback = param;
+    render_context_callback = param;
 }
 
 void weResizeFunc( void ( *param )( int, int ) )
 {
-    resize_callback = param;
+    resize_context_callback = param;
 }
 
-void weMouseFunc( void ( *param )( int, int, int, int ))
+void weMouseActionFunc( void ( *param )( int, int, int, int ))
 {
-    mouse_callback = param;
+    mouse_action_callback = param;
+}
+
+void weMouseMotionFunc( void ( *param )( int, int ))
+{
+    mouse_motion_callback = param;
 }

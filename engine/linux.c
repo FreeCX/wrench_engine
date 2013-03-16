@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Window
-// Last update:  09/03/13
+// Last update:  16/03/13
 // Description:  Window system (linux)
 //
 
@@ -27,13 +27,14 @@ static int double_attr[] = {
     None
 };
 
-void ( *render_callback )( void );
-void ( *resize_callback )( int, int );
-void ( *mouse_callback ) ( int, int, int, int );
+void ( *render_context_callback )( void );
+void ( *resize_context_callback )( int, int );
+void ( *mouse_action_callback )( int, int, int, int );
+void ( *mouse_motion_callback )( int, int );
 
 static we_window_t wgl;
 char *buffer;
-int fullscreen = 0, running = 1;
+int fullscreen = WE_FALSE, running = WE_TRUE;
 int window_width, window_height;
 int *x_pos, *y_pos;
 extern int __DEBUG__;
@@ -181,10 +182,10 @@ int weLoop( void )
 {
     XEvent event;
     uint now = 0, start = 0, stop = 1000 / 60;
-    int mouse_state, mouse_button;
+    int mouse_state, mouse_button, mouse_active = WE_FALSE;
 
-    if ( resize_callback ) {
-        resize_callback( window_width, window_height );
+    if ( resize_context_callback ) {
+        resize_context_callback( window_width, window_height );
     }
     XSelectInput( wgl.display, wgl.window, PointerMotionMask | 
         ButtonPressMask | ButtonReleaseMask | ButtonPress | 
@@ -205,25 +206,28 @@ int weLoop( void )
                 case ButtonPress:
                     mouse_state = WE_STATE_DOWN;
                     mouse_button = event.xbutton.button;
-                    if ( mouse_callback ) {
-                        mouse_callback( mouse_state, mouse_button, *x_pos, *y_pos );
-                    }
+                    mouse_active = WE_TRUE;
                     break;
                 case ButtonRelease:
                     mouse_state = WE_STATE_UP;
                     mouse_button = event.xbutton.button;
-                    if ( mouse_callback ) {
-                        mouse_callback( mouse_state, mouse_button, *x_pos, *y_pos );
-                    }
+                    mouse_active = WE_FALSE;
                     break;
                 case ClientMessage:
-                    running = 0;
+                    running = WE_FALSE;
                     break;
             }
         }
+        if ( mouse_action_callback && mouse_active ) {
+            mouse_action_callback( mouse_state, mouse_button, *x_pos, *y_pos );
+            mouse_active = WE_FALSE;
+        }
+        if ( mouse_motion_callback ) {
+            mouse_motion_callback( *x_pos, *y_pos );
+        }
         /* need a update this rendering callback code */
         now = weTicks();
-        if ( render_callback && ( now - start > stop ) ) {
+        if ( render_context_callback && ( now - start > stop ) ) {
             start = weTicks();
             render_callback();
         }
@@ -283,22 +287,27 @@ void weGetCursorPos( int *x, int *y )
 
 void weRedraw( void )
 {
-    if ( render_callback ) {
-        render_callback();
+    if ( render_context_callback ) {
+        render_context_callback();
     }
 }
 
 void weRenderFunc( void ( *param )( void ) ) 
 {
-    render_callback = param;
+    render_context_callback = param;
 }
 
 void weResizeFunc( void ( *param )( int, int ) )
 {
-    resize_callback = param;
+    resize_context_callback = param;
 }
 
-void weMouseFunc( void ( *param )( int, int, int, int ) )
+void weMouseActionFunc( void ( *param )( int, int, int, int ))
 {
-    mouse_callback = param;
+    mouse_action_callback = param;
+}
+
+void weMouseMotionFunc( void ( *param )( int, int ))
+{
+    mouse_motion_callback = param;
 }

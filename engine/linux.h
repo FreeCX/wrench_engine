@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Window
-// Last update:  09/02/13
+// Last update:  16/02/13
 // Description:  Window system (linux)
 //
 
@@ -47,6 +47,7 @@ void weGetCursorPos( int *x, int *y );
 void weRedraw( void );
 void weRenderFunc( void ( *param )( void ) );
 void weResizeFunc( void ( *param )( int, int ) );
-void weMouseFunc( void ( *param )( int, int, int, int ));
+void weMouseActionFunc( void ( *param )( int, int, int, int ));
+void weMouseMotionFunc( void ( *param )( int, int, int, int ));
 
 #endif
