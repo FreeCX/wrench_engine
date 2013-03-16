@@ -42,7 +42,7 @@ void resize( int width, int height )
 	glLoadIdentity();
 }
 
-void mouse( int state, int button, int x, int y )
+void mouse_a( int state, int button, int x, int y )
 {
 	if ( state == WE_STATE_DOWN ) {
 		if ( button == WE_LEFT_BUTTON ) {
@@ -54,6 +54,11 @@ void mouse( int state, int button, int x, int y )
 			uiButtonRelease( x, y );
 		}
 	}
+}
+
+void mouse_m( int x, int y )
+{
+	uiButtonPassive( x, y );
 }
 
 void destroy( void )
@@ -70,7 +75,8 @@ int main( int argc, char *argv[] )
 	weCreateWindow( "Wrench Engine #1" );
 	weRenderFunc( render );
 	weResizeFunc( resize );
-	weMouseFunc( mouse );
+	weMouseActionFunc( mouse_a );
+	weMouseMotionFunc( mouse_m );
 	init();
 	weLoop();
 	destroy();
