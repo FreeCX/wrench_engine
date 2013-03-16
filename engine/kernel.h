@@ -29,5 +29,6 @@ int weInit( const int argc, char **argv );
 void weInfo( void );
 void weAbout( char **name, int *major_v, int *minor_v );
 uint weTicks( void );
+float weGetFps( void );
 
 #endif

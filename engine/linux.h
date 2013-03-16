@@ -48,6 +48,6 @@ void weRedraw( void );
 void weRenderFunc( void ( *param )( void ) );
 void weResizeFunc( void ( *param )( int, int ) );
 void weMouseActionFunc( void ( *param )( int, int, int, int ));
-void weMouseMotionFunc( void ( *param )( int, int, int, int ));
+void weMouseMotionFunc( void ( *param )( int, int ));
 
 #endif

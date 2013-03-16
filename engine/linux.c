@@ -198,8 +198,8 @@ int weLoop( void )
             switch ( event.type ) {
                 case Expose:
                     XGetWindowAttributes( wgl.display, wgl.window, &wgl.windowAttr );
-                    if ( resize_callback ) {
-                        resize_callback( wgl.windowAttr.width, 
+                    if ( resize_context_callback ) {
+                        resize_context_callback( wgl.windowAttr.width, 
                             wgl.windowAttr.height );
                     }
                     break;
@@ -211,7 +211,7 @@ int weLoop( void )
                 case ButtonRelease:
                     mouse_state = WE_STATE_UP;
                     mouse_button = event.xbutton.button;
-                    mouse_active = WE_FALSE;
+                    mouse_active = WE_TRUE;
                     break;
                 case ClientMessage:
                     running = WE_FALSE;
@@ -229,7 +229,7 @@ int weLoop( void )
         now = weTicks();
         if ( render_context_callback && ( now - start > stop ) ) {
             start = weTicks();
-            render_callback();
+            render_context_callback();
         }
         usleep( 1200 );
     }

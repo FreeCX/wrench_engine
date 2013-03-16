@@ -14,6 +14,10 @@ static int major_version   = 0;
 static int minor_version   = 1;
 static int release_version = 0;
 static int build_version   = 11;
+
+static int FrameCount = 0;
+static float NewCount = 0.0f, LastCount = 0.0f, FpsRate = 0.0f;
+
 int __DEBUG__ = 0;
 
 void catch_crash( int signum )
@@ -123,4 +127,16 @@ uint weTicks( void )
     gettimeofday( &tv, 0 );
     return ( tv.tv_sec * 1000 + tv.tv_usec / 1000 );
 #endif
+}
+
+float weGetFps( void )
+{
+    NewCount = (float) weTicks();
+    if ( ( NewCount - LastCount ) > 1000 ) {
+        FpsRate = ( FrameCount * 1000 ) / ( NewCount - LastCount );
+        LastCount = NewCount;
+        FrameCount = 0;
+    }
+    FrameCount++;
+    return FpsRate;
 }

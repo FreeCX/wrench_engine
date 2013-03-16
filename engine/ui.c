@@ -55,12 +55,12 @@ int uiButtonDeleteByName( char *label )
                 weFree( curr->label );
             }
             weFree( curr );
-            return 1;
+            return WE_TRUE;
         }
         previous = curr;
         curr = curr->next;
     }
-    return 0;
+    return WE_FALSE;
 }
 
 int uiButtonDeleteById( int id )
@@ -77,12 +77,12 @@ int uiButtonDeleteById( int id )
                 weFree( curr->label );
             }
             weFree( curr );
-            return 1;
+            return WE_TRUE;
         }
         previous = curr;
         curr = curr->next;
     }
-    return 0;
+    return WE_FALSE;
 }
 
 int uiButtonClick( uiButton *b, int x, int y )
@@ -90,10 +90,10 @@ int uiButtonClick( uiButton *b, int x, int y )
     if ( b ) {
         if( x > b->x && x < b->x + b->w && 
             y > b->y && y < b->y + b->h ) {
-                return 1;
+                return WE_TRUE;
         }
     }
-    return 0;
+    return WE_FALSE;
 }
 
 void uiButtonRelease( int x_press, int y_press )
@@ -109,7 +109,7 @@ void uiButtonRelease( int x_press, int y_press )
                 b->callbackFunc();
             }
         }
-        b->state = 0;
+        b->state = WE_FALSE;
         b = b->next;
     }
 }
@@ -119,7 +119,7 @@ void uiButtonPress( int x, int y )
     uiButton *b = pButtonList;
     while ( b ) {
         if ( uiButtonClick( b, x, y ) ) {
-            b->state = 1;
+            b->state = WE_TRUE;
         }
         b = b->next;
     }
@@ -150,7 +150,7 @@ void uiButtonPassive( int x, int y )
 
 void uiButtonDraw( uiFont *f )
 {
-	int fontx, fonty;
+	float fontx, fonty;
     float xpos;
     uiButton *b = pButtonList;
 
