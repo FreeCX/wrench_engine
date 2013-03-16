@@ -28,6 +28,8 @@ void render( void )
 	glClear( GL_COLOR_BUFFER_BIT );
 	glLoadIdentity();
 	uiButtonDraw( &font );
+	glColor3f( 1.0f, 1.0f, 1.0f );
+	uiFontPrintf( &font, 5.0f, 495.0f, "FPS: %.2f", weGetFps() );
 	weSwapBuffers();
 }
 
