@@ -8,36 +8,37 @@ EXPORTS
 	weInit						@6
 	weInfo						@7
 	weAbout						@8
+	weTicks						@9
 
-	weMalloc					@9
-	weCalloc					@10
-	weRealloc					@11
-	weFree						@12
-	weMemoryUsage				@13
+	weMalloc					@10
+	weCalloc					@11
+	weRealloc					@12
+	weFree						@13
+	weMemoryUsage				@14
 
-	weInitWindow 				@14
-	weInitOpenGL				@15
-	weCreateWindow				@16
-	weLoop						@17
-	weKill						@18
-	weSwapBuffers				@19
-	weSetCaption				@20
-	weGetCursorPos				@21
-	weRedraw					@22
-	weRenderFunc				@23
-	weResizeFunc				@24
-	weMouseFunc					@25
-	weTicks						@26
+	weInitWindow 				@15
+	weInitOpenGL				@16
+	weCreateWindow				@17
+	weLoop						@18
+	weKill						@19
+	weSwapBuffers				@20
+	weSetCaption				@21
+	weGetCursorPos				@22
+	weRedraw					@23
+	weRenderFunc				@24
+	weResizeFunc				@25
+	weMouseActionFunc			@26
+	weMouseMotionFunc			@27
 
-	uiButtonCreate				@27
-	uiButtonDelete 				@28
-	uiButtonDeleteByName		@29
-	uiButtonDeleteById			@30
-	uiButtonClick				@31
-	uiButtonRelease				@32
-	uiButtonPress				@33
-	uiButtonPassive				@34
-	uiButtonDraw				@35
-	uiFontBuild					@36
-	uiFontPrintf				@37
-	uiFontKill					@38
+	uiButtonCreate				@28
+	uiButtonDelete 				@29
+	uiButtonDeleteByName		@30
+	uiButtonDeleteById			@31
+	uiButtonClick				@32
+	uiButtonRelease				@33
+	uiButtonPress				@34
+	uiButtonPassive				@35
+	uiButtonDraw				@36
+	uiFontBuild					@37
+	uiFontPrintf				@38
+	uiFontKill					@39
