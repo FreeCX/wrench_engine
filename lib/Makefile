@@ -1,6 +1,6 @@
 ENGINE=../engine
 SOURCES=$(ENGINE)/error.c $(ENGINE)/input.c $(ENGINE)/kernel.c $(ENGINE)/memory.c \
-	$(ENGINE)/ui.c
+	$(ENGINE)/unit/ui.c $(ENGINE)/unit/font.c
 OS=$(shell uname -s)
 LDFLAGS=
 ifeq ($(OS),Linux)
