@@ -1,5 +1,6 @@
 #include "../engine/kernel.h"
-#include "../engine/ui.h"
+#include "../engine/unit/ui.h"
+#include "../engine/unit/font.h"
 
 uiFont font;
 
@@ -66,7 +67,7 @@ void mouse_m( int x, int y )
 void destroy( void )
 {
 	uiButtonDelete();
-	uiFontKill();
+	uiFontKill( &font );
 }
 
 int main( int argc, char *argv[] )
