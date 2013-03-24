@@ -2,14 +2,14 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Kernel
-// Last update:  16/03/13
+// Last update:  24/03/13
 // Description:  The core of the system
 //
 
 #include "kernel.h"
 
 static char *engine_name = "Wrench Engine";
-static char *engine_date = "16/03/13";
+static char *engine_date = "24/03/13";
 static int major_version   = 0;
 static int minor_version   = 1;
 static int release_version = 0;
