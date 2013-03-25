@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Window
-// Last update:  16/03/13
+// Last update:  25/03/13
 // Description:  Window system (windows)
 //
 
@@ -26,7 +26,7 @@ extern int __DEBUG__;
 LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
     int mouse_state, mouse_button, mouse_active;
-	switch ( message ) {
+    switch ( message ) {
         case WM_CLOSE:
             PostQuitMessage( 0 );
             break;
@@ -65,14 +65,14 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
             mouse_button = WE_RIGHT_BUTTON;
             mouse_active = WE_TRUE;
             break;
-		default:
-			return DefWindowProc( hWnd, message, wParam, lParam );
-	}
+        default:
+            return DefWindowProc( hWnd, message, wParam, lParam );
+    }
     if ( mouse_active && mouse_action_callback ) {
         mouse_action_callback( mouse_state, mouse_button, x_pos, y_pos );
         mouse_active = 0;
     }
-	return WE_NULL;
+    return WE_NULL;
 }
 
 int ChangeScreenResolution( const int width, const int height, const int bpp )
@@ -86,7 +86,7 @@ int ChangeScreenResolution( const int width, const int height, const int bpp )
     dm.dmBitsPerPel = bpp;
     dm.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
     if ( ChangeDisplaySettings( &dm, CDS_FULLSCREEN ) != DISP_CHANGE_SUCCESSFUL ) {
-    	return WE_EXIT_FAILURE;
+        return WE_EXIT_FAILURE;
     }
     return WE_EXIT_SUCCESS;
 }
@@ -100,7 +100,7 @@ void SetClientSize( HWND hWnd, const int clientWidth, int const clientHeight )
         RECT rc = {0, 0, clientWidth, clientHeight} ;
 
         if ( !AdjustWindowRectEx( &rc, dwStyle, menu ? TRUE : FALSE, dwExStyle ) ) {
-        	MessageBox( NULL, "AdjustWindowRectEx Failed!", "Error", MB_OK );
+            MessageBox( NULL, "AdjustWindowRectEx Failed!", "Error", MB_OK );
         }
         SetWindowPos( hWnd, NULL, 0, 0, rc.right - rc.left, rc.bottom - rc.top,
             SWP_NOZORDER | SWP_NOMOVE );
@@ -121,9 +121,9 @@ int weInitOpenGL( const int glFlag )
 
 int weCreateWindow( const char *title )
 {
-	static int counter = 0;
+    static int counter = 0;
     int iFormat = 0;
-	char WE_APPCLASS[] = "WRENCH ENGiNE";
+    char WE_APPCLASS[] = "WRENCH ENGiNE";
     DWORD dwStyle = WS_OVERLAPPEDWINDOW | WS_SIZEBOX;
     DWORD dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
     HINSTANCE hInstance;
@@ -141,13 +141,13 @@ int weCreateWindow( const char *title )
     wc.lpszMenuName = NULL;
     wc.lpszClassName = WE_APPCLASS;
     if ( counter > 0 ) {
-    	DestroyWindow( hWnd );
+        DestroyWindow( hWnd );
         UnregisterClass( WE_APPCLASS, hInstance );
     }
     if ( !RegisterClass( &wc ) ) {
-		weSendError( WE_ERROR_REGISTER_WINDOW );
-		return WE_EXIT_FAILURE;
-	}
+        weSendError( WE_ERROR_REGISTER_WINDOW );
+        return WE_EXIT_FAILURE;
+    }
     if ( fullscreen ) {
         /* insert init code */
     } else {
@@ -192,7 +192,7 @@ int weCreateWindow( const char *title )
         weSendError( WE_ERROR_MAKE_CONTEXT );
         return WE_EXIT_FAILURE;
     }
-	/* some code */
+    /* some code */
     counter++;
     return WE_EXIT_SUCCESS;
 }

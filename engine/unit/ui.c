@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  UI
-// Last update:  24/03/13
+// Last update:  25/03/13
 // Description:  Experimental UI Module
 //
 
@@ -149,7 +149,7 @@ void uiButtonPassive( int x, int y )
 
 void uiButtonDraw( uiFont *f )
 {
-	float fontx, fonty;
+    float fontx, fonty;
     float xpos;
     uiButton *b = pButtonList;
 
@@ -157,42 +157,42 @@ void uiButtonDraw( uiFont *f )
         return;
     } 
 
-	while ( b ) {
+    while ( b ) {
         if ( b->highlighted ) { 
             glColor3f( 0.7f, 0.7f, 0.8f );
         } else { 
             glColor3f( 0.6f, 0.6f, 0.6f );
         }
-		glBegin( GL_QUADS );
-			glVertex2i( b->x     , b->y      );
-			glVertex2i( b->x     , b->y+b->h );
-			glVertex2i( b->x+b->w, b->y+b->h );
-			glVertex2i( b->x+b->w, b->y      );
-		glEnd();
-		glLineWidth( 3 );
-		if ( b->state ) { 
+        glBegin( GL_QUADS );
+            glVertex2i( b->x     , b->y      );
+            glVertex2i( b->x     , b->y+b->h );
+            glVertex2i( b->x+b->w, b->y+b->h );
+            glVertex2i( b->x+b->w, b->y      );
+        glEnd();
+        glLineWidth( 3 );
+        if ( b->state ) { 
             glColor3f( 0.4f, 0.4f, 0.4f );
         } else {
             glColor3f( 0.8f, 0.8f, 0.8f );
         }
-		glBegin( GL_LINE_STRIP );
-			glVertex2i( b->x+b->w, b->y      );
-			glVertex2i( b->x     , b->y      );
-			glVertex2i( b->x     , b->y+b->h );
-		glEnd();
-		if ( b->state ) { 
+        glBegin( GL_LINE_STRIP );
+            glVertex2i( b->x+b->w, b->y      );
+            glVertex2i( b->x     , b->y      );
+            glVertex2i( b->x     , b->y+b->h );
+        glEnd();
+        if ( b->state ) { 
             glColor3f( 0.8f, 0.8f, 0.8f );
         } else {
             glColor3f( 0.4f, 0.4f, 0.4f );
         }
-		glBegin( GL_LINE_STRIP );
-			glVertex2i( b->x     , b->y+b->h );
-			glVertex2i( b->x+b->w, b->y+b->h );
-			glVertex2i( b->x+b->w, b->y      );
-		glEnd();
-		glLineWidth( 1 );
+        glBegin( GL_LINE_STRIP );
+            glVertex2i( b->x     , b->y+b->h );
+            glVertex2i( b->x+b->w, b->y+b->h );
+            glVertex2i( b->x+b->w, b->y      );
+        glEnd();
+        glLineWidth( 1 );
         fontx = b->x + b->w - f->size * strlen(b->label);
-		fonty = b->y + ( b->h + 10 ) / 2;
+        fonty = b->y + ( b->h + 10 ) / 2;
         if ( b->state ) {
             fontx += 2;
             fonty += 2;
@@ -203,8 +203,8 @@ void uiButtonDraw( uiFont *f )
             fontx--;
             fonty--;
         }
-		glColor3f( 1.0f, 1.0f, 1.0f );
+        glColor3f( 1.0f, 1.0f, 1.0f );
         uiFontPrintf( f, fontx, fonty, b->label );
         b = b->next;
-	}
+    }
 }

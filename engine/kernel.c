@@ -2,14 +2,14 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Kernel
-// Last update:  24/03/13
+// Last update:  25/03/13
 // Description:  The core of the system
 //
 
 #include "kernel.h"
 
 static char *engine_name = "Wrench Engine";
-static char *engine_date = "24/03/13";
+static char *engine_date = "25/03/13";
 static int major_version   = 0;
 static int minor_version   = 1;
 static int release_version = 0;
@@ -81,18 +81,18 @@ void weInfo( void )
     int dwMinor = ( HIBYTE( LOWORD( dwVersion ) ) );
 
     if ( dwVersion < 0x80000000 ) {
-		dwBuild = (DWORD)( HIWORD( dwVersion ) );
-		sprintf( buffer, "Windows [Version %d.%d.%d]", 
+        dwBuild = (DWORD)( HIWORD( dwVersion ) );
+        sprintf( buffer, "Windows [Version %d.%d.%d]", 
             dwMajor, dwMinor, dwBuild );
-	} else if (dwMajor < 4) {
-		dwBuild = (DWORD)( HIWORD( dwVersion ) & ~0x8000 ); 
-		sprintf( buffer, "WIN32s [Version %d.%d.%d]", 
+    } else if (dwMajor < 4) {
+        dwBuild = (DWORD)( HIWORD( dwVersion ) & ~0x8000 ); 
+        sprintf( buffer, "WIN32s [Version %d.%d.%d]", 
             dwMajor, dwMinor, dwBuild );
-	} else {
-		dwBuild = 0;
-		sprintf( buffer, "Win95/Win98 [Version %d.%d.%d]", 
+    } else {
+        dwBuild = 0;
+        sprintf( buffer, "Win95/Win98 [Version %d.%d.%d]", 
             dwMajor, dwMinor, dwBuild );
-	}
+    }
     printf( "%s %d.%d.%d.%d [%s]\n", engine_name, major_version, 
         minor_version, release_version, build_version, engine_date );
     printf( "Working at %s\n", buffer );

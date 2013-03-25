@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Font
-// Last update:  24/03/13
+// Last update:  25/03/13
 // Description:  Experimental Font Module
 //
 
@@ -10,29 +10,30 @@
 #define __MODULE_FONT__
 
 #ifdef __WIN32__
-	#include <windows.h>
-	#include <gl/gl.h>
-	#include <gl/glu.h>
+    #include <windows.h>
+    #include <gl/gl.h>
+    #include <gl/glu.h>
 #elif __linux__
-	#include <GL/gl.h>
-	#include <GL/glx.h>
+    #include <GL/gl.h>
+    #include <GL/glx.h>
 #endif
 
 #include <string.h>
 #include <stdarg.h>
 
 typedef struct {
-	int size;
-	int weight;
-	char *name;
-	GLuint base;
+    int size;
+    int weight;
+    char *name;
+    GLuint base;
 } uiFont;
 
-#define UI_TEXT_SIZE				256
+#define UI_TEXT_SIZE                256
 #define UI_FONT_MEDIUM              0
 #define UI_FONT_BOLD                1
-#define UI_FONT_LIST        		96
+#define UI_FONT_LIST                96
 
+/* export function */
 void uiFontBuild( uiFont *f );
 void uiFontPrintf( uiFont *f, float x, float y, const char *fmt, ... );
 void uiFontKill( uiFont *f );

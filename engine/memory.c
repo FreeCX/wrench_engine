@@ -55,28 +55,28 @@ void * weCalloc( size_t nmemb, size_t size )
 
 void * weRealloc( void *ptr, size_t size )
 {
-	void *buf;
+    void *buf;
 
 #ifdef __WIN32__
-	alloc_memory -= _msize( ptr );
+    alloc_memory -= _msize( ptr );
 #elif __linux__
-	alloc_memory -= malloc_usable_size( ptr );
+    alloc_memory -= malloc_usable_size( ptr );
 #endif
-	buf = realloc( ptr, size );
-	if ( __DEBUG__ ) {
+    buf = realloc( ptr, size );
+    if ( __DEBUG__ ) {
 #ifdef __WIN32
         printf( "  [>] address of pointer 0x%08x\n", buf );
 #else
         printf( "  [>] address of pointer %p\n", buf );
 #endif
         printf( "  [+] reallocating %lu bytes\n", (unsigned long) size );
-	}
-	if ( !ptr ) {
-		weSendError( WE_ERROR_ALLOC_MEMORY );
-		exit( WE_EXIT_FAILURE );
-	}
-	alloc_memory += size;
-	return buf;
+    }
+    if ( !ptr ) {
+        weSendError( WE_ERROR_ALLOC_MEMORY );
+        exit( WE_EXIT_FAILURE );
+    }
+    alloc_memory += size;
+    return buf;
 }
 
 void weFree( void *ptr )
