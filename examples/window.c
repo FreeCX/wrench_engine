@@ -16,10 +16,8 @@ void ButtonTest02( void )
 
 void init( void )
 {
-	font.size = 14;
-	font.name = "Terminus";
 	glClearColor( 0.22f, 0.25f, 0.25f, 1.0f );
-	uiFontBuild( &font );
+	uiFontBuild( &font, 14, 0, "Terminus" );
 	uiButtonCreate( "Test01", ButtonTest01, 10, 10, 100, 25 );
 	uiButtonCreate( "Test02", ButtonTest02, 10, 45, 100, 25 );
 }
