@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Memory
-// Last update:  04/03/13
+// Last update:  25/03/13
 // Description:  Memory allocation system
 //
 
@@ -16,7 +16,6 @@ void * weMalloc( size_t size )
     void *ptr;
 
     ptr = malloc( size );
-
     if ( __DEBUG__ ) {
 #ifdef __WIN32__
         printf( "  [>] address of pointer 0x%08x\n", ptr );
@@ -25,14 +24,11 @@ void * weMalloc( size_t size )
 #endif
         printf( "  [+] allocating %lu bytes\n", (unsigned long) size );
     }
-
     if ( !ptr ) {
         weSendError( WE_ERROR_ALLOC_MEMORY );
         exit( WE_EXIT_FAILURE );
     }
-
     alloc_memory += size;
-
     return ptr;
 }
 
@@ -41,7 +37,6 @@ void * weCalloc( size_t nmemb, size_t size )
     void *ptr;
 
     ptr = calloc( nmemb, size );
-
     if ( __DEBUG__ ) {
 #ifdef __WIN32__
         printf( "  [>] address of pointer 0x%08x\n", ptr );
@@ -50,30 +45,25 @@ void * weCalloc( size_t nmemb, size_t size )
 #endif
         printf( "  [+] allocating %lu bytes\n", (unsigned long) size );
     }
-
     if ( !ptr ) {
         weSendError( WE_ERROR_ALLOC_MEMORY );
         exit( WE_EXIT_FAILURE );
     }
-
     alloc_memory += size;
-
     return ptr;
 }
 
 void * weRealloc( void *ptr, size_t size )
 {
-	void *buf;
+    void *buf;
 
 #ifdef __WIN32__
-	alloc_memory -= _msize( ptr );
+    alloc_memory -= _msize( ptr );
 #elif __linux__
-	alloc_memory -= malloc_usable_size( ptr );
+    alloc_memory -= malloc_usable_size( ptr );
 #endif
-
-	buf = realloc( ptr, size );
-
-	if ( __DEBUG__ ) {
+    buf = realloc( ptr, size );
+    if ( __DEBUG__ ) {
 #ifdef __WIN32
         printf( "  [>] address of pointer 0x%08x\n", buf );
 #else
@@ -81,15 +71,12 @@ void * weRealloc( void *ptr, size_t size )
 #endif
         printf( "  [+] reallocating %lu bytes\n", (unsigned long) size );
     }
-    
-	if ( !ptr ) {
-		weSendError( WE_ERROR_ALLOC_MEMORY );
-		exit( WE_EXIT_FAILURE );
-	}
-
-	alloc_memory += size;
-
-	return buf;
+    if ( !ptr ) {
+        weSendError( WE_ERROR_ALLOC_MEMORY );
+        exit( WE_EXIT_FAILURE );
+    }
+    alloc_memory += size;
+    return buf;
 }
 
 void weFree( void *ptr )
@@ -99,8 +86,7 @@ void weFree( void *ptr )
 #elif __linux__
     alloc_memory -= malloc_usable_size( ptr );
 #endif
-    
-	if ( __DEBUG__ ) {
+    if ( __DEBUG__ ) {
 #ifdef __WIN32__
         printf( "  [-] free %lu bytes at 0x%08x\n", 
             (unsigned long) _msize( ptr ), ptr );
@@ -109,7 +95,6 @@ void weFree( void *ptr )
             (unsigned long) malloc_usable_size( ptr ), ptr );
 #endif
     }
-    
     free( ptr );
 }
 

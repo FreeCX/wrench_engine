@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Kernel
-// Last update:  06/03/13
+// Last update:  25/03/13
 // Description:  The core of the system
 //
 
@@ -12,7 +12,7 @@
 #ifdef __WIN32__
     #include "windows.h"
 #elif __linux__
-	#include <sys/utsname.h>
+    #include <sys/utsname.h>
     #include "linux.h"
 #endif
 

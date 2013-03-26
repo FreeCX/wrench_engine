@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  UI
-// Last update:  24/03/13
+// Last update:  25/03/13
 // Description:  Experimental UI Module
 //
 
@@ -10,12 +10,12 @@
 #define __MODULE_UI__
 
 #ifdef __WIN32__
-	#include <windows.h>
-	#include <gl/gl.h>
-	#include <gl/glu.h>
+    #include <windows.h>
+    #include <gl/gl.h>
+    #include <gl/glu.h>
 #elif __linux__
-	#include <GL/gl.h>
-	#include <GL/glx.h>
+    #include <GL/gl.h>
+    #include <GL/glx.h>
 #endif
 
 #include <assert.h>
@@ -27,17 +27,18 @@
 typedef void (*ButtonCallback)();
 
 struct uiButton {
-	int x, y;
-	int w, h;
-	int id;
-	int state;
-	int highlighted;
-	char *label;
-	ButtonCallback callbackFunc;
-	struct uiButton *next;
+    int x, y;
+    int w, h;
+    int id;
+    int state;
+    int highlighted;
+    char *label;
+    ButtonCallback callbackFunc;
+    struct uiButton *next;
 };
 typedef struct uiButton uiButton;
 
+/* export function */
 int uiButtonCreate( char *label, ButtonCallback cb, int x, int y, int w, int h );
 void uiButtonDelete( void );
 int uiButtonDeleteByName( char *label );

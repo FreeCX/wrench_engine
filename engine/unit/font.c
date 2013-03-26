@@ -13,8 +13,8 @@ static char text[UI_TEXT_SIZE];
 void uiFontBuild( uiFont * f, int size, int weight, char *font_name )
 {
 #ifdef __WIN32__
-	HFONT w_font;
-	extern HDC hDC;
+    HFONT w_font;
+    extern HDC hDC;
 
     f->size = size;
     f->weight = weight;
@@ -44,20 +44,20 @@ void uiFontBuild( uiFont * f, int size, int weight, char *font_name )
         wglUseFontBitmaps( hDC, 32, UI_FONT_LIST, f->base );
     }
 #elif __linux__
-	XFontStruct *x_font; 
+    XFontStruct *x_font; 
     Display *dsp;   
-	char buffer[128];
-	char type[16];
-	
-	switch ( f->weight ) {
-		case UI_FONT_BOLD:
-			sprintf( type, "bold" );
-			break;
-		case UI_FONT_MEDIUM:
-			sprintf( type, "medium" );
-			break;
-	}
-	sprintf( buffer, "-*-%s-%s-r-normal--%d-*-*-*-c-*-iso8859-1", f->name, 
+    char buffer[128];
+    char type[16];
+
+    switch ( f->weight ) {
+        case UI_FONT_BOLD:
+            sprintf( type, "bold" );
+            break;
+        case UI_FONT_MEDIUM:
+            sprintf( type, "medium" );
+            break;
+    }
+    sprintf( buffer, "-*-%s-%s-r-normal--%d-*-*-*-c-*-iso8859-1", f->name, 
         type, f->size);
     dsp = XOpenDisplay( NULL );
     f->base = glGenLists( UI_FONT_LIST ); /* storage for 96 characters */       
@@ -65,7 +65,7 @@ void uiFontBuild( uiFont * f, int size, int weight, char *font_name )
     if ( x_font == NULL ) {
         x_font = XLoadQueryFont( dsp, "fixed" );    
         if ( x_font == NULL ){    
-        	weModuleError( "Can't load font!" );
+            weModuleError( "Can't load font!" );
             return;
         }    
     }    

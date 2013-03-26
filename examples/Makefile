@@ -14,4 +14,4 @@ endif
 all:
 	$(CC) $(PROG).c $(CFLAGS) -L . $(LIB) -o $(PROG)$(EXT)
 clean:
-	$(RM) $(PROG)
+	$(RM) $(PROG)$(EXT)

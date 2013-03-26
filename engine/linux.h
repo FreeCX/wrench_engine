@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Window
-// Last update:  16/02/13
+// Last update:  25/03/13
 // Description:  Window system (linux)
 //
 
@@ -19,20 +19,20 @@
 #include "error.h"
 
 typedef struct {
-	Display 				*display;
-    GLXContext 				context;
-    Bool 					doubleBuffered;
-    Window 					window;
-    Window 					root;
-    XSetWindowAttributes 	setWindowAttr;
-    XF86VidModeModeInfo 	deskMode;
-    XVisualInfo 			*vInfo;
-    XWindowAttributes 		windowAttr;
-    int 					screen;
-    int 					fullscreen;
-    int 					depth;
-    int 					x;
-    int 					y;
+    Display                *display;
+    GLXContext              context;
+    Bool                    doubleBuffered;
+    Window                  window;
+    Window                  root;
+    XSetWindowAttributes    setWindowAttr;
+    XF86VidModeModeInfo     deskMode;
+    XVisualInfo            *vInfo;
+    XWindowAttributes       windowAttr;
+    int                     screen;
+    int                     fullscreen;
+    int                     depth;
+    int                     x;
+    int                     y;
 } we_window_t;
 
 /* export function */

@@ -248,10 +248,10 @@ void weKill( void )
     running = 0;
     if ( wgl.context ) {
         if ( !glXMakeCurrent( wgl.display, wgl.window, wgl.context ) ) {
-			weSendError( WE_ERROR_DRAW_CONTEXT );
-			glXDestroyContext( wgl.display, wgl.context );
-			wgl.context = WE_NULL;
-		}
+            weSendError( WE_ERROR_DRAW_CONTEXT );
+            glXDestroyContext( wgl.display, wgl.context );
+            wgl.context = WE_NULL;
+        }
     }
     if ( wgl.fullscreen ) {
         XF86VidModeSwitchToMode( wgl.display, wgl.screen, &wgl.deskMode );

@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Keymap
-// Last update:  28/02/13
+// Last update:  25/03/13
 // Description:  Keyboard map
 //
 
@@ -10,11 +10,11 @@
 #define __KERNEL_KEYMAP__
 
 #ifdef __WIN32__
-	#define WE_KEY_BACKSPACE		0x000008
-	#define WE_KEY_
+    #define WE_KEY_BACKSPACE        0x000008
+    #define WE_KEY_
 #else __linux__
-	#define WE_KEY_ESCAPE			0x000009
-	#define WE_KEY_
+    #define WE_KEY_ESCAPE           0x000009
+    #define WE_KEY_
 #endif
 
 #endif
