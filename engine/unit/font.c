@@ -1,7 +1,7 @@
 // 
 //    Programm:  Wrench Engine
 //        Type:  Source Code
-//      Module:  Font
+//      Module:  font
 // Last update:  26/03/13
 // Description:  Experimental Font Module
 //
