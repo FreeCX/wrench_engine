@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Font
-// Last update:  24/03/13
+// Last update:  26/03/13
 // Description:  Experimental Font Module
 //
 
@@ -18,6 +18,7 @@
 	#include <GL/glx.h>
 #endif
 
+#include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
 
