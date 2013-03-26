@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Font
-// Last update:  24/03/13
+// Last update:  26/03/13
 // Description:  Experimental Font Module
 //
 
@@ -10,12 +10,15 @@
 
 static char text[UI_TEXT_SIZE];
 
-void uiFontBuild( uiFont * f )
+void uiFontBuild( uiFont * f, int size, int weight, char *font_name )
 {
 #ifdef __WIN32__
 	HFONT w_font;
 	extern HDC hDC;
 
+    f->size = size;
+    f->weight = weight;
+    f->name = font_name;
     f->base = glGenLists( UI_FONT_LIST );
     switch ( f->weight ) {
         case UI_FONT_MEDIUM:

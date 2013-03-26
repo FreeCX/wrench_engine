@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Window
-// Last update:  16/03/13
+// Last update:  26/03/13
 // Description:  Window system (linux)
 //
 
@@ -189,13 +189,17 @@ int weLoop( void )
     }
     XSelectInput( wgl.display, wgl.window, PointerMotionMask | 
         ButtonPressMask | ButtonReleaseMask | ButtonPress | 
-        ButtonRelease | KeyPressMask | KeyReleaseMask );
-    x_pos = &event.xmotion.x;
-    y_pos = &event.xmotion.y;
+        ButtonRelease | KeyPressMask | KeyReleaseMask | StructureNotifyMask );
     while ( running ) {
         while ( XPending( wgl.display ) ) {
             XNextEvent( wgl.display, &event );
             switch ( event.type ) {
+                case ConfigureNotify:
+                    if ( resize_context_callback ) {
+                        resize_context_callback( event.xconfigure.width, 
+                            event.xconfigure.height );
+                    }
+                    break;
                 case Expose:
                     XGetWindowAttributes( wgl.display, wgl.window, &wgl.windowAttr );
                     if ( resize_context_callback ) {
@@ -218,17 +222,19 @@ int weLoop( void )
                     break;
             }
         }
-        if ( mouse_action_callback && mouse_active ) {
-            mouse_action_callback( mouse_state, mouse_button, *x_pos, *y_pos );
-            mouse_active = WE_FALSE;
-        }
-        if ( mouse_motion_callback ) {
-            mouse_motion_callback( *x_pos, *y_pos );
-        }
         /* need a update this rendering callback code */
         now = weTicks();
         if ( render_context_callback && ( now - start > stop ) ) {
             start = weTicks();
+            x_pos = &event.xmotion.x;
+            y_pos = &event.xmotion.y;
+            if ( mouse_action_callback && mouse_active ) {
+                mouse_action_callback( mouse_state, mouse_button, *x_pos, *y_pos );
+                mouse_active = WE_FALSE;
+            }
+            if ( mouse_motion_callback ) {
+                mouse_motion_callback( *x_pos, *y_pos );
+            }
             render_context_callback();
         }
         usleep( 1200 );

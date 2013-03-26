@@ -34,7 +34,7 @@ typedef struct {
 #define UI_FONT_BOLD                1
 #define UI_FONT_LIST        		96
 
-void uiFontBuild( uiFont *f );
+void uiFontBuild( uiFont * f, int size, int weight, char *font_name );
 void uiFontPrintf( uiFont *f, float x, float y, const char *fmt, ... );
 void uiFontKill( uiFont *f );
 
