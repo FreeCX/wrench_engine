@@ -145,7 +145,7 @@ int guiWindowPress( int x, int y )
 
 void system_init( void )
 {
-	glClearColor( 0.30f, 0.30f, 0.30f, 1.0f );
+	glClearColor( 1.0f, 1.0f, 1.0f, 1.0f );
 	uiFontBuild( &font, 14, 0, "Terminus" );
 	id1 = guiCreateWindow( "Parent1", 10, 10, 450, 400, 0 );
 	id2 = guiCreateWindow( "Parent2 - Child1", 10, 30, 200, 350, id1 );
@@ -195,7 +195,7 @@ void system_mouse_action( int state, int button, int x, int y )
 
 void system_mouse_motion( int x, int y )
 {
-	if ( select != 0 ) {
+	if ( select_id != 0 ) {
 		guiWindowSet( select_id, x, y );
 	}
 }
