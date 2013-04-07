@@ -57,6 +57,16 @@ void mouse_a( int state, int button, int x, int y )
     }
 }
 
+void keyboard( unsigned int *map )
+{
+    int i = 0;
+    for ( i = 0; i < 256; i++ ) {
+        if ( map[i] == 1 ) {
+            printf( "map['%c'][%d] = %d\n", i, i, map[i] );
+        }
+    }
+}
+
 void mouse_m( int x, int y )
 {
     uiButtonPassive( x, y );
@@ -78,6 +88,7 @@ int main( int argc, char *argv[] )
     weResizeFunc( resize );
     weMouseActionFunc( mouse_a );
     weMouseMotionFunc( mouse_m );
+    weKeyboardFunc( keyboard );
     init();
     weLoop();
     destroy();
