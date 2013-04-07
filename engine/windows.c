@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Window
-// Last update:  25/03/13
+// Last update:  07/04/13
 // Description:  Window system (windows)
 //
 
@@ -12,6 +12,7 @@ void ( *render_context_callback )( void );
 void ( *resize_context_callback )( int, int );
 void ( *mouse_action_callback )( int, int, int, int );
 void ( *mouse_motion_callback )( int, int );
+void ( *keyboard_action_callback )( unsigned int * );
 
 static HWND hWnd;
 static HGLRC hRC; 
@@ -21,6 +22,7 @@ HDC hDC;
 int fullscreen = WE_FALSE, running = WE_TRUE;
 int window_width, window_height;
 int x_pos, y_pos;
+unsigned int *keyboard_map;
 extern int __DEBUG__;
 
 LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
@@ -33,6 +35,18 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
         case WM_SIZE:
             if ( resize_context_callback ) {
                 resize_context_callback( LOWORD( lParam ), HIWORD( lParam ) );
+            }
+            break;
+        case WM_KEYDOWN:
+            keyboard_map[wParam] = WE_TRUE;
+            if ( keyboard_action_callback ) {
+                keyboard_action_callback( keyboard_map );
+            }
+            break;
+        case WM_KEYUP:
+            keyboard_map[wParam] = WE_FALSE;
+            if ( keyboard_action_callback ) {
+                keyboard_action_callback( keyboard_map );
             }
             break;
         case WM_LBUTTONDOWN:
@@ -111,6 +125,7 @@ int weInitWindow( const int width, const int height, const int flag )
 {
     window_width = width;
     window_height = height;
+    keyboard_map = (unsigned int *) weCalloc( 256, sizeof(unsigned int) );
     return WE_NULL;
 }
 
@@ -231,6 +246,7 @@ int weLoop( void )
         usleep( 1500 );
     }
     weKill();
+    weFree( keyboard_map );
     return WE_EXIT_SUCCESS;
 }
 
@@ -314,4 +330,9 @@ void weMouseActionFunc( void ( *param )( int, int, int, int ))
 void weMouseMotionFunc( void ( *param )( int, int ))
 {
     mouse_motion_callback = param;
+}
+
+void weKeyboardFunc( void ( *param )( unsigned int * ))
+{
+    keyboard_action_callback = param;
 }

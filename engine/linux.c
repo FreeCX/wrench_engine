@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Window
-// Last update:  26/03/13
+// Last update:  07/04/13
 // Description:  Window system (linux)
 //
 
@@ -31,12 +31,14 @@ void ( *render_context_callback )( void );
 void ( *resize_context_callback )( int, int );
 void ( *mouse_action_callback )( int, int, int, int );
 void ( *mouse_motion_callback )( int, int );
+void ( *keyboard_action_callback )( unsigned int * );
 
 static we_window_t wgl;
 char *buffer;
 int fullscreen = WE_FALSE, running = WE_TRUE;
 int window_width, window_height;
 int *x_pos, *y_pos;
+unsigned int *keyboard_map;
 extern int __DEBUG__;
 
 int weInitWindow( const int width, const int height, const int flag )
@@ -44,6 +46,7 @@ int weInitWindow( const int width, const int height, const int flag )
     window_width = width;
     window_height = height;
     buffer = (char *) weCalloc( 256, sizeof(char) );
+    keyboard_map = (unsigned int *) weCalloc( 256, sizeof(unsigned int) );
     return WE_NULL;
 }
 
@@ -207,6 +210,18 @@ int weLoop( void )
                             wgl.windowAttr.height );
                     }
                     break;
+                case KeyPress:
+                    keyboard_map[event.xkey.keycode] = WE_TRUE;
+                    if ( keyboard_action_callback ) {
+                        keyboard_action_callback( keyboard_map );
+                    }
+                    break;
+                case KeyRelease:
+                    keyboard_map[event.xkey.keycode] = WE_FALSE;
+                    if ( keyboard_action_callback ) {
+                        keyboard_action_callback( keyboard_map );
+                    }
+                    break;
                 case ButtonPress:
                     mouse_state = WE_STATE_DOWN;
                     mouse_button = event.xbutton.button;
@@ -259,6 +274,7 @@ void weKill( void )
     }
     XCloseDisplay( wgl.display );
     weFree( buffer );
+    weFree( keyboard_map );
 }
 
 void weSwapBuffers( void )
@@ -316,4 +332,9 @@ void weMouseActionFunc( void ( *param )( int, int, int, int ))
 void weMouseMotionFunc( void ( *param )( int, int ))
 {
     mouse_motion_callback = param;
+}
+
+void weKeyboardFunc( void ( *param )( unsigned int * ))
+{
+    keyboard_action_callback = param;
 }

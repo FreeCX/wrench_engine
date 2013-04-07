@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Window
-// Last update:  16/03/13
+// Last update:  07/04/13
 // Description:  Window system (windows)
 //
 
@@ -13,6 +13,7 @@
 #include <winuser.h>
 #include <gl/gl.h>
 #include <gl/glu.h>
+#include "keymap.h"
 #include "structures.h"
 #include "error.h"
 #include "memory.h"
@@ -31,5 +32,6 @@ void weRenderFunc( void ( *param )( void ) );
 void weResizeFunc( void ( *param )( int, int ) );
 void weMouseActionFunc( void ( *param )( int, int, int, int ));
 void weMouseMotionFunc( void ( *param )( int, int ));
+void weKeyboardFunc( void ( *param )( unsigned int * ));
 
 #endif

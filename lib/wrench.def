@@ -30,16 +30,17 @@ EXPORTS
 	weResizeFunc				@26
 	weMouseActionFunc			@27
 	weMouseMotionFunc			@28
+	weKeyboardFunc				@29
 
-	uiButtonCreate				@29
-	uiButtonDelete 				@30
-	uiButtonDeleteByName		@31
-	uiButtonDeleteById			@32
-	uiButtonClick				@33
-	uiButtonRelease				@34
-	uiButtonPress				@35
-	uiButtonPassive				@36
-	uiButtonDraw				@37
-	uiFontBuild					@38
-	uiFontPrintf				@39
-	uiFontKill					@40
+	uiButtonCreate				@30
+	uiButtonDelete 				@31
+	uiButtonDeleteByName		@32
+	uiButtonDeleteById			@33
+	uiButtonClick				@34
+	uiButtonRelease				@35
+	uiButtonPress				@36
+	uiButtonPassive				@37
+	uiButtonDraw				@38
+	uiFontBuild					@39
+	uiFontPrintf				@40
+	uiFontKill					@41
