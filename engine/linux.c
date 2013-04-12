@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Window
-// Last update:  07/04/13
+// Last update:  12/04/13
 // Description:  Window system (linux)
 //
 
@@ -46,7 +46,7 @@ int weInitWindow( const int width, const int height, const int flag )
     window_width = width;
     window_height = height;
     buffer = (char *) weCalloc( 256, sizeof(char) );
-    keyboard_map = (unsigned int *) weCalloc( 256, sizeof(unsigned int) );
+    keyboard_map = (unsigned int *) weCalloc( 0xffff, sizeof(unsigned int) );
     return WE_NULL;
 }
 
@@ -186,6 +186,7 @@ int weLoop( void )
     XEvent event;
     uint now = 0, start = 0, stop = 1000 / 60;
     int mouse_state, mouse_button, mouse_active = WE_FALSE;
+    KeySym keycode;
 
     if ( resize_context_callback ) {
         resize_context_callback( window_width, window_height );
@@ -211,13 +212,15 @@ int weLoop( void )
                     }
                     break;
                 case KeyPress:
-                    keyboard_map[event.xkey.keycode] = WE_TRUE;
+                    keycode = XKeycodeToKeysym( wgl.display, event.xkey.keycode, 0 );
+                    keyboard_map[keycode] = WE_TRUE;
                     if ( keyboard_action_callback ) {
                         keyboard_action_callback( keyboard_map );
                     }
                     break;
                 case KeyRelease:
-                    keyboard_map[event.xkey.keycode] = WE_FALSE;
+                    keycode = XKeycodeToKeysym( wgl.display, event.xkey.keycode, 0 );
+                    keyboard_map[keycode] = WE_FALSE;
                     if ( keyboard_action_callback ) {
                         keyboard_action_callback( keyboard_map );
                     }

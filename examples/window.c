@@ -59,11 +59,8 @@ void mouse_a( int state, int button, int x, int y )
 
 void keyboard( unsigned int *map )
 {
-    int i = 0;
-    for ( i = 0; i < 256; i++ ) {
-        if ( map[i] == 1 ) {
-            printf( "map['%c'][%d] = %d\n", i, i, map[i] );
-        }
+    if ( map['w'] || map[WE_KEY_PRINT] ) {
+        printf( "Hello, world!\n" );
     }
 }
 
