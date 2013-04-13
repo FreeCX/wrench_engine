@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  UI
-// Last update:  26/03/13
+// Last update:  13/04/13
 // Description:  Experimental UI Module
 //
 
@@ -191,7 +191,7 @@ void uiButtonDraw( uiFont *f )
             glVertex2i( b->x+b->w, b->y      );
         glEnd();
         glLineWidth( 1 );
-        fontx = b->x + b->w - f->size * strlen(b->label);
+        fontx = b->x + ( b->w / 2 ) - f->size * strlen( b->label );
         fonty = b->y + ( b->h + 10 ) / 2;
         if ( b->state ) {
             fontx += 2;
@@ -206,5 +206,32 @@ void uiButtonDraw( uiFont *f )
         glColor3f( 1.0f, 1.0f, 1.0f );
         uiFontPrintf( f, fontx, fonty, b->label );
         b = b->next;
+    }
+}
+
+int uiButtonPressedId( void )
+{
+    uiButton *previous = NULL, *curr = pButtonList;
+    while ( curr != NULL ) {
+        if ( curr->state ) {
+            return curr->id;
+        }
+        previous = curr;
+        curr = curr->next;
+    }
+}
+
+void uiButtonChangeLabel( int id, char *label )
+{
+    uiButton *previous = NULL, *curr = pButtonList;
+    while ( curr != NULL ) {
+        if ( curr->id == id ) {
+            curr->label = (char *) weMalloc( strlen(label) + 1 );
+            if ( curr->label ) {
+                sprintf( curr->label, label );
+            }
+        }
+        previous = curr;
+        curr = curr->next;
     }
 }

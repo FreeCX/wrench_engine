@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  UI
-// Last update:  25/03/13
+// Last update:  13/04/13
 // Description:  Experimental UI Module
 //
 
@@ -48,5 +48,7 @@ void uiButtonRelease( int x, int y );
 void uiButtonPress( int x, int y );
 void uiButtonPassive( int x, int y );
 void uiButtonDraw( uiFont *f );
+int uiButtonPressedId( void );
+void uiButtonChangeLabel( int id, char *label );
 
 #endif
