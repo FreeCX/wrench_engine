@@ -45,4 +45,4 @@ EXPORTS
 	uiButtonPressedId           @40
 	uiFontBuild                 @41
 	uiFontPrintf                @42
-	uiFontKill                  @41
+	uiFontKill                  @43
