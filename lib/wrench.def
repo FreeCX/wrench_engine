@@ -41,6 +41,8 @@ EXPORTS
 	uiButtonPress				@36
 	uiButtonPassive				@37
 	uiButtonDraw				@38
-	uiFontBuild					@39
-	uiFontPrintf				@40
+	uiButtonChangeLabel			@39
+	uiButtonPressedId           @40
+	uiFontBuild					@41
+	uiFontPrintf				@42
 	uiFontKill					@41
