@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  UI
-// Last update:  13/04/13
+// Last update:  19/04/13
 // Description:  Experimental UI Module
 //
 
@@ -191,7 +191,7 @@ void uiButtonDraw( uiFont *f )
             glVertex2i( b->x+b->w, b->y      );
         glEnd();
         glLineWidth( 1 );
-        fontx = b->x + ( b->w / 2 ) - f->size * strlen( b->label );
+        fontx = b->x + ( b->w - f->height * strlen( b->label ) ) / 2;
         fonty = b->y + ( b->h + 10 ) / 2;
         if ( b->state ) {
             fontx += 2;
