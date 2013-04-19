@@ -2,7 +2,8 @@
 #include "../engine/unit/ui.h"
 #include "../engine/unit/font.h"
 
-uiFont font;
+uiFont r_font;
+uiFont t_font;
 
 void ButtonTest01 ( void )
 {
@@ -17,7 +18,8 @@ void ButtonTest02( void )
 void init( void )
 {
     glClearColor( 0.22f, 0.25f, 0.25f, 1.0f );
-    uiFontBuild( &font, 14, 0, "Terminus" );
+    uiFontRasterBuild( &r_font, 14, 0, "Terminus" );
+    uiFontFreeTypeBuild( &t_font, 14, "DejaVuSans.ttf" );
     uiButtonCreate( "Test01", ButtonTest01, 10, 10, 100, 25 );
     uiButtonCreate( "Test02", ButtonTest02, 10, 45, 100, 25 );
 }
@@ -26,9 +28,9 @@ void render( void )
 {
     glClear( GL_COLOR_BUFFER_BIT );
     glLoadIdentity();
-    uiButtonDraw( &font );
+    uiButtonDraw( &r_font );
     glColor3f( 1.0f, 1.0f, 1.0f );
-    uiFontPrintf( &font, 5.0f, 495.0f, "FPS: %.2f", weGetFps() );
+    uiFontPrintf( &t_font, 5.0f, 5.0f, "FPS: %.2f", weGetFps() );
     weSwapBuffers();
 }
 
@@ -72,7 +74,8 @@ void mouse_m( int x, int y )
 void destroy( void )
 {
     uiButtonDelete();
-    uiFontKill( &font );
+    uiFontKill( &r_font );
+    uiFontKill( &t_font );
 }
 
 int main( int argc, char *argv[] )
