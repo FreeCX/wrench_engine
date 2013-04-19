@@ -183,23 +183,6 @@ void uiFontFreeTypeBuild( uiFont * f, unsigned int height, char * font_name )
 
 void uiFontPrintf( uiFont *f, float x, float y, const char *fmt, ... )
 {
-    /* нужна оптимизация скорости вывода текста */
-    /*
-    va_list ap;
-    int n;
-
-    if ( fmt == NULL ) {
-        return;
-    }
-    va_start( ap, fmt);
-    n = vsnprintf( text, UI_TEXT_SIZE, fmt, ap ); 
-    va_end( ap );    
-    glRasterPos2f( x, y );
-    glPushAttrib( GL_LIST_BIT );    
-    glListBase( f->list - 32 );    
-    glCallLists( n, GL_UNSIGNED_BYTE, text );    
-    glPopAttrib();  
-    */
     GLuint fnt = f->list;
     float h = f->height / 0.63f;
     char text[256];
@@ -216,12 +199,11 @@ void uiFontPrintf( uiFont *f, float x, float y, const char *fmt, ... )
     if ( !f->tex ) {
         glListBase( fnt - 32 );
         glRasterPos2f( x, y );
-        glPushAttrib( GL_LIST_BIT );    
-        glListBase( f->list - 32 );    
+        glPushAttrib( GL_LIST_BIT );        
         glCallLists( strlen(text), GL_UNSIGNED_BYTE, text );    
         glPopAttrib(); 
     } else {
-        push_coordinate_matrix();
+        // push_coordinate_matrix();
         glPushAttrib( GL_LIST_BIT | GL_CURRENT_BIT | GL_ENABLE_BIT | 
             GL_TRANSFORM_BIT );
         glMatrixMode( GL_MODELVIEW );
@@ -232,17 +214,17 @@ void uiFontPrintf( uiFont *f, float x, float y, const char *fmt, ... )
         glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
         glListBase( fnt );
         glGetFloatv( GL_MODELVIEW_MATRIX, modelview_matrix );
-        /* для вывода нескольких строк */
+        // для вывода нескольких строк
         glPushMatrix();
         glLoadIdentity();
-        glRasterPos2f( x, y );
-        glTranslatef( x, y, 0 );
         glMultMatrixf( modelview_matrix );
+        glTranslatef( x, y, 0 );
+        glRotatef( 180, 1.0f, 0.0f, 0.0f );
         glCallLists( strlen(text), GL_UNSIGNED_BYTE, text );
         glPopMatrix();
         /* для вывода нескольких строк */
         glPopAttrib();
-        pop_projection_matrix();
+        // pop_projection_matrix();
     }
 }
 
