@@ -14,6 +14,7 @@ else
 	CFLAGS=-O3 -shared -Wl,-add-stdcall-alias -lopengl32 -lglu32 -lwinmm -lgdi32 wrench.def
 	SOURCES+=$(ENGINE)/windows.c
 endif
+CFLAGS+=-lfreetype
 
 OBJS := $(patsubst %.c, %.o, $(SOURCES))
 DEPS := $(patsubst %.o, %.d, $(OBJS))
