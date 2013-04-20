@@ -2,34 +2,14 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  font
-// Last update:  19/04/13
+// Last update:  20/04/13
 // Description:  Experimental Font Module
 //
 
 #include "font.h"
 
 static char text[UI_TEXT_SIZE];
-
-inline void push_coordinate_matrix( void ) 
-{
-    GLint viewport[4];
-    
-    glPushAttrib( GL_TRANSFORM_BIT );
-    glGetIntegerv( GL_VIEWPORT, viewport );
-    glMatrixMode( GL_PROJECTION );
-    glPushMatrix();
-    glLoadIdentity();
-    gluOrtho2D( viewport[0], viewport[2], viewport[1], viewport[3] );
-    glPopAttrib();
-}
-
-inline void pop_projection_matrix( void )
-{
-    glPushAttrib( GL_TRANSFORM_BIT );
-    glMatrixMode( GL_PROJECTION );
-    glPopMatrix();
-    glPopAttrib();
-}
+FT_Face face;
 
 inline int next_p2( int a )
 {
@@ -40,7 +20,7 @@ inline int next_p2( int a )
     return rval;
 }
 
-void make_dlist( FT_Face face, char ch, GLuint list, GLuint *tex )
+void make_dlist( FT_Face face, unsigned char ch, GLuint list, GLuint *tex )
 {
     FT_Glyph glyph;
     FT_Bitmap bitmap;
@@ -143,7 +123,7 @@ void uiFontRasterBuild( uiFont * f, unsigned int height, unsigned int weight, ch
     sprintf( buffer, "-*-%s-%s-r-normal--%d-*-*-*-c-*-iso8859-1", f->name, 
         type, f->height);
     dsp = XOpenDisplay( NULL );
-    f->list = glGenLists( UI_FONT_LIST ); /* storage for 96 characters */       
+    f->list = glGenLists( UI_FONT_LIST );      
     x_font = XLoadQueryFont( dsp, buffer );    
     if ( x_font == NULL ) {
         x_font = XLoadQueryFont( dsp, "fixed" );    
@@ -160,7 +140,7 @@ void uiFontRasterBuild( uiFont * f, unsigned int height, unsigned int weight, ch
 void uiFontFreeTypeBuild( uiFont * f, unsigned int height, char * font_name )
 {
     FT_Library lib;
-    FT_Face face;
+    //FT_Face face;
     unsigned int i;
 
     f->tex = (GLuint *) weCalloc( UI_FONT_LIST, sizeof(GLuint) );
@@ -172,9 +152,15 @@ void uiFontFreeTypeBuild( uiFont * f, unsigned int height, char * font_name )
         weModuleError( "FT_New_Face" );
     }
     FT_Set_Char_Size( face, height << 6, height << 6, 96, 96 );
+    FT_Select_Charmap( face, FT_ENCODING_UNICODE );
     f->list = glGenLists( UI_FONT_LIST );
     glGenTextures( UI_FONT_LIST, f->tex );
     for ( i = 0; i < UI_FONT_LIST; i++ ) {
+        if ( i == 208 ) {
+            make_dlist( face, i+896, f->list, f->tex );
+        } else if ( i == 209 ) {
+            make_dlist( face, i+960, f->list, f->tex );
+        }
         make_dlist( face, i, f->list, f->tex );
     }
     FT_Done_Face( face );
@@ -184,8 +170,7 @@ void uiFontFreeTypeBuild( uiFont * f, unsigned int height, char * font_name )
 void uiFontPrintf( uiFont *f, float x, float y, const char *fmt, ... )
 {
     GLuint fnt = f->list;
-    float h = f->height / 0.63f;
-    char text[256];
+    unsigned char text[256];
     va_list ap;
     float modelview_matrix[16];
 
@@ -197,13 +182,12 @@ void uiFontPrintf( uiFont *f, float x, float y, const char *fmt, ... )
         va_end( ap );
     }
     if ( !f->tex ) {
-        glListBase( fnt - 32 );
-        glRasterPos2f( x, y );
-        glPushAttrib( GL_LIST_BIT );        
-        glCallLists( strlen(text), GL_UNSIGNED_BYTE, text );    
-        glPopAttrib(); 
+        glPushAttrib( GL_LIST_BIT );
+        glListBase( fnt - 32);
+        glRasterPos2f( x, y );      
+        glCallLists( strlen(text), GL_UNSIGNED_BYTE, text );
+        glPopAttrib();
     } else {
-        // push_coordinate_matrix();
         glPushAttrib( GL_LIST_BIT | GL_CURRENT_BIT | GL_ENABLE_BIT | 
             GL_TRANSFORM_BIT );
         glMatrixMode( GL_MODELVIEW );
@@ -224,7 +208,6 @@ void uiFontPrintf( uiFont *f, float x, float y, const char *fmt, ... )
         glPopMatrix();
         /* для вывода нескольких строк */
         glPopAttrib();
-        // pop_projection_matrix();
     }
 }
 
