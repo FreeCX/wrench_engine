@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Font
-// Last update:  20/04/13
+// Last update:  22/04/13
 // Description:  Experimental Font Module
 //
 
@@ -38,7 +38,11 @@ typedef struct {
 #define UI_TEXT_SIZE                256
 #define UI_FONT_MEDIUM              0
 #define UI_FONT_BOLD                1
+#ifdef __WIN32__
+#define UI_FONT_LIST                128
+#elif __linux__
 #define UI_FONT_LIST                256
+#endif
 
 /* export function */
 void uiFontRasterBuild( uiFont * f, unsigned int height, unsigned int weight, char * font_name );

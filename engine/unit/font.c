@@ -2,14 +2,13 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  font
-// Last update:  20/04/13
+// Last update:  22/04/13
 // Description:  Experimental Font Module
 //
 
 #include "font.h"
 
 static char text[UI_TEXT_SIZE];
-FT_Face face;
 
 inline int next_p2( int a )
 {
@@ -140,7 +139,7 @@ void uiFontRasterBuild( uiFont * f, unsigned int height, unsigned int weight, ch
 void uiFontFreeTypeBuild( uiFont * f, unsigned int height, char * font_name )
 {
     FT_Library lib;
-    //FT_Face face;
+    FT_Face face;
     unsigned int i;
 
     f->tex = (GLuint *) weCalloc( UI_FONT_LIST, sizeof(GLuint) );
