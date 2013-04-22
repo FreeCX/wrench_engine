@@ -19,7 +19,7 @@ void init( void )
 {
     glClearColor( 0.22f, 0.25f, 0.25f, 1.0f );
     uiFontRasterBuild( &r_font, 14, 0, "Terminus" );
-    uiFontFreeTypeBuild( &t_font, 14, "DejaVuSans.ttf" );
+    uiFontFreeTypeBuild( &t_font, 14, "OpenSans-Bold.ttf" );
     uiButtonCreate( "Test01", ButtonTest01, 10, 10, 100, 25 );
     uiButtonCreate( "Test02", ButtonTest02, 10, 45, 100, 25 );
 }
