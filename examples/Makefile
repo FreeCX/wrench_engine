@@ -1,12 +1,14 @@
 PROG=window
 CFLAGS=-lm
 OS=$(shell uname -s)
+ARCH=$(shell uname -m)
+
 ifeq ($(OS),Linux)
-	LIB=../lib/libwrench.so
+	LIB=../lib/libwrench-$(ARCH).so
 	CFLAGS+=-lGL -lGLU
 	EXT=
 else
-	LIB=libwrench.dll
+	LIB=libwrench-$(ARCH).dll
 	EXT=.exe
 	CFLAGS+=-lopengl32 -lglu32
 endif

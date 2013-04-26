@@ -1,20 +1,22 @@
 ENGINE=../engine
-SOURCES=$(ENGINE)/error.c $(ENGINE)/input.c $(ENGINE)/kernel.c $(ENGINE)/memory.c \
-	$(ENGINE)/unit/ui.c $(ENGINE)/unit/font.c
+SOURCES=$(ENGINE)/error.c $(ENGINE)/input.c $(ENGINE)/kernel.c \
+	$(ENGINE)/memory.c $(ENGINE)/unit/ui.c $(ENGINE)/unit/font.c
 OS=$(shell uname -s)
-LDFLAGS=
+ARCH=$(shell uname -m)
+CFLAGS=-lfreetype -O3 -W -Wall
+LDFLAGS=-fPIC
+
 ifeq ($(OS),Linux)
-	LIB=libwrench.so
-	CFLAGS=--def wrench.def -s -O3 -fPIC -shared -W -Wall -g \
-		-lGL -lGLU -lX11 -lXxf86vm 
+	LIB=libwrench-$(ARCH).so
+	CFLAGS+=--def wrench.def -s -fPIC -shared -g -lGL -lGLU \
+		-lX11 -lXxf86vm 
 	SOURCES+=$(ENGINE)/linux.c
-	LDFLAGS+=-fPIC
 else
-	LIB=libwrench.dll
-	CFLAGS=-O3 -shared -Wl,-add-stdcall-alias -lopengl32 -lglu32 -lwinmm -lgdi32 wrench.def
+	LIB=libwrench-$(ARCH).dll
+	CFLAGS+=-shared -Wl,-add-stdcall-alias -lopengl32 -lglu32 \
+		-lwinmm -lgdi32 wrench.def
 	SOURCES+=$(ENGINE)/windows.c
 endif
-CFLAGS+=-lfreetype
 
 OBJS := $(patsubst %.c, %.o, $(SOURCES))
 DEPS := $(patsubst %.o, %.d, $(OBJS))
@@ -34,7 +36,7 @@ $(LIB): $(OBJS) $(DEPS)
 	@echo create $@
 	
 clean:
-	rm -f $(OUT) $(OBJS) $(DEPS) $(LIB)
-	rm -f *~
+	$(RM) $(LIB) $(OBJS) $(DEPS)
+	$(RM) *~
  
 -include $(DEPS)
