@@ -13,13 +13,13 @@ uiButton *pButtonList = NULL;
 
 int uiButtonCreate( char *label, ButtonCallback cb, int x, int y, int w, int h )
 {
-    uiButton *p = (uiButton *) weMalloc( sizeof(uiButton) );
+    uiButton *p = weMalloc( sizeof(uiButton) );
     assert( p );
     memset( p, 0, sizeof(uiButton) );
     p->x = x; p->y = y;
     p->w = w; p->h = h;
     p->callbackFunc = cb;
-    p->label = (char *) weMalloc( strlen(label) + 1 );
+    p->label = weMalloc( strlen(label) + 1 );
     if ( p->label ) {
         sprintf( p->label, label );
     }
@@ -226,7 +226,7 @@ void uiButtonChangeLabel( int id, char *label )
     uiButton *previous = NULL, *curr = pButtonList;
     while ( curr != NULL ) {
         if ( curr->id == id ) {
-            curr->label = (char *) weMalloc( strlen(label) + 1 );
+            curr->label = weMalloc( strlen(label) + 1 );
             if ( curr->label ) {
                 sprintf( curr->label, label );
             }

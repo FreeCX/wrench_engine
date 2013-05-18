@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Window
-// Last update:  07/04/13
+// Last update:  18/05/13
 // Description:  Window system (windows)
 //
 
@@ -38,12 +38,18 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
             }
             break;
         case WM_KEYDOWN:
+            if ( wParam >= 65 || wParam <= 90 ) {
+                wParam += 32;
+            }
             keyboard_map[wParam] = WE_TRUE;
             if ( keyboard_action_callback ) {
                 keyboard_action_callback( keyboard_map );
             }
             break;
         case WM_KEYUP:
+            if ( wParam >= 65 || wParam <= 90 ) {
+                wParam += 32;
+            }
             keyboard_map[wParam] = WE_FALSE;
             if ( keyboard_action_callback ) {
                 keyboard_action_callback( keyboard_map );

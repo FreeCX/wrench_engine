@@ -1,6 +1,7 @@
 #include "../engine/kernel.h"
 #include "../engine/unit/ui.h"
 #include "../engine/unit/font.h"
+#include <string.h>
 
 uiFont r_font;
 uiFont t_font;
@@ -32,6 +33,7 @@ void render( void )
     glColor3f( 1.0f, 1.0f, 1.0f );
     uiFontPrintf( &t_font, 10.0f, 450.0f, "ПРИВЕТ!" );
     uiFontPrintf( &t_font, 10.0f, 490.0f, "FPS: %.2f", weGetFps() );
+    uiFontPrintf( &t_font, 10.0f, 400.0f, "Тестовый текст!" );
     weSwapBuffers();
 }
 

@@ -4,9 +4,10 @@ SOURCES=$(ENGINE)/error.c $(ENGINE)/input.c $(ENGINE)/kernel.c \
 OS=$(shell uname -s)
 ARCH=$(shell uname -m)
 CFLAGS=-lfreetype -O3 -W -Wall
-LDFLAGS=-fPIC
+LDFLAGS=
 
 ifeq ($(OS),Linux)
+	LDFLAGS+=-fPIC
 	LIB=libwrench-$(ARCH).so
 	CFLAGS+=--def wrench.def -s -fPIC -shared -g -lGL -lGLU \
 		-lX11 -lXxf86vm 
