@@ -2,7 +2,7 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  font
-// Last update:  22/04/13
+// Last update:  30/04/13
 // Description:  Experimental Font Module
 //
 
@@ -29,7 +29,7 @@ void make_dlist( FT_Face face, unsigned char ch, GLuint list, GLuint *tex )
     float x, y;
 
     if ( FT_Load_Glyph( face, FT_Get_Char_Index( face, ch ), 
-        FT_LOAD_DEFAULT ) ) {
+        FT_LOAD_RENDER ) ) {
         weModuleError( "FT_Load_Glyph" );
     }
     if ( FT_Get_Glyph( face->glyph, &glyph ) ) {
@@ -155,11 +155,6 @@ void uiFontFreeTypeBuild( uiFont * f, unsigned int height, char * font_name )
     f->list = glGenLists( UI_FONT_LIST );
     glGenTextures( UI_FONT_LIST, f->tex );
     for ( i = 0; i < UI_FONT_LIST; i++ ) {
-        if ( i == 208 ) {
-            make_dlist( face, i+896, f->list, f->tex );
-        } else if ( i == 209 ) {
-            make_dlist( face, i+960, f->list, f->tex );
-        }
         make_dlist( face, i, f->list, f->tex );
     }
     FT_Done_Face( face );
