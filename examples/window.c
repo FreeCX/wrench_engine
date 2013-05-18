@@ -30,6 +30,7 @@ void render( void )
     glLoadIdentity();
     uiButtonDraw( &r_font );
     glColor3f( 1.0f, 1.0f, 1.0f );
+    uiFontPrintf( &t_font, 10.0f, 450.0f, "ПРИВЕТ!" );
     uiFontPrintf( &t_font, 10.0f, 490.0f, "FPS: %.2f", weGetFps() );
     weSwapBuffers();
 }

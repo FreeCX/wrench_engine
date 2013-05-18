@@ -41,11 +41,11 @@ void make_dlist( FT_Face face, unsigned char ch, GLuint list, GLuint *tex )
     width = next_p2( bitmap.width );
     height = next_p2( bitmap.rows );
     data = (GLubyte *) weCalloc( 2*width*height, sizeof(GLubyte) );
-    for ( j = 0; j < height; j++ ) {
+    for ( j = 0; j < height; j++) {
         for ( i = 0; i < width; i++ ) {
-            data[2*(i+j*width)] = data[2*(i+j*width)+1] = 
-            ( i >= bitmap.width || j >= bitmap.rows ) ? 
-            0 : bitmap.buffer[i + bitmap.width*j];
+            data[2 * (i + j * width)] = 255;
+            data[2 * (i + j * width) + 1] = 
+            (i >= bitmap.width || j >= bitmap.rows) ? 0 : bitmap.buffer[i + bitmap.width * j];
         }
     }
     glBindTexture( GL_TEXTURE_2D, tex[ch] );
@@ -70,6 +70,7 @@ void make_dlist( FT_Face face, unsigned char ch, GLuint list, GLuint *tex )
     glPopMatrix();
     glTranslatef( face->glyph->advance.x >> 6, 0, 0 );
     glEndList();
+    FT_Done_Glyph( glyph );
 }
 
 void uiFontRasterBuild( uiFont * f, unsigned int height, unsigned int weight, char *font_name )
