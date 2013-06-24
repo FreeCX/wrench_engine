@@ -2,7 +2,6 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Error
-// Last update:  11/02/13
 // Description:  Error handling system
 //
 

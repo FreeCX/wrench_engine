@@ -2,7 +2,6 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Font
-// Last update:  30/04/13
 // Description:  Experimental Font Module
 //
 

@@ -2,7 +2,6 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Window
-// Last update:  18/05/13
 // Description:  Window system (windows)
 //
 
@@ -25,7 +24,7 @@ int x_pos, y_pos;
 unsigned int *keyboard_map;
 extern int __DEBUG__;
 
-LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
+static LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
     int mouse_state, mouse_button, mouse_active;
     switch ( message ) {
@@ -95,7 +94,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
     return WE_NULL;
 }
 
-int ChangeScreenResolution( const int width, const int height, const int bpp )
+static int ChangeScreenResolution( const int width, const int height, const int bpp )
 {
     DEVMODE dm;
 
@@ -111,7 +110,7 @@ int ChangeScreenResolution( const int width, const int height, const int bpp )
     return WE_EXIT_SUCCESS;
 }
 
-void SetClientSize( HWND hWnd, const int clientWidth, int const clientHeight )
+static void SetClientSize( HWND hWnd, const int clientWidth, int const clientHeight )
 {
     if ( IsWindow( hWnd ) ) {
         DWORD dwStyle = GetWindowLongPtr( hWnd, GWL_STYLE );

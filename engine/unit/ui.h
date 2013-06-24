@@ -2,7 +2,6 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  UI
-// Last update:  13/04/13
 // Description:  Experimental UI Module
 //
 

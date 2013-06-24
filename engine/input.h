@@ -2,7 +2,6 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Input
-// Last update:  05/12/12
 // Description:  Input system
 //
 

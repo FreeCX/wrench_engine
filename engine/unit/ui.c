@@ -2,7 +2,6 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  UI
-// Last update:  19/04/13
 // Description:  Experimental UI Module
 //
 

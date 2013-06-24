@@ -2,7 +2,6 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Kernel
-// Last update:  25/03/13
 // Description:  Basic structure of the system
 //
 

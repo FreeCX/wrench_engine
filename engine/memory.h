@@ -2,7 +2,6 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Memory
-// Last update:  13/02/13
 // Description:  Memory allocation system
 //
 

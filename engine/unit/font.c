@@ -2,7 +2,6 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  font
-// Last update:  30/04/13
 // Description:  Experimental Font Module
 //
 
@@ -10,7 +9,7 @@
 
 static char text[UI_TEXT_SIZE];
 
-inline int next_p2( int a )
+static inline int next_p2( int a )
 {
     int rval = 1;
     while ( rval < a ) {
@@ -19,7 +18,7 @@ inline int next_p2( int a )
     return rval;
 }
 
-void make_dlist( FT_Face face, unsigned char ch, GLuint list, GLuint *tex )
+static void make_dlist( FT_Face face, unsigned char ch, GLuint list, GLuint *tex )
 {
     FT_Glyph glyph;
     FT_Bitmap bitmap;

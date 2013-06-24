@@ -2,7 +2,6 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Memory
-// Last update:  25/03/13
 // Description:  Memory allocation system
 //
 

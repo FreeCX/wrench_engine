@@ -2,7 +2,6 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Keymap
-// Last update:  12/04/13
 // Description:  Keyboard map
 //
 

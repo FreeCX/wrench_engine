@@ -2,14 +2,13 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Kernel
-// Last update:  18/05/13
 // Description:  The core of the system
 //
 
 #include "kernel.h"
 
 static char *engine_name = "Wrench Engine";
-static char *engine_date = "18/05/13";
+static char *engine_date = "24/06/13";
 static int major_version   = 0;
 static int minor_version   = 1;
 static int release_version = 0;
@@ -20,7 +19,7 @@ static float NewCount = 0.0f, LastCount = 0.0f, FpsRate = 0.0f;
 
 int __DEBUG__ = 0;
 
-void catch_crash( int signum )
+static void catch_crash( int signum )
 {
 #ifdef __WIN32__
     printf( "segmentation violation!\n" );

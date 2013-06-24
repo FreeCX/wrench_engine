@@ -2,7 +2,6 @@
 //    Programm:  Wrench Engine
 //        Type:  Source Code
 //      Module:  Error
-// Last update:  09/03/13
 // Description:  Error handling system
 //
 

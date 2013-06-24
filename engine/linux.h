@@ -2,7 +2,6 @@
 //    Programm:  Wrench Engine
 //        Type:  Header
 //      Module:  Window
-// Last update:  07/04/13
 // Description:  Window system (linux)
 //
 
