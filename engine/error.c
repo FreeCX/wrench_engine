@@ -51,8 +51,15 @@ void wePrintError( void )
     printf( str_error, str_error_msg[last_error] );
 }
 
-void weModuleError( char *error )
+void weModuleError( const char *fmt, ... )
 {
-    /* update to send all types of data */
-    printf( str_error, error );
+    char buffer[512];
+    va_list ap;
+
+    if ( fmt != NULL ) {
+        va_start( ap, fmt );
+        vsprintf( buffer, fmt, ap );
+        va_end( ap );
+        printf( str_error, buffer );
+    }
 }

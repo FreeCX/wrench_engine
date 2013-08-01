@@ -38,6 +38,6 @@ void weSendError( const int error );
 int weGetError( void );
 char ** weGetErrorString( void );
 void wePrintError( void );
-void weModuleError( char *error );
+void weModuleError( const char *fmt, ... );
 
 #endif
