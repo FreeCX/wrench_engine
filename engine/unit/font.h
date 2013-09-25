@@ -18,7 +18,6 @@
 #endif
 
 #include <stdio.h>
-#include <string.h>
 #include <stdarg.h>
 #include <ft2build.h>
 #include <freetype/freetype.h>

@@ -8,6 +8,7 @@
 #ifndef __KERNEL_WINDOW_WINDOWS__
 #define __KERNEL_WINDOW_WINDOWS__
 
+#include <stdarg.h>
 #include <windows.h>
 #include <winuser.h>
 #include <gl/gl.h>

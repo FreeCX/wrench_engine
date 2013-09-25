@@ -250,7 +250,6 @@ int weLoop( void )
         /* to offload the CPU */
         usleep( 1500 );
     }
-    weKill();
     weFree( keyboard_map );
     return WE_EXIT_SUCCESS;
 }

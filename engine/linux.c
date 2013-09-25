@@ -256,13 +256,12 @@ int weLoop( void )
         }
         usleep( 1200 );
     }
-    weKill();
     return WE_EXIT_SUCCESS;
 }
 
 void weKill( void )
 {
-    running = 0;
+    running = WE_FALSE;
     if ( wgl.context ) {
         if ( !glXMakeCurrent( wgl.display, wgl.window, wgl.context ) ) {
             weSendError( WE_ERROR_DRAW_CONTEXT );
