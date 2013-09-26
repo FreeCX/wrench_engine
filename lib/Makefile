@@ -3,8 +3,8 @@ SOURCES=$(ENGINE)/error.c $(ENGINE)/input.c $(ENGINE)/kernel.c \
 	$(ENGINE)/memory.c $(ENGINE)/unit/ui.c $(ENGINE)/unit/font.c
 OS=$(shell uname -s)
 ARCH=$(shell uname -m)
-CFLAGS=-lfreetype -O3 -W -Wall
-LDFLAGS=-I/usr/include/freetype2
+CFLAGS=`pkg-config freetype2 --libs` -O3 -W -Wall
+LDFLAGS=`pkg-config freetype2 --cflags`
 
 ifeq ($(OS),Linux)
 	LDFLAGS+=-fPIC
