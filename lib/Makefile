@@ -31,7 +31,7 @@ $(LIB): $(OBJS) $(DEPS)
 	$(CC) $(LDFLAGS) -c $< -o $@
 
 %.d: %.c
-	@set -e; $(CC) -I/usr/include/freetype2 -M $< | \
+	@set -e; $(CC) -M $< | \
 		sed -e 's%\($*\)\.o[ :]*%\1.o $@ : %g' > $@; \
 		[ -s $@ ] || rm -f $@
 	@echo create $@
