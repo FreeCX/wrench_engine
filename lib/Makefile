@@ -4,13 +4,13 @@ SOURCES=$(ENGINE)/error.c $(ENGINE)/input.c $(ENGINE)/kernel.c \
 OS=$(shell uname -s)
 ARCH=$(shell uname -m)
 CFLAGS=-lfreetype -O3 -W -Wall
-LDFLAGS=
+LDFLAGS=-I/usr/include/freetype2
 
 ifeq ($(OS),Linux)
 	LDFLAGS+=-fPIC
 	LIB=libwrench-$(ARCH).so
 	CFLAGS+=--def wrench.def -s -fPIC -shared -g -lGL -lGLU \
-		-lX11 -lXxf86vm 
+		-lX11 -lXxf86vm
 	SOURCES+=$(ENGINE)/linux.c
 else
 	LIB=libwrench-$(ARCH).dll
@@ -26,18 +26,18 @@ $(LIB): $(OBJS) $(DEPS)
 	$(CC) $(OBJS) -o $@ $(CFLAGS)
 	strip -s $(LIB)
 	chmod -x $(LIB)
- 
+
 %.o: %.c %.d
 	$(CC) $(LDFLAGS) -c $< -o $@
- 
+
 %.d: %.c
-	@set -e; $(CC) -M $< | \
+	@set -e; $(CC) -I/usr/include/freetype2 -M $< | \
 		sed -e 's%\($*\)\.o[ :]*%\1.o $@ : %g' > $@; \
 		[ -s $@ ] || rm -f $@
 	@echo create $@
-	
+
 clean:
 	$(RM) $(LIB) $(OBJS) $(DEPS)
 	$(RM) *~
- 
+
 -include $(DEPS)
