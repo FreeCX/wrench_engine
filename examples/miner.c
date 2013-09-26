@@ -79,7 +79,7 @@ void init( void )
     
     srand( time( 0 ) );
     glClearColor( 0.22f, 0.25f, 0.25f, 1.0f );
-    uiFontBuild( &font, 14, 0, "Terminus" );
+    uiFontRasterBuild( &font, 14, 0, "Terminus" );
     for ( i = 0; i < COUNT; i++ ) {
         for ( j = 0; j < COUNT; j++ ) {
             pole[i][j] = rand()%10;
