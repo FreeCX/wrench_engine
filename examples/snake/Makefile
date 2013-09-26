@@ -5,7 +5,7 @@ ARCH=$(shell uname -m)
 
 ifeq ($(OS),Linux)
 	LIB=../../lib/libwrench-$(ARCH).so
-	CFLAGS+=-lGL -lGLU
+	CFLAGS+=-lGL -lGLU -I/usr/include/freetype2
 	EXT=
 else
 	LIB=libwrench-$(ARCH).dll
