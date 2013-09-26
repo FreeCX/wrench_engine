@@ -256,6 +256,7 @@ int weLoop( void )
         }
         usleep( 1200 );
     }
+    weKill();
     return WE_EXIT_SUCCESS;
 }
 

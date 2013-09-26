@@ -250,13 +250,14 @@ int weLoop( void )
         /* to offload the CPU */
         usleep( 1500 );
     }
-    weFree( keyboard_map );
+    weKill();
     return WE_EXIT_SUCCESS;
 }
 
 void weKill( void )
 {
     running = WE_FALSE;
+    weFree( keyboard_map );
     if ( !wglMakeCurrent( hDC, NULL ) ) {
         weSendError( WE_ERROR_CLEAR_CONTEXT );
         return;
