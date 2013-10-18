@@ -73,6 +73,15 @@ void Button( void )
     printf( "[%d, %d]\n", i, j );
 }
 
+void render( void )
+{
+    glClear( GL_COLOR_BUFFER_BIT );
+    glLoadIdentity();
+    uiButtonDraw( &font );
+    glColor3f( 1.0f, 1.0f, 1.0f );
+    weSwapBuffers();
+}
+
 void init( void )
 {
     int i, j, ip, jp;
@@ -98,15 +107,8 @@ void init( void )
             uiButtonCreate( "", Button, i, j, SIZE, SIZE );
         }
     }
-}
-
-void render( void )
-{
-    glClear( GL_COLOR_BUFFER_BIT );
-    glLoadIdentity();
-    uiButtonDraw( &font );
-    glColor3f( 1.0f, 1.0f, 1.0f );
-    weSwapBuffers();
+    weTimerInit();
+    weTimerSet( 30, render );
 }
 
 void resize( int width, int height )
@@ -148,6 +150,7 @@ void mouse_m( int x, int y )
 
 void destroy( void )
 {
+    weTimerKill();
     uiButtonDelete();
     uiFontKill( &font );
 }

@@ -15,14 +15,6 @@ void ButtonTest02( void )
     printf( "#02\n" );
 }
 
-void init( void )
-{
-    glClearColor( 0.22f, 0.25f, 0.25f, 1.0f );
-    uiFontFreeTypeBuild( &font, 14, "OpenSans-Bold.ttf" );
-    uiButtonCreate( "Test01", ButtonTest01, 10, 10, 100, 25 );
-    uiButtonCreate( "Test02", ButtonTest02, 10, 45, 100, 25 );
-}
-
 void render( void )
 {
     glClear( GL_COLOR_BUFFER_BIT );
@@ -32,6 +24,16 @@ void render( void )
     uiFontPrintf( &font, 10.0f, 490.0f, "FPS: %.2f", weGetFps() );
     uiFontPrintf( &font, 10.0f, 400.0f, "Тестовый текст!" );
     weSwapBuffers();
+}
+
+void init( void )
+{
+    glClearColor( 0.22f, 0.25f, 0.25f, 1.0f );
+    uiFontFreeTypeBuild( &font, 14, "OpenSans-Bold.ttf" );
+    uiButtonCreate( "Test01", ButtonTest01, 10, 10, 100, 25 );
+    uiButtonCreate( "Test02", ButtonTest02, 10, 45, 100, 25 );
+    weTimerInit();
+    weTimerSet( 30, render );
 }
 
 void resize( int width, int height )
@@ -73,6 +75,7 @@ void mouse_m( int x, int y )
 
 void destroy( void )
 {
+    weTimerKill();
     uiButtonDelete();
     uiFontKill( &font );
 }

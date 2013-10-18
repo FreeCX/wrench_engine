@@ -13,8 +13,9 @@ GLuint n = 0;
 int pause_game = 1;
 int new_game = 0;
 extern int game_over;
-
 char lose_text[32] = "";
+
+void render( void );
 
 void init( void )
 {
@@ -22,10 +23,13 @@ void init( void )
     glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
     uiFontFreeTypeBuild( &font, 14, "../OpenSans-Bold.ttf" );
     game_init( 250, 250, 500, 500 );
+    weTimerInit();
+    weTimerSet( 30, render );
 }
 
 void destroy( void )
 {
+    weTimerKill();
     uiFontKill( &font );
     game_free();
 }
