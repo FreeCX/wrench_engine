@@ -10,40 +10,43 @@ EXPORTS
 	weAbout	                    @8
 	weTicks	                    @9
 	weGetFps                    @10
+	weTimerInit					@11
+	weTimerSet					@12
+	weTimerKill					@13
 
-	weMalloc                    @11
-	weCalloc                    @12
-	weRealloc                   @13
-	weFree                      @14
-	weMemoryUsage               @15
+	weMalloc                    @14
+	weCalloc                    @15
+	weRealloc                   @16
+	weFree                      @17
+	weMemoryUsage               @18
 
-	weInitWindow                @16
-	weInitOpenGL                @17
-	weCreateWindow              @18
-	weLoop                      @19
-	weKill                      @20
-	weSwapBuffers               @21
-	weSetCaption                @22
-	weGetCursorPos              @23
-	weRedraw                    @24
-	weRenderFunc                @25
-	weResizeFunc                @26
-	weMouseActionFunc           @27
-	weMouseMotionFunc           @28
-	weKeyboardFunc              @29
+	weInitWindow                @19
+	weInitOpenGL                @20
+	weCreateWindow              @11
+	weLoop                      @22
+	weKill                      @23
+	weSwapBuffers               @24
+	weSetCaption                @25
+	weGetCursorPos              @26
+	weRedraw                    @27
+	weRenderFunc                @28
+	weResizeFunc                @29
+	weMouseActionFunc           @30
+	weMouseMotionFunc           @31
+	weKeyboardFunc              @32
 
-	uiButtonCreate              @30
-	uiButtonDelete              @31
-	uiButtonDeleteByName        @32
-	uiButtonDeleteById          @33
-	uiButtonClick               @34
-	uiButtonRelease             @35
-	uiButtonPress               @36
-	uiButtonPassive             @37
-	uiButtonDraw                @38
-	uiButtonChangeLabel         @39
-	uiButtonPressedId           @40
-	uiFontRasterBuild           @41
-	uiFontFreeTypeBuild         @42
-	uiFontPrintf                @43
-	uiFontKill                  @44
+	uiButtonCreate              @33
+	uiButtonDelete              @34
+	uiButtonDeleteByName        @35
+	uiButtonDeleteById          @36
+	uiButtonClick               @37
+	uiButtonRelease             @38
+	uiButtonPress               @39
+	uiButtonPassive             @40
+	uiButtonDraw                @41
+	uiButtonChangeLabel         @42
+	uiButtonPressedId           @43
+	uiFontRasterBuild           @44
+	uiFontFreeTypeBuild         @45
+	uiFontPrintf                @46
+	uiFontKill                  @47
