@@ -8,9 +8,23 @@
 #ifndef __KERNEL_STRUCTURES__
 #define __KERNEL_STRUCTURES__
 
-#ifdef __WIN32__
-    typedef unsigned __int64 uint;
-#endif
+typedef signed char int8;           // size = 1
+typedef signed short int16;         // size = 2
+typedef signed int int32;           // size = 4
+typedef signed long int int64;      // size = 8
+
+typedef unsigned char uint8;        // size = 1
+typedef unsigned short uint16;      // size = 2
+typedef unsigned int uint32;        // size = 4
+typedef unsigned long int uint64;   // size = 8
+
+struct w_timer {
+    uint32 usec;
+    uint32 count;
+    void (*func)(void);
+    struct w_timer *next;
+};
+typedef struct w_timer w_timer_t;
 
 #define WE_TRUE                 1
 #define WE_FALSE                0
