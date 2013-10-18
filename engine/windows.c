@@ -220,7 +220,7 @@ int weCreateWindow( const char *title )
 int weLoop( void )
 {
     MSG msg;
-    uint now = 0, start = 0, stop = 1000 / 60;
+    uint32 now = 0, start = 0, stop = 1000 / 60;
     
     running = WE_TRUE;
     timeBeginPeriod( 1 );
@@ -236,15 +236,15 @@ int weLoop( void )
                 DispatchMessage( &msg );
             }
         } else {
-            weGetCursorPos( &x_pos, &y_pos );
-            if ( mouse_motion_callback ) {
-                mouse_motion_callback( x_pos, y_pos );
-            }
-            /* need a update this rendering callback code */
             now = weTicks();
-            if ( render_context_callback && ( now - start > stop ) ) {
-                start = weTicks();
-                render_context_callback();
+            if ( now - start > stop ) {
+                weGetCursorPos( &x_pos, &y_pos );
+                if ( mouse_motion_callback ) {
+                    mouse_motion_callback( x_pos, y_pos );
+                }
+                // if ( render_context_callback ) {
+                //     render_context_callback();
+                // }
             }
         }
         /* to offload the CPU */

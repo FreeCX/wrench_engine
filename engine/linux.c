@@ -183,7 +183,7 @@ int weCreateWindow( const char *title )
 int weLoop( void )
 {
     XEvent event;
-    uint now = 0, start = 0, stop = 1000 / 60;
+    uint32 now = 0, start = 0, stop = 1000 / 60;
     int mouse_state, mouse_button, mouse_active = WE_FALSE;
     KeySym keycode;
 
@@ -241,7 +241,7 @@ int weLoop( void )
         }
         /* need a update this rendering callback code */
         now = weTicks();
-        if ( render_context_callback && ( now - start > stop ) ) {
+        if ( now - start > stop ) {
             start = weTicks();
             x_pos = &event.xmotion.x;
             y_pos = &event.xmotion.y;
@@ -252,7 +252,9 @@ int weLoop( void )
             if ( mouse_motion_callback ) {
                 mouse_motion_callback( *x_pos, *y_pos );
             }
-            render_context_callback();
+            // if ( render_context_callback ) {
+            //     render_context_callback();
+            // }
         }
         usleep( 1200 );
     }
