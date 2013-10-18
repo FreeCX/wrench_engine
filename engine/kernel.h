@@ -16,8 +16,12 @@
 #endif
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include <getopt.h>
 #include <signal.h>
+#include <time.h>
+#include <sys/time.h>
 #include "error.h"
 #include "input.h"
 #include "memory.h"
@@ -27,7 +31,11 @@
 int weInit( const int argc, char **argv );
 void weInfo( void );
 void weAbout( char **name, int *major_v, int *minor_v );
-uint weTicks( void );
+uint32 weTicks( void );
 float weGetFps( void );
+void weTimerInit( void );
+void weTimerLoop( int signo );
+void weTimerSet( uint32 usec, void (*f)(void) );
+void weTimerKill( void );
 
 #endif

@@ -8,14 +8,15 @@
 #include "kernel.h"
 
 static char *engine_name = "Wrench Engine";
-static char *engine_date = "25/09/13";
+static char *engine_date = "18/10/13";
 static int major_version   = 0;
 static int minor_version   = 1;
 static int release_version = 0;
-static int build_version   = 19;
+static int build_version   = 20;
 
 static int FrameCount = 0;
 static float NewCount = 0.0f, LastCount = 0.0f, FpsRate = 0.0f;
+w_timer_t *p = NULL;
 
 int __DEBUG__ = 0;
 
@@ -138,4 +139,59 @@ float weGetFps( void )
     }
     FrameCount++;
     return FpsRate;
+}
+
+void weTimerInit( void )
+{
+    struct itimerval delay;
+
+    signal( SIGALRM, weTimerLoop );
+    delay.it_value.tv_sec = 0;
+    delay.it_value.tv_usec = 1;
+    delay.it_interval.tv_sec = 0;
+    delay.it_interval.tv_usec = 1000;
+    setitimer( ITIMER_REAL, &delay, NULL );
+}
+
+void weTimerLoop( int signo )
+{
+    static uint32 a, b;
+    w_timer_t *t = p;
+
+    a = b;
+    b = weTicks();
+    while ( t != NULL ) {
+        if ( b - a > 1000 ) {
+            t->count++;
+        } else {
+            t->count += b - a;
+        }
+        if ( t->count >= t->usec ) {
+            t->count = 0;
+            t->func();
+        }
+        t = t->next;
+    }
+}
+
+void weTimerSet( uint32 usec, void (*func)(void) )
+{
+    w_timer_t *a = p, *c;
+
+    c = (w_timer_t *) malloc( sizeof(w_timer_t) );
+    c->usec = usec;
+    c->func = func;
+    c->next = p;
+    p = c;
+}
+
+void weTimerKill( void )
+{
+    w_timer_t *a = p, *c;
+
+    while ( a != NULL ) {
+        c = a->next;
+        free( a );
+        a = c;
+    }
 }
