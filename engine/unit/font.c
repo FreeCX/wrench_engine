@@ -18,6 +18,34 @@ static inline int next_p2( int a )
     return rval;
 }
 
+const char* utf8_to_utf32( const char* utf8, unsigned* utf32 )
+{
+    unsigned char *u_utf8 = (unsigned char*) utf8;
+    unsigned char b = *u_utf8++;
+    unsigned len = 0, c = b;
+    unsigned shift = 6 - len;
+
+    if ( !( b & 0x80 ) ) {
+        if ( utf32 ) {
+            *utf32 = b;
+        }
+        return utf8 + 1;
+    }
+    while ( b & 0x80 ) {
+        b <<= 1;
+        ++len;
+    }
+    while ( --len ) {
+        c <<= shift;
+        c |= (*u_utf8++) & 0x3f;
+        shift = 6;
+    }
+    if ( utf32 ) {
+        *utf32 = c;
+    }
+    return (char*) u_utf8;
+}
+
 static void make_dlist( FT_Face face, unsigned char ch, GLuint list, GLuint *tex )
 {
     FT_Glyph glyph;

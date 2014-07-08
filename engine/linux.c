@@ -38,13 +38,13 @@ int fullscreen = WE_FALSE, running = WE_TRUE;
 int window_width, window_height;
 int *x_pos, *y_pos;
 unsigned int *keyboard_map;
-extern int __DEBUG__;
+extern int __DEBUG_FLAG__;
 
 int weInitWindow( const int width, const int height, const int flag )
 {
     window_width = width;
     window_height = height;
-    buffer = (char *) weCalloc( 256, sizeof(char) );
+    buffer = (char *) weCalloc( WE_TEXT_SIZE, sizeof(char) );
     keyboard_map = (unsigned int *) weCalloc( 0xffff, sizeof(unsigned int) );
     return WE_NULL;
 }
@@ -63,7 +63,7 @@ int weCreateWindow( const char *title )
     int modeNum, bestMode, i;
     int s_width, s_height;
     Atom wmDelete;
-    char *env = getenv("DISPLAY");
+    char *env = getenv( "DISPLAY" );
 
     if ( !( wgl.display = XOpenDisplay( env ) ) ) {
         weSendError( WE_ERROR_OPEN_DISPLAY );
@@ -123,7 +123,7 @@ int weCreateWindow( const char *title )
         XF86VidModeSetViewPort( wgl.display, wgl.screen, 0, 0 );
         s_width = modes[bestMode]->hdisplay;
         s_height = modes[bestMode]->vdisplay;
-        if ( __DEBUG__ ) {
+        if ( __DEBUG_FLAG__ ) {
             printf("> Fullscreen Mode: %dx%dx%d\n", s_width, s_height, 
                 wgl.vInfo->depth);
         }
@@ -154,7 +154,7 @@ int weCreateWindow( const char *title )
             XCloseDisplay( wgl.display );
             return WE_EXIT_FAILURE;
         }
-        if ( __DEBUG__ ) {
+        if ( __DEBUG_FLAG__ ) {
             printf("> Window mode: %dx%dx%d\n", window_width, 
                 window_height, wgl.vInfo->depth);
         }
@@ -290,7 +290,7 @@ void weSetCaption( const char *fmt, ... )
 {
     va_list text;
     XTextProperty wn;
-    int count = 0;
+    size_t count = 0;
     
     if ( fmt == NULL ) {
         return ;

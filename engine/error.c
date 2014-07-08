@@ -11,24 +11,24 @@ static int last_error = 0;
 static char str_error[] = "> ERROR: %s\n";
 
 static char *str_error_msg[] = {
-    "No error",
-    "Can't allocate memory",
+    (char *) "No error",
+    (char *) "Can't allocate memory",
     
-    "Release of DC and RC failed",
-    "Release Rendering Context Failed",
-    "Failed to register the Window class",
-    "Window creation error",
-    "Couldn't create GL device context",
-    "Couldn't find suitable PixelFormat",
-    "Couldn't set PixelFormat",
-    "Couldn't create GL rendering context",
-    "Couldn't ativate GL rendering context",
+    (char *) "Release of DC and RC failed",
+    (char *) "Release Rendering Context Failed",
+    (char *) "Failed to register the Window class",
+    (char *) "Window creation error",
+    (char *) "Couldn't create GL device context",
+    (char *) "Couldn't find suitable PixelFormat",
+    (char *) "Couldn't set PixelFormat",
+    (char *) "Couldn't create GL rendering context",
+    (char *) "Couldn't ativate GL rendering context",
 
-    "Couldn't release drawing context",
-    "Couldn't open display",
-    "X Server no support GLX Extension",
-    "GLX 1.3 or greater necessary",
-    "Couldn't choose visual context"
+    (char *) "Couldn't release drawing context",
+    (char *) "Couldn't open display",
+    (char *) "X Server no support GLX Extension",
+    (char *) "GLX 1.3 or greater necessary",
+    (char *) "Couldn't choose visual context"
 };
 
 void weSendError( const int error )
@@ -51,15 +51,13 @@ void wePrintError( void )
     printf( str_error, str_error_msg[last_error] );
 }
 
-void weModuleError( const char *fmt, ... )
+void weModuleError( const char *format, ... )
 {
-    char buffer[512];
-    va_list ap;
+    va_list list;
 
-    if ( fmt != NULL ) {
-        va_start( ap, fmt );
-        vsprintf( buffer, fmt, ap );
-        va_end( ap );
-        printf( str_error, buffer );
+    if ( format != NULL ) {
+        va_start( list, format );
+        vprintf( format, list );
+        va_end( list );
     }
 }

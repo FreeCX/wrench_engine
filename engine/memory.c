@@ -8,14 +8,14 @@
 #include "memory.h"
 
 static size_t alloc_memory = 0;
-extern int __DEBUG__;
+extern int __DEBUG_FLAG__;
 
 void * weMalloc( size_t size )
 {
     void *ptr;
 
     ptr = malloc( size );
-    if ( __DEBUG__ ) {
+    if ( __DEBUG_FLAG__ ) {
 #ifdef __WIN32__
         printf( "  [>] address of pointer 0x%08x\n", ptr );
 #elif __linux__
@@ -36,7 +36,7 @@ void * weCalloc( size_t nmemb, size_t size )
     void *ptr;
 
     ptr = calloc( nmemb, size );
-    if ( __DEBUG__ ) {
+    if ( __DEBUG_FLAG__ ) {
 #ifdef __WIN32__
         printf( "  [>] address of pointer 0x%08x\n", ptr );
 #elif __linux__
@@ -62,7 +62,7 @@ void * weRealloc( void *ptr, size_t size )
     alloc_memory -= malloc_usable_size( ptr );
 #endif
     buf = realloc( ptr, size );
-    if ( __DEBUG__ ) {
+    if ( __DEBUG_FLAG__ ) {
 #ifdef __WIN32
         printf( "  [>] address of pointer 0x%08x\n", buf );
 #else
@@ -85,7 +85,7 @@ void weFree( void *ptr )
 #elif __linux__
     alloc_memory -= malloc_usable_size( ptr );
 #endif
-    if ( __DEBUG__ ) {
+    if ( __DEBUG_FLAG__ ) {
 #ifdef __WIN32__
         printf( "  [-] free %lu bytes at 0x%08x\n", 
             (unsigned long) _msize( ptr ), ptr );

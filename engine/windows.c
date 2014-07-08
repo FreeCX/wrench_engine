@@ -22,7 +22,7 @@ int fullscreen = WE_FALSE, running = WE_TRUE;
 int window_width, window_height;
 int x_pos, y_pos;
 unsigned int *keyboard_map;
-extern int __DEBUG__;
+extern int __DEBUG_FLAG__;
 
 static LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
@@ -277,7 +277,7 @@ void weSwapBuffers( void )
 void weSetCaption( const char *fmt, ... )
 {
     va_list text;
-    int count;
+    size_t count;
     
     if ( fmt == NULL ) {
         return ;

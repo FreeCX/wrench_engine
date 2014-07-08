@@ -7,18 +7,18 @@
 
 #include "kernel.h"
 
-static char *engine_name = "Wrench Engine";
-static char *engine_date = "18/10/13";
+static char *engine_name = (char *) "Wrench Engine";
+static char *engine_date = (char *) "08/07/14";
 static int major_version   = 0;
 static int minor_version   = 1;
 static int release_version = 0;
-static int build_version   = 20;
+static int build_version   = 21;
 
 static int FrameCount = 0;
 static float NewCount = 0.0f, LastCount = 0.0f, FpsRate = 0.0f;
 w_timer_t *p = NULL;
 
-int __DEBUG__ = 0;
+int __DEBUG_FLAG__ = 0;
 
 static void catch_crash( int signum )
 {
@@ -26,13 +26,13 @@ static void catch_crash( int signum )
     printf( "segmentation violation!\n" );
     getch();
 #elif __linux__
-    int i;
-    int *callstack[128];
-    int frame;
+    #define STACK_SIZE 128
+    void *callstack[STACK_SIZE];
+    size_t i, frame;
     char **str;
 
-    frame = backtrace( (void **) callstack, 128 );
-    str = (char **) backtrace_symbols( (void* const*) callstack, frame );
+    frame = backtrace( callstack, STACK_SIZE );
+    str = backtrace_symbols( callstack, frame );
     printf( "> backtrace log:\n" );
     for ( i = 0; i < frame; i++ ) {
         printf("  %s\n", str[i] );
@@ -59,7 +59,7 @@ int weInit( const int argc, char **argv )
             long_options, NULL );
         switch ( next_option ) {
             case 'd':
-                __DEBUG__ = 1;
+                __DEBUG_FLAG__ = 1;
                 printf( "> Debug mode: [on]\n" );
                 break;
             case -1:
@@ -176,9 +176,9 @@ void weTimerLoop( int signo )
 
 void weTimerSet( uint32 usec, void (*func)(void) )
 {
-    w_timer_t *a = p, *c;
+    w_timer_t *c;
 
-    c = (w_timer_t *) malloc( sizeof(w_timer_t) );
+    c = (w_timer_t *) malloc( sizeof( w_timer_t ) );
     c->usec = usec;
     c->func = func;
     c->next = p;

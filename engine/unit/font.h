@@ -20,10 +20,10 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <ft2build.h>
-#include <freetype/freetype.h>
-#include <freetype/ftglyph.h>
-#include <freetype/ftoutln.h>
-#include <freetype/fttrigon.h>
+#include <freetype.h>
+#include <ftglyph.h>
+#include <ftoutln.h>
+#include <fttrigon.h>
 
 typedef struct {
     int height;
@@ -36,11 +36,12 @@ typedef struct {
 #define UI_TEXT_SIZE                256
 #define UI_FONT_MEDIUM              0
 #define UI_FONT_BOLD                1
-#ifdef __WIN32__
-#define UI_FONT_LIST                128
-#elif __linux__
-#define UI_FONT_LIST                256
-#endif
+// #ifdef __WIN32__
+// #define UI_FONT_LIST                128
+// #elif __linux__
+// #define UI_FONT_LIST                0x4FF
+// #endif
+#define UI_FONT_LIST                0x04FF
 
 /* export function */
 void uiFontRasterBuild( uiFont * f, unsigned int height, unsigned int weight, char * font_name );
