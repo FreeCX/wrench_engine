@@ -12,38 +12,11 @@ static char text[UI_TEXT_SIZE];
 static inline int next_p2( int a )
 {
     int rval = 1;
+    
     while ( rval < a ) {
         rval <<= 1;
     }
     return rval;
-}
-
-const char* utf8_to_utf32( const char* utf8, unsigned* utf32 )
-{
-    unsigned char *u_utf8 = (unsigned char*) utf8;
-    unsigned char b = *u_utf8++;
-    unsigned len = 0, c = b;
-    unsigned shift = 6 - len;
-
-    if ( !( b & 0x80 ) ) {
-        if ( utf32 ) {
-            *utf32 = b;
-        }
-        return utf8 + 1;
-    }
-    while ( b & 0x80 ) {
-        b <<= 1;
-        ++len;
-    }
-    while ( --len ) {
-        c <<= shift;
-        c |= (*u_utf8++) & 0x3f;
-        shift = 6;
-    }
-    if ( utf32 ) {
-        *utf32 = c;
-    }
-    return (char*) u_utf8;
 }
 
 static void make_dlist( FT_Face face, unsigned char ch, GLuint list, GLuint *tex )
@@ -55,8 +28,7 @@ static void make_dlist( FT_Face face, unsigned char ch, GLuint list, GLuint *tex
     GLubyte *data;
     float x, y;
 
-    if ( FT_Load_Glyph( face, FT_Get_Char_Index( face, ch ), 
-        FT_LOAD_RENDER ) ) {
+    if ( FT_Load_Glyph( face, FT_Get_Char_Index( face, ch ), FT_LOAD_RENDER ) ) {
         weModuleError( "FT_Load_Glyph" );
     }
     if ( FT_Get_Glyph( face->glyph, &glyph ) ) {
@@ -67,21 +39,20 @@ static void make_dlist( FT_Face face, unsigned char ch, GLuint list, GLuint *tex
     bitmap = bitmap_glyph->bitmap;
     width = next_p2( bitmap.width );
     height = next_p2( bitmap.rows );
-    data = (GLubyte *) weCalloc( 2*width*height, sizeof(GLubyte) );
+    data = (GLubyte *) weCalloc( 2 * width * height, sizeof( GLubyte ) );
     for ( j = 0; j < height; j++) {
         for ( i = 0; i < width; i++ ) {
             data[2 * (i + j * width)] = 255;
-            data[2 * (i + j * width) + 1] = 
-            (i >= bitmap.width || j >= bitmap.rows) ? 0 : bitmap.buffer[i + bitmap.width * j];
+            data[2 * (i + j * width) + 1] = (i >= bitmap.width || j >= bitmap.rows) ? 
+                                            0 : bitmap.buffer[i + bitmap.width * j];
         }
     }
     glBindTexture( GL_TEXTURE_2D, tex[ch] );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, 
-        GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, data );
+    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, data );
     weFree( data );
-    glNewList( list+ch, GL_COMPILE );
+    glNewList( list + ch, GL_COMPILE );
     glBindTexture( GL_TEXTURE_2D, tex[ch] );
     glTranslatef( bitmap_glyph->left, 0, 0 );
     glPushMatrix();
@@ -118,21 +89,18 @@ void uiFontRasterBuild( uiFont * f, unsigned int height, unsigned int weight, ch
             f->weight = FW_BOLD;
             break;
     }
-    w_font = CreateFont( -f->height, 0, 0, 0, f->weight, 0, 0, 0, 
-        ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, 
-        ANTIALIASED_QUALITY, FF_DONTCARE | DEFAULT_PITCH, f->name );
-    if ( !w_font ) {
-        w_font = CreateFont( -f->height, 0, 0, 0, f->weight, 0, 0, 0, 
-            ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, 
-            ANTIALIASED_QUALITY, FF_DONTCARE | DEFAULT_PITCH, "Arial" );
+    w_font = CreateFont( -f->height, 0, 0, 0, f->weight, 0, 0, 0, ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, 
+                         ANTIALIASED_QUALITY, FF_DONTCARE | DEFAULT_PITCH, f->name );
+    if ( w_font == NULL ) {
+        w_font = CreateFont( -f->height, 0, 0, 0, f->weight, 0, 0, 0, ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, 
+                             ANTIALIASED_QUALITY, FF_DONTCARE | DEFAULT_PITCH, "Arial" );
         weModuleError( "Can't load font!" );
     }
     SelectObject( hDC, w_font );
     wglUseFontBitmaps( hDC, 32, UI_FONT_LIST, f->list );
-    /* C++ error mode on */
-    if ( sizeof('a') == sizeof(char) ) {
-        wglUseFontBitmaps( hDC, 32, UI_FONT_LIST, f->list );
-    }
+    // if ( __cplusplus ) { // or __GNUG__
+    //     wglUseFontBitmaps( hDC, 32, UI_FONT_LIST, f->list );
+    // }
 #elif __linux__
     XFontStruct *x_font; 
     Display *dsp;   
@@ -147,8 +115,7 @@ void uiFontRasterBuild( uiFont * f, unsigned int height, unsigned int weight, ch
             sprintf( type, "medium" );
             break;
     }
-    sprintf( buffer, "-*-%s-%s-r-normal--%d-*-*-*-c-*-iso8859-1", f->name, 
-        type, f->height);
+    sprintf( buffer, "-*-%s-%s-r-normal--%d-*-*-*-c-*-iso8859-1", f->name, type, f->height);
     dsp = XOpenDisplay( NULL );
     f->list = glGenLists( UI_FONT_LIST );      
     x_font = XLoadQueryFont( dsp, buffer );    
@@ -168,9 +135,9 @@ void uiFontFreeTypeBuild( uiFont * f, unsigned int height, char * font_name )
 {
     FT_Library lib;
     FT_Face face;
-    unsigned int i;
+    size_t i;
 
-    f->tex = (GLuint *) weCalloc( UI_FONT_LIST, sizeof(GLuint) );
+    f->tex = (GLuint *) weCalloc( UI_FONT_LIST, sizeof( GLuint ) );
     f->height = height;
     if ( FT_Init_FreeType( &lib ) ) {
         weModuleError( "FT_Init_FreeType" );
@@ -192,26 +159,25 @@ void uiFontFreeTypeBuild( uiFont * f, unsigned int height, char * font_name )
 void uiFontPrintf( uiFont *f, float x, float y, const char *fmt, ... )
 {
     GLuint fnt = f->list;
-    unsigned char text[256];
     va_list ap;
+    size_t text_len = strlen( text );
     float modelview_matrix[16];
 
     if ( fmt == NULL ) {
         *text = 0;
     } else {
         va_start( ap, fmt );
-        vsprintf( text, fmt, ap );
+        vsnprintf( text, UI_TEXT_SIZE, fmt, ap );
         va_end( ap );
     }
-    if ( !f->tex ) {
+    if ( f->tex == 0 ) {
         glPushAttrib( GL_LIST_BIT );
-        glListBase( fnt - 32);
+        glListBase( fnt - 32 );
         glRasterPos2f( x, y );      
-        glCallLists( strlen(text), GL_UNSIGNED_BYTE, text );
+        glCallLists( text_len, GL_UNSIGNED_BYTE, text );
         glPopAttrib();
     } else {
-        glPushAttrib( GL_LIST_BIT | GL_CURRENT_BIT | GL_ENABLE_BIT | 
-            GL_TRANSFORM_BIT );
+        glPushAttrib( GL_LIST_BIT | GL_CURRENT_BIT | GL_ENABLE_BIT | GL_TRANSFORM_BIT );
         glMatrixMode( GL_MODELVIEW );
         glDisable( GL_LIGHTING ); 
         glEnable( GL_TEXTURE_2D );
@@ -226,7 +192,7 @@ void uiFontPrintf( uiFont *f, float x, float y, const char *fmt, ... )
         glMultMatrixf( modelview_matrix );
         glTranslatef( x, y, 0 );
         glRotatef( 180, 1.0f, 0.0f, 0.0f );
-        glCallLists( strlen(text), GL_UNSIGNED_BYTE, text );
+        glCallLists( text_len, GL_UNSIGNED_BYTE, text );
         glPopMatrix();
         /* для вывода нескольких строк */
         glPopAttrib();

@@ -8,10 +8,10 @@
 #ifndef __KERNEL_ERROR__
 #define __KERNEL_ERROR__
 
-#include <stdio.h>
 #include <stdarg.h>
-#include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 enum {
     WE_ERROR_NONE,

@@ -8,11 +8,11 @@
 #include "kernel.h"
 
 static char *engine_name = (char *) "Wrench Engine";
-static char *engine_date = (char *) "08/07/14";
+static char *engine_date = (char *) "19/08/14";
 static int major_version   = 0;
 static int minor_version   = 1;
 static int release_version = 0;
-static int build_version   = 21;
+static int build_version   = 22;
 
 static int FrameCount = 0;
 static float NewCount = 0.0f, LastCount = 0.0f, FpsRate = 0.0f;
@@ -33,9 +33,9 @@ static void catch_crash( int signum )
 
     frame = backtrace( callstack, STACK_SIZE );
     str = backtrace_symbols( callstack, frame );
-    printf( "> backtrace log:\n" );
+    puts( "> backtrace log:" );
     for ( i = 0; i < frame; i++ ) {
-        printf("  %s\n", str[i] );
+        printf( "  %s\n", str[i] );
     }
     free( str );
     signal( signum, SIG_DFL );
@@ -47,20 +47,19 @@ int weInit( const int argc, char **argv )
 {
     const char* const short_options = "d";
     const struct option long_options[] = {
-        {"debug",   0, NULL, 'd'},
-        {NULL,      0, NULL, 0}
+        { "debug",   0, NULL, 'd' },
+        { NULL,      0, NULL, 0 }
     };
     int next_option;
     
     signal( SIGSEGV, catch_crash );
     weInfo();
     do {
-        next_option = getopt_long( argc, argv, short_options, 
-            long_options, NULL );
+        next_option = getopt_long( argc, argv, short_options, long_options, NULL );
         switch ( next_option ) {
             case 'd':
                 __DEBUG_FLAG__ = 1;
-                printf( "> Debug mode: [on]\n" );
+                puts( "> Debug mode: [on]" );
                 break;
             case -1:
                 break;
@@ -75,26 +74,23 @@ int weInit( const int argc, char **argv )
 void weInfo( void )
 {
     char buffer[256];
-    int dwBuild, i;
+    int dwBuild;
     int dwVersion = GetVersion();
     int dwMajor = ( LOBYTE( LOWORD( dwVersion ) ) );
     int dwMinor = ( HIBYTE( LOWORD( dwVersion ) ) );
 
     if ( dwVersion < 0x80000000 ) {
         dwBuild = (DWORD)( HIWORD( dwVersion ) );
-        sprintf( buffer, "Windows [Version %d.%d.%d]", 
-            dwMajor, dwMinor, dwBuild );
-    } else if (dwMajor < 4) {
+        sprintf( buffer, "Windows [Version %d.%d.%d]", dwMajor, dwMinor, dwBuild );
+    } else if ( dwMajor < 4 ) {
         dwBuild = (DWORD)( HIWORD( dwVersion ) & ~0x8000 ); 
-        sprintf( buffer, "WIN32s [Version %d.%d.%d]", 
-            dwMajor, dwMinor, dwBuild );
+        sprintf( buffer, "WIN32s [Version %d.%d.%d]", dwMajor, dwMinor, dwBuild );
     } else {
         dwBuild = 0;
-        sprintf( buffer, "Win95/Win98 [Version %d.%d.%d]", 
-            dwMajor, dwMinor, dwBuild );
+        sprintf( buffer, "Win95/Win98 [Version %d.%d.%d]", dwMajor, dwMinor, dwBuild );
     }
-    printf( "%s %d.%d.%d.%d [%s]\n", engine_name, major_version, 
-        minor_version, release_version, build_version, engine_date );
+    printf( "%s %d.%d.%d.%d [%s]\n", engine_name, major_version, minor_version, release_version, build_version, 
+            engine_date );
     printf( "Working at %s\n", buffer );
 }
 #elif __linux__
@@ -102,11 +98,10 @@ void weInfo( void )
 {
     struct utsname _system;
 
-    printf( "%s %d.%d.%d.%d [%s]\n", engine_name, major_version, 
-        minor_version, release_version, build_version, engine_date );
-    if ( !uname( &_system ) ) {
-        printf( "Working at %s %s %s\n", _system.sysname, 
-            _system.release, _system.machine );
+    printf( "%s %d.%d.%d.%d [%s]\n", engine_name, major_version, minor_version, release_version, build_version, 
+            engine_date );
+    if ( uname( &_system ) == 0 ) {
+        printf( "Working at %s %s %s\n", _system.sysname, _system.release, _system.machine );
     }
 }
 #endif

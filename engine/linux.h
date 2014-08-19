@@ -13,12 +13,13 @@
 #include <GL/glu.h>
 #include <GL/glx.h>
 #include <X11/extensions/xf86vmode.h>
-#include "keymap.h"
-#include "structures.h"
-#include "memory.h"
 #include "error.h"
+#include "kernel.h"
+#include "keymap.h"
+#include "memory.h"
+#include "structures.h"
 
-typedef struct {
+struct we_window {
     Display                *display;
     GLXContext              context;
     Bool                    doubleBuffered;
@@ -33,7 +34,8 @@ typedef struct {
     int                     depth;
     int                     x;
     int                     y;
-} we_window_t;
+};
+typedef struct we_window we_window_t;
 
 /* export function */
 int weInitWindow( const int width, const int height, const int flag );
@@ -47,8 +49,8 @@ void weGetCursorPos( int *x, int *y );
 void weRedraw( void );
 void weRenderFunc( void ( *param )( void ) );
 void weResizeFunc( void ( *param )( int, int ) );
-void weMouseActionFunc( void ( *param )( int, int, int, int ));
-void weMouseMotionFunc( void ( *param )( int, int ));
-void weKeyboardFunc( void ( *param )( unsigned int * ));
+void weMouseActionFunc( void ( *param )( int, int, int, int ) );
+void weMouseMotionFunc( void ( *param )( int, int ) );
+void weKeyboardFunc( void ( *param )( unsigned int * ) );
 
 #endif

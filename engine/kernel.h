@@ -12,15 +12,16 @@
     #include "windows.h"
 #elif __linux__
     #include <sys/utsname.h>
+    #include <execinfo.h>
     #include "linux.h"
 #endif
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include <getopt.h>
 #include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
 #include <sys/time.h>
 #include "error.h"
 #include "input.h"
@@ -35,7 +36,7 @@ uint32 weTicks( void );
 float weGetFps( void );
 void weTimerInit( void );
 void weTimerLoop( int signo );
-void weTimerSet( uint32 usec, void (*f)(void) );
+void weTimerSet( uint32 usec, void (*f)( void ) );
 void weTimerKill( void );
 
 #endif

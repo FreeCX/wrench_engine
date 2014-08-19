@@ -12,15 +12,15 @@ uiButton *pButtonList = NULL;
 
 int uiButtonCreate( char *label, ButtonCallback cb, int x, int y, int w, int h )
 {
-    uiButton *p = weMalloc( sizeof(uiButton) );
+    uiButton *p = (uiButton *) weMalloc( sizeof( uiButton ) );
     assert( p );
-    memset( p, 0, sizeof(uiButton) );
+    memset( p, 0, sizeof( uiButton ) );
     p->x = x; p->y = y;
     p->w = w; p->h = h;
     p->callbackFunc = cb;
-    p->label = weMalloc( strlen(label) + 1 );
+    p->label = (char *) weMalloc( strlen( label ) + 1 );
     if ( p->label ) {
-        sprintf( p->label, label );
+        sprintf( p->label, "%s", label );
     }
     p->next = pButtonList;
     pButtonList = p;
@@ -43,7 +43,7 @@ int uiButtonDeleteByName( char *label )
 {
     uiButton *previous = NULL, *curr = pButtonList;
     while ( curr != NULL ) {
-        if ( !strcmp( label, curr->label ) ) {
+        if ( strcmp( label, curr->label ) == 0 ) {
             if( previous ) {
                 previous->next = curr->next;
             } else {
@@ -85,11 +85,8 @@ int uiButtonDeleteById( int id )
 
 int uiButtonClick( uiButton *b, int x, int y )
 {
-    if ( b ) {
-        if( x > b->x && x < b->x + b->w && 
-            y > b->y && y < b->y + b->h ) {
-                return WE_TRUE;
-        }
+    if ( b != NULL && x > b->x && x < b->x + b->w && y > b->y && y < b->y + b->h ) {
+        return WE_TRUE;
     }
     return WE_FALSE;
 }
@@ -101,8 +98,7 @@ void uiButtonRelease( int x_press, int y_press )
 
     weGetCursorPos( &x_pos, &y_pos );
     while ( b ) {
-        if ( uiButtonClick( b, x_press, y_press ) && 
-            uiButtonClick( b, x_pos, y_pos ) ) {
+        if ( uiButtonClick( b, x_press, y_press ) && uiButtonClick( b, x_pos, y_pos ) ) {
             if ( b->callbackFunc ) {
                 b->callbackFunc();
             }
@@ -149,7 +145,6 @@ void uiButtonPassive( int x, int y )
 void uiButtonDraw( uiFont *f )
 {
     float fontx, fonty;
-    float xpos;
     uiButton *b = pButtonList;
 
     if ( f == NULL ) {
@@ -196,7 +191,7 @@ void uiButtonDraw( uiFont *f )
             fontx += 2;
             fonty += 2;
         }
-        if( b->highlighted ) {
+        if ( b->highlighted ) {
             glColor3f( 0.0f, 0.0f, 0.0f );
             uiFontPrintf( f, fontx, fonty, b->label );
             fontx--;
@@ -218,6 +213,7 @@ int uiButtonPressedId( void )
         previous = curr;
         curr = curr->next;
     }
+    return -1;
 }
 
 void uiButtonChangeLabel( int id, char *label )
@@ -225,9 +221,9 @@ void uiButtonChangeLabel( int id, char *label )
     uiButton *previous = NULL, *curr = pButtonList;
     while ( curr != NULL ) {
         if ( curr->id == id ) {
-            curr->label = weMalloc( strlen(label) + 1 );
+            curr->label = (char *) weMalloc( strlen( label ) + 1 );
             if ( curr->label ) {
-                sprintf( curr->label, label );
+                sprintf( curr->label, "%s", label );
             }
         }
         previous = curr;

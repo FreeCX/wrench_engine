@@ -44,8 +44,8 @@ int weInitWindow( const int width, const int height, const int flag )
 {
     window_width = width;
     window_height = height;
-    buffer = (char *) weCalloc( WE_TEXT_SIZE, sizeof(char) );
-    keyboard_map = (unsigned int *) weCalloc( 0xffff, sizeof(unsigned int) );
+    buffer = (char *) weCalloc( WE_TEXT_SIZE, sizeof( char ) );
+    keyboard_map = (unsigned int *) weCalloc( 0xffff, sizeof( unsigned int ) );
     return WE_NULL;
 }
 
@@ -65,7 +65,7 @@ int weCreateWindow( const char *title )
     Atom wmDelete;
     char *env = getenv( "DISPLAY" );
 
-    if ( !( wgl.display = XOpenDisplay( env ) ) ) {
+    if ( ( wgl.display = XOpenDisplay( env ) ) == NULL ) {
         weSendError( WE_ERROR_OPEN_DISPLAY );
         return WE_EXIT_FAILURE;
     }
@@ -76,28 +76,26 @@ int weCreateWindow( const char *title )
         return WE_EXIT_FAILURE;
     }
     XF86VidModeQueryVersion( wgl.display, &vme_major, &vme_minor );
-    if ( !counter ) {
-        printf( "Supported XF86VidModeExtension version - %d.%d\n", 
-            vme_major, vme_minor );
+    if ( counter == 0 ) {
+        printf( "Supported XF86VidModeExtension version - %d.%d\n", vme_major, vme_minor );
     }
     XF86VidModeGetAllModeLines( wgl.display, wgl.screen, &modeNum, &modes );
     if ( fullscreen ) {
         wgl.deskMode = *modes[0];
         for ( i = 0; i < modeNum; i++ ) {
-            if ( ( modes[i]->hdisplay == window_width ) && 
-                ( modes[i]->vdisplay == window_height ) ) {
+            if ( ( modes[i]->hdisplay == window_width ) && ( modes[i]->vdisplay == window_height ) ) {
                 bestMode = i;
             }
         }
     }
-    if ( !glXQueryExtension( wgl.display, 0, 0 ) ) {
+    if ( glXQueryExtension( wgl.display, 0, 0 ) == 0 ) {
         XCloseDisplay( wgl.display );
         weSendError( WE_ERROR_GLX_SUPPORT );
         return WE_EXIT_FAILURE;
     }
     glXQueryVersion( wgl.display, &glx_major, &glx_minor );
-    if ( !counter ) {
-        printf("Supported GLX version - %d.%d\n", glx_major, glx_minor);
+    if ( counter == 0 ) {
+        printf( "Supported GLX version - %d.%d\n", glx_major, glx_minor );
     }
     if ( glx_major == 1 && glx_minor < 3 ) {
         XCloseDisplay( wgl.display );
@@ -114,63 +112,55 @@ int weCreateWindow( const char *title )
         }
     }
     wgl.root = RootWindow( wgl.display, wgl.vInfo->screen );
-    wgl.setWindowAttr.colormap = XCreateColormap( wgl.display, 
-        wgl.root, wgl.vInfo->visual, AllocNone );
-    wgl.setWindowAttr.event_mask = ExposureMask | KeyPressMask | 
-        ButtonPressMask;
+    wgl.setWindowAttr.colormap = XCreateColormap( wgl.display, wgl.root, wgl.vInfo->visual, AllocNone );
+    wgl.setWindowAttr.event_mask = ExposureMask | KeyPressMask | ButtonPressMask;
     if ( fullscreen ) {
         XF86VidModeSwitchToMode( wgl.display, wgl.screen, modes[bestMode] );
         XF86VidModeSetViewPort( wgl.display, wgl.screen, 0, 0 );
         s_width = modes[bestMode]->hdisplay;
         s_height = modes[bestMode]->vdisplay;
         if ( __DEBUG_FLAG__ ) {
-            printf("> Fullscreen Mode: %dx%dx%d\n", s_width, s_height, 
-                wgl.vInfo->depth);
+            printf( "> Fullscreen Mode: %dx%dx%d\n", s_width, s_height, wgl.vInfo->depth );
         }
         XFree( modes );
         wgl.setWindowAttr.override_redirect = 1;
-        wgl.window = XCreateWindow( wgl.display, wgl.root, 0, 0, s_width, s_height, 
-            0, wgl.vInfo->depth, InputOutput, wgl.vInfo->visual, 
-            CWBorderPixel | CWColormap | CWEventMask | CWOverrideRedirect, 
-            &wgl.setWindowAttr );
-        if ( !wgl.window ) {
+        wgl.window = XCreateWindow( wgl.display, wgl.root, 0, 0, s_width, s_height, 0, wgl.vInfo->depth, 
+                                    InputOutput, wgl.vInfo->visual, CWBorderPixel | CWColormap | 
+                                    CWEventMask | CWOverrideRedirect, &wgl.setWindowAttr );
+        if ( wgl.window == 0 ) {
             weSendError( WE_ERROR_CREATE_WINDOW );
             XCloseDisplay( wgl.display );
             return WE_EXIT_FAILURE;
         }
         XMapRaised( wgl.display, wgl.window );
-        XGrabKeyboard( wgl.display, wgl.window, 1, GrabModeAsync, GrabModeAsync, 
-            CurrentTime );
-        XGrabPointer( wgl.display, wgl.window, 1, ButtonPressMask, 
-            GrabModeAsync, GrabModeAsync, wgl.window, None, CurrentTime );
+        XGrabKeyboard( wgl.display, wgl.window, 1, GrabModeAsync, GrabModeAsync, CurrentTime );
+        XGrabPointer( wgl.display, wgl.window, 1, ButtonPressMask, GrabModeAsync, GrabModeAsync, wgl.window, 
+                      None, CurrentTime );
     } else {
         wgl.setWindowAttr.border_pixel = 0;
-        wgl.window = XCreateWindow( wgl.display, wgl.root, 0, 0, 
-            window_width, window_height, 0, wgl.vInfo->depth, InputOutput, 
-            wgl.vInfo->visual, CWBorderPixel | CWColormap | CWEventMask, 
-            &wgl.setWindowAttr );
-        if ( !wgl.window ) {
+        wgl.window = XCreateWindow( wgl.display, wgl.root, 0, 0, window_width, window_height, 0, wgl.vInfo->depth, 
+                                    InputOutput, wgl.vInfo->visual, CWBorderPixel | CWColormap | CWEventMask, 
+                                    &wgl.setWindowAttr );
+        if ( wgl.window == 0 ) {
             weSendError( WE_ERROR_CREATE_WINDOW );
             XCloseDisplay( wgl.display );
             return WE_EXIT_FAILURE;
         }
         if ( __DEBUG_FLAG__ ) {
-            printf("> Window mode: %dx%dx%d\n", window_width, 
-                window_height, wgl.vInfo->depth);
+            printf( "> Window mode: %dx%dx%d\n", window_width, window_height, wgl.vInfo->depth );
         }
         wmDelete = XInternAtom( wgl.display, "WM_DELETE_WINDOW", True );
         XSetWMProtocols( wgl.display, wgl.window, &wmDelete, 1 );
-        XSetStandardProperties( wgl.display, wgl.window, title, title, 
-            None, NULL, 0, NULL );
+        XSetStandardProperties( wgl.display, wgl.window, title, title, None, NULL, 0, NULL );
         XMapRaised( wgl.display, wgl.window );
     }
     wgl.context = glXCreateContext( wgl.display, wgl.vInfo, 0, 1 );
-    if ( !wgl.context ) {
+    if ( wgl.context == NULL ) {
         weSendError( WE_ERROR_CREATE_CONTEXT );
         XCloseDisplay( wgl.display );
         return WE_EXIT_FAILURE;
     }
-    if ( !glXMakeCurrent( wgl.display, wgl.window, wgl.context ) ) {
+    if ( glXMakeCurrent( wgl.display, wgl.window, wgl.context ) == 0 ) {
         weSendError( WE_ERROR_DRAW_CONTEXT );
         glXDestroyContext( wgl.display, wgl.context );
         wgl.context = WE_NULL;
@@ -190,24 +180,21 @@ int weLoop( void )
     if ( resize_context_callback ) {
         resize_context_callback( window_width, window_height );
     }
-    XSelectInput( wgl.display, wgl.window, PointerMotionMask | 
-        ButtonPressMask | ButtonReleaseMask | ButtonPress | 
-        ButtonRelease | KeyPressMask | KeyReleaseMask | StructureNotifyMask );
+    XSelectInput( wgl.display, wgl.window, PointerMotionMask | ButtonPressMask | ButtonReleaseMask | ButtonPress | 
+                  ButtonRelease | KeyPressMask | KeyReleaseMask | StructureNotifyMask );
     while ( running ) {
         while ( XPending( wgl.display ) ) {
             XNextEvent( wgl.display, &event );
             switch ( event.type ) {
                 case ConfigureNotify:
                     if ( resize_context_callback ) {
-                        resize_context_callback( event.xconfigure.width, 
-                            event.xconfigure.height );
+                        resize_context_callback( event.xconfigure.width, event.xconfigure.height );
                     }
                     break;
                 case Expose:
                     XGetWindowAttributes( wgl.display, wgl.window, &wgl.windowAttr );
                     if ( resize_context_callback ) {
-                        resize_context_callback( wgl.windowAttr.width, 
-                            wgl.windowAttr.height );
+                        resize_context_callback( wgl.windowAttr.width, wgl.windowAttr.height );
                     }
                     break;
                 case KeyPress:
@@ -252,9 +239,6 @@ int weLoop( void )
             if ( mouse_motion_callback ) {
                 mouse_motion_callback( *x_pos, *y_pos );
             }
-            // if ( render_context_callback ) {
-            //     render_context_callback();
-            // }
         }
         usleep( 1200 );
     }
@@ -266,7 +250,7 @@ void weKill( void )
 {
     running = WE_FALSE;
     if ( wgl.context ) {
-        if ( !glXMakeCurrent( wgl.display, wgl.window, wgl.context ) ) {
+        if ( glXMakeCurrent( wgl.display, wgl.window, wgl.context ) == 0 ) {
             weSendError( WE_ERROR_DRAW_CONTEXT );
             glXDestroyContext( wgl.display, wgl.context );
             wgl.context = WE_NULL;
@@ -290,13 +274,12 @@ void weSetCaption( const char *fmt, ... )
 {
     va_list text;
     XTextProperty wn;
-    size_t count = 0;
     
     if ( fmt == NULL ) {
         return ;
     }
     va_start( text, fmt );
-    count = vsnprintf( buffer, WE_TEXT_SIZE, fmt, text ); 
+    vsnprintf( buffer, WE_TEXT_SIZE, fmt, text ); 
     va_end( text ); 
     if ( XStringListToTextProperty( &buffer, 1, &wn ) == 0) {
         return ;
@@ -328,17 +311,17 @@ void weResizeFunc( void ( *param )( int, int ) )
     resize_context_callback = param;
 }
 
-void weMouseActionFunc( void ( *param )( int, int, int, int ))
+void weMouseActionFunc( void ( *param )( int, int, int, int ) )
 {
     mouse_action_callback = param;
 }
 
-void weMouseMotionFunc( void ( *param )( int, int ))
+void weMouseMotionFunc( void ( *param )( int, int ) )
 {
     mouse_motion_callback = param;
 }
 
-void weKeyboardFunc( void ( *param )( unsigned int * ))
+void weKeyboardFunc( void ( *param )( unsigned int * ) )
 {
     keyboard_action_callback = param;
 }

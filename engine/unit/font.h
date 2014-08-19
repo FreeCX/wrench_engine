@@ -17,13 +17,16 @@
     #include <GL/glx.h>
 #endif
 
-#include <stdio.h>
-#include <stdarg.h>
 #include <ft2build.h>
 #include <freetype.h>
 #include <ftglyph.h>
 #include <ftoutln.h>
 #include <fttrigon.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <string.h>
+#include "../error.h"
+#include "../memory.h"
 
 typedef struct {
     int height;

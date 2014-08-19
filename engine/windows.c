@@ -27,6 +27,7 @@ extern int __DEBUG_FLAG__;
 static LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
     int mouse_state, mouse_button, mouse_active;
+
     switch ( message ) {
         case WM_CLOSE:
             PostQuitMessage( 0 );
@@ -37,8 +38,12 @@ static LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM 
             }
             break;
         case WM_KEYDOWN:
-            if ( wParam >= 65 || wParam <= 90 ) {
-                wParam += 32;
+            // old code
+            // if ( wParam >= 65 && wParam <= 90 ) {
+            //     wParam += 32;
+            // }
+            if ( islower( wParam ) ) {
+                wParam = toupper( wParam );
             }
             keyboard_map[wParam] = WE_TRUE;
             if ( keyboard_action_callback ) {
@@ -46,8 +51,12 @@ static LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM 
             }
             break;
         case WM_KEYUP:
-            if ( wParam >= 65 || wParam <= 90 ) {
-                wParam += 32;
+            // old code
+            // if ( wParam >= 65 && wParam <= 90 ) {
+            //     wParam += 32;
+            // }
+            if ( islower( wParam ) ) {
+                wParam = toupper( wParam );
             }
             keyboard_map[wParam] = WE_FALSE;
             if ( keyboard_action_callback ) {
@@ -116,13 +125,12 @@ static void SetClientSize( HWND hWnd, const int clientWidth, int const clientHei
         DWORD dwStyle = GetWindowLongPtr( hWnd, GWL_STYLE );
         DWORD dwExStyle = GetWindowLongPtr( hWnd, GWL_EXSTYLE );
         HMENU menu = GetMenu( hWnd );
-        RECT rc = {0, 0, clientWidth, clientHeight} ;
+        RECT rc = { 0, 0, clientWidth, clientHeight } ;
 
-        if ( !AdjustWindowRectEx( &rc, dwStyle, menu ? TRUE : FALSE, dwExStyle ) ) {
+        if ( AdjustWindowRectEx( &rc, dwStyle, menu ? TRUE : FALSE, dwExStyle ) == 0 ) {
             MessageBox( NULL, "AdjustWindowRectEx Failed!", "Error", MB_OK );
         }
-        SetWindowPos( hWnd, NULL, 0, 0, rc.right - rc.left, rc.bottom - rc.top,
-            SWP_NOZORDER | SWP_NOMOVE );
+        SetWindowPos( hWnd, NULL, 0, 0, rc.right - rc.left, rc.bottom - rc.top, SWP_NOZORDER | SWP_NOMOVE );
     }
 }
 
@@ -130,7 +138,7 @@ int weInitWindow( const int width, const int height, const int flag )
 {
     window_width = width;
     window_height = height;
-    keyboard_map = (unsigned int *) weCalloc( 256, sizeof(unsigned int) );
+    keyboard_map = (unsigned int *) weCalloc( 256, sizeof( unsigned int ) );
     return WE_NULL;
 }
 
@@ -164,19 +172,19 @@ int weCreateWindow( const char *title )
         DestroyWindow( hWnd );
         UnregisterClass( WE_APPCLASS, hInstance );
     }
-    if ( !RegisterClass( &wc ) ) {
+    if ( RegisterClass( &wc ) == 0 ) {
         weSendError( WE_ERROR_REGISTER_WINDOW );
         return WE_EXIT_FAILURE;
     }
-    if ( fullscreen ) {
-        /* insert init code */
-    } else {
-        /* insert init code */
-    }
-    hWnd = CreateWindowEx( dwExStyle, WE_APPCLASS, title, 
-        WS_CLIPSIBLINGS | WS_CLIPCHILDREN | dwStyle, 0, 0, 
-        window_width, window_height, 0, 0, hInstance, 0 ); 
-    if ( !hWnd ) {
+    // in progress
+    // if ( fullscreen ) {
+    //      insert init code 
+    // } else {
+    //     /* insert init code */
+    // }
+    hWnd = CreateWindowEx( dwExStyle, WE_APPCLASS, title, WS_CLIPSIBLINGS | WS_CLIPCHILDREN | dwStyle, 0, 0, 
+                           window_width, window_height, 0, 0, hInstance, 0 ); 
+    if ( hWnd == 0 ) {
         weSendError( WE_ERROR_CREATE_WINDOW );
         return WE_EXIT_FAILURE;
     }
@@ -184,31 +192,31 @@ int weCreateWindow( const char *title )
     SetForegroundWindow( hWnd );
     SetFocus( hWnd );
     SetClientSize( hWnd, window_width, window_height );
-    if ( !( hDC = GetDC( hWnd ) ) ) {
+    if ( ( hDC = GetDC( hWnd ) ) == 0 ) {
         weSendError( WE_ERROR_DC_CONTEXT );
         return WE_EXIT_FAILURE;
     }
-    ZeroMemory( &pfd, sizeof(pfd) );
-    pfd.nSize = sizeof(pfd);
+    ZeroMemory( &pfd, sizeof( pfd ) );
+    pfd.nSize = sizeof( pfd );
     pfd.nVersion = 1;
     pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
     pfd.iPixelType = PFD_TYPE_RGBA;
     pfd.cColorBits = 24;
     pfd.cDepthBits = 32;
     pfd.iLayerType = PFD_MAIN_PLANE;
-    if ( !( iFormat = ChoosePixelFormat( hDC, &pfd ) ) ) {
+    if ( ( iFormat = ChoosePixelFormat( hDC, &pfd ) ) == 0 ) {
         weSendError( WE_ERROR_CHOOSE_PIXELFORMAT );
         return WE_EXIT_FAILURE;
     }
-    if ( !SetPixelFormat( hDC, iFormat, &pfd ) ) {
+    if ( SetPixelFormat( hDC, iFormat, &pfd ) == 0 ) {
         weSendError( WE_ERROR_SET_PIXELFORMAT );
         return WE_EXIT_FAILURE;
     }
-    if ( !( hRC = wglCreateContext( hDC ) ) ) {
+    if ( ( hRC = wglCreateContext( hDC ) ) == 0 ) {
         weSendError( WE_ERROR_CREATE_CONTEXT );
         return WE_EXIT_FAILURE;
     }
-    if ( !wglMakeCurrent( hDC, hRC ) ) {
+    if ( wglMakeCurrent( hDC, hRC ) == 0 ) {
         weSendError( WE_ERROR_MAKE_CONTEXT );
         return WE_EXIT_FAILURE;
     }
@@ -223,7 +231,7 @@ int weLoop( void )
     uint32 now = 0, start = 0, stop = 1000 / 60;
     
     running = WE_TRUE;
-    timeBeginPeriod( 1 );
+    // timeBeginPeriod( 1 );
     if ( resize_context_callback ) {
         resize_context_callback( window_width, window_height );
     }
@@ -250,6 +258,7 @@ int weLoop( void )
         /* to offload the CPU */
         usleep( 1500 );
     }
+    // timeEndPeriod( 15 );
     weKill();
     return WE_EXIT_SUCCESS;
 }
@@ -258,11 +267,11 @@ void weKill( void )
 {
     running = WE_FALSE;
     weFree( keyboard_map );
-    if ( !wglMakeCurrent( hDC, NULL ) ) {
+    if ( wglMakeCurrent( hDC, NULL ) == 0 ) {
         weSendError( WE_ERROR_CLEAR_CONTEXT );
         return;
     }
-    if ( !wglDeleteContext( hRC ) ) {
+    if ( wglDeleteContext( hRC ) == 0 ) {
         weSendError( WE_ERROR_DELETE_CONTEXT );
         return;
     }
@@ -277,13 +286,12 @@ void weSwapBuffers( void )
 void weSetCaption( const char *fmt, ... )
 {
     va_list text;
-    size_t count;
     
     if ( fmt == NULL ) {
         return ;
     }
     va_start( text, fmt );
-    count = vsnprintf( buffer, WE_TEXT_SIZE, fmt, text ); 
+    vsnprintf( buffer, WE_TEXT_SIZE, fmt, text ); 
     va_end( text ); 
     SetWindowText( hWnd, buffer );
 }
@@ -327,17 +335,17 @@ void weResizeFunc( void ( *param )( int, int ) )
     resize_context_callback = param;
 }
 
-void weMouseActionFunc( void ( *param )( int, int, int, int ))
+void weMouseActionFunc( void ( *param )( int, int, int, int ) )
 {
     mouse_action_callback = param;
 }
 
-void weMouseMotionFunc( void ( *param )( int, int ))
+void weMouseMotionFunc( void ( *param )( int, int ) )
 {
     mouse_motion_callback = param;
 }
 
-void weKeyboardFunc( void ( *param )( unsigned int * ))
+void weKeyboardFunc( void ( *param )( unsigned int * ) )
 {
     keyboard_action_callback = param;
 }

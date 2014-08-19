@@ -12,15 +12,19 @@
     #include <windows.h>
     #include <gl/gl.h>
     #include <gl/glu.h>
+    #include "../windows.h"
 #elif __linux__
     #include <GL/gl.h>
     #include <GL/glx.h>
+    #include "../linux.h"
 #endif
 
 #include <assert.h>
 #include <math.h>
+#include <string.h>
 #include "font.h"
 #include "../error.h"
+#include "../memory.h"
 #include "../structures.h"
 
 typedef void (*ButtonCallback)();
