@@ -8,5 +8,3 @@ Wrench Engine
 * модульная система
 * простота в использовании
 * открытый код
-
-Старый проект: https://bitbucket.org/FreeCX/wrench
