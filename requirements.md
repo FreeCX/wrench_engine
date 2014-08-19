@@ -15,7 +15,3 @@ Arch Linux
 ```
 glu mesa
 ```
-
-Python
---------------
-python-opengl
