@@ -1,21 +1,18 @@
 ENGINE=../engine
-SOURCES=$(ENGINE)/error.c $(ENGINE)/input.c $(ENGINE)/kernel.c \
-	$(ENGINE)/memory.c $(ENGINE)/unit/ui.c $(ENGINE)/unit/font.c
+SOURCES=$(ENGINE)/error.c $(ENGINE)/input.c $(ENGINE)/kernel.c $(ENGINE)/memory.c $(ENGINE)/unit/ui.c $(ENGINE)/unit/font.c
 OS=$(shell uname -s)
 ARCH=$(shell uname -m)
-CFLAGS=`pkg-config freetype2 --libs` -O3 -W -Wall
-LDFLAGS=`pkg-config freetype2 --cflags`
 
 ifeq ($(OS),Linux)
-	LDFLAGS+=-fPIC
+	CFLAGS=-fPIC `pkg-config fretype2 --cflags`
 	LIB=libwrench-$(ARCH).so
-	CFLAGS+=--def wrench.def -s -fPIC -shared -g -lGL -lGLU \
-		-lX11 -lXxf86vm
+	LFLAGS=-s -fPIC -shared -g -lGL -lGLU -lX11 -lXxf86vm `pkg-config fretype2 --cflags --libs` --def wrench.def
 	SOURCES+=$(ENGINE)/linux.c
 else
 	LIB=libwrench-$(ARCH).dll
-	CFLAGS+=-shared -Wl,-add-stdcall-alias -lopengl32 -lglu32 \
-		-lwinmm -lgdi32 wrench.def
+	LFLAGS=-O3 -W -Wall -shared -Wl,-add-stdcall-alias -lopengl32 -lglu32 -lwinmm -lgdi32 \
+		`freetype-config --cflags --libs` wrench.def
+	CFLAGS=`freetype-config --cflags`
 	SOURCES+=$(ENGINE)/windows.c
 endif
 
@@ -23,12 +20,11 @@ OBJS := $(patsubst %.c, %.o, $(SOURCES))
 DEPS := $(patsubst %.o, %.d, $(OBJS))
 
 $(LIB): $(OBJS) $(DEPS)
-	$(CC) $(OBJS) -o $@ $(CFLAGS)
+	$(CC) $(OBJS) -o $@ $(LFLAGS)
 	strip -s $(LIB)
-	chmod -x $(LIB)
 
 %.o: %.c %.d
-	$(CC) $(LDFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 %.d: %.c
 	@set -e; $(CC) -M $< | \
