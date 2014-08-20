@@ -22,7 +22,7 @@ EXPORTS
 
 	weInitWindow                @19
 	weInitOpenGL                @20
-	weCreateWindow              @11
+	weCreateWindow              @21
 	weLoop                      @22
 	weKill                      @23
 	weSwapBuffers               @24
