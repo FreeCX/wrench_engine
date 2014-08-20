@@ -113,7 +113,7 @@ void weAbout( char **name, int *major_v, int *minor_v )
     *minor_v = minor_version;
 }
 
-uint weTicks( void )
+uint32 weTicks( void )
 {
 #ifdef __WIN32__
     return timeGetTime();
@@ -138,6 +138,8 @@ float weGetFps( void )
 
 void weTimerInit( void )
 {
+#ifdef __WIN32__
+#elif __linux__
     struct itimerval delay;
 
     signal( SIGALRM, weTimerLoop );
@@ -146,6 +148,7 @@ void weTimerInit( void )
     delay.it_interval.tv_sec = 0;
     delay.it_interval.tv_usec = 1000;
     setitimer( ITIMER_REAL, &delay, NULL );
+#endif
 }
 
 void weTimerLoop( int signo )
