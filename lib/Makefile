@@ -4,9 +4,9 @@ OS=$(shell uname -s)
 ARCH=$(shell uname -m)
 
 ifeq ($(OS),Linux)
-	CFLAGS=-fPIC $(shell pkg-config fretype2 --cflags)
+	CFLAGS=-fPIC $(shell pkg-config freetype2 --cflags)
 	LIB=libwrench-$(ARCH).so
-	LFLAGS=-s -fPIC -shared -g -lGL -lGLU -lX11 -lXxf86vm $(shell pkg-config fretype2 --cflags --libs) --def wrench.def
+	LFLAGS=-s -fPIC -shared -g -lGL -lGLU -lX11 -lXxf86vm $(shell pkg-config freetype2 --cflags --libs) --def wrench.def
 	SOURCES+=$(ENGINE)/linux.c
 else
 	LIB=libwrench-$(ARCH).dll
