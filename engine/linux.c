@@ -173,7 +173,6 @@ int weCreateWindow( const char *title )
 int weLoop( void )
 {
     XEvent event;
-    uint32 now = 0, start = 0, stop = 1000 / 60;
     int mouse_state, mouse_button, mouse_active = WE_FALSE;
     KeySym keycode;
 
@@ -183,6 +182,7 @@ int weLoop( void )
     XSelectInput( wgl.display, wgl.window, PointerMotionMask | ButtonPressMask | ButtonReleaseMask | ButtonPress | 
                   ButtonRelease | KeyPressMask | KeyReleaseMask | StructureNotifyMask );
     while ( running ) {
+        weTimerLoop();
         while ( XPending( wgl.display ) ) {
             XNextEvent( wgl.display, &event );
             switch ( event.type ) {
@@ -226,21 +226,15 @@ int weLoop( void )
                     break;
             }
         }
-        /* need a update this rendering callback code */
-        now = weTicks();
-        if ( now - start > stop ) {
-            start = weTicks();
-            x_pos = &event.xmotion.x;
-            y_pos = &event.xmotion.y;
-            if ( mouse_action_callback && mouse_active ) {
-                mouse_action_callback( mouse_state, mouse_button, *x_pos, *y_pos );
-                mouse_active = WE_FALSE;
-            }
-            if ( mouse_motion_callback ) {
-                mouse_motion_callback( *x_pos, *y_pos );
-            }
+        x_pos = &event.xmotion.x;
+        y_pos = &event.xmotion.y;
+        if ( mouse_action_callback && mouse_active ) {
+            mouse_action_callback( mouse_state, mouse_button, *x_pos, *y_pos );
+            mouse_active = WE_FALSE;
         }
-        usleep( 1200 );
+        if ( mouse_motion_callback ) {
+            mouse_motion_callback( *x_pos, *y_pos );
+        }
     }
     weKill();
     return WE_EXIT_SUCCESS;

@@ -35,7 +35,7 @@ void weAbout( char **name, int *major_v, int *minor_v );
 uint32 weTicks( void );
 float weGetFps( void );
 void weTimerInit( void );
-void weTimerLoop( int signo );
+void weTimerLoop( void );
 void weTimerSet( uint32 usec, void (*f)( void ) );
 void weTimerKill( void );
 

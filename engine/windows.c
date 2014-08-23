@@ -228,14 +228,13 @@ int weCreateWindow( const char *title )
 int weLoop( void )
 {
     MSG msg;
-    uint32 now = 0, start = 0, stop = 1000 / 60;
     
     running = WE_TRUE;
-    // timeBeginPeriod( 1 );
     if ( resize_context_callback ) {
         resize_context_callback( window_width, window_height );
     }
     while ( running ) {
+        weTimerLoop();
         if ( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) ) {
             if ( msg.message == WM_QUIT ) {
                 running = WE_FALSE;
@@ -244,21 +243,12 @@ int weLoop( void )
                 DispatchMessage( &msg );
             }
         } else {
-            now = weTicks();
-            if ( now - start > stop ) {
-                weGetCursorPos( &x_pos, &y_pos );
-                if ( mouse_motion_callback ) {
-                    mouse_motion_callback( x_pos, y_pos );
-                }
-                // if ( render_context_callback ) {
-                //     render_context_callback();
-                // }
+            weGetCursorPos( &x_pos, &y_pos );
+            if ( mouse_motion_callback ) {
+                mouse_motion_callback( x_pos, y_pos );
             }
         }
-        /* to offload the CPU */
-        usleep( 1500 );
     }
-    // timeEndPeriod( 15 );
     weKill();
     return WE_EXIT_SUCCESS;
 }

@@ -8,14 +8,15 @@
 #include "kernel.h"
 
 static char *engine_name = (char *) "Wrench Engine";
-static char *engine_date = (char *) "19/08/14";
+static char *engine_date = (char *) "23/08/14";
 static int major_version   = 0;
 static int minor_version   = 1;
 static int release_version = 0;
-static int build_version   = 22;
+static int build_version   = 23;
 
 static int FrameCount = 0;
 static float NewCount = 0.0f, LastCount = 0.0f, FpsRate = 0.0f;
+static uint8 timer_init = WE_FALSE;
 w_timer_t *p = NULL;
 
 int __DEBUG_FLAG__ = 0;
@@ -138,37 +139,27 @@ float weGetFps( void )
 
 void weTimerInit( void )
 {
-#ifdef __WIN32__
-#elif __linux__
-    struct itimerval delay;
-
-    signal( SIGALRM, weTimerLoop );
-    delay.it_value.tv_sec = 0;
-    delay.it_value.tv_usec = 1;
-    delay.it_interval.tv_sec = 0;
-    delay.it_interval.tv_usec = 1000;
-    setitimer( ITIMER_REAL, &delay, NULL );
-#endif
+    timer_init = WE_TRUE;
 }
 
-void weTimerLoop( int signo )
+void weTimerLoop( void )
 {
     static uint32 a, b;
+    uint32 stA, stB;
     w_timer_t *t = p;
 
     a = b;
     b = weTicks();
-    while ( t != NULL ) {
-        if ( b - a > 1000 ) {
-            t->count++;
-        } else {
-            t->count += b - a;
-        }
+    stA = stB = weTicks();
+    while ( t != NULL && timer_init == WE_TRUE ) {
+        stA = weTicks();
+        t->count += b - a + stB - stA;
         if ( t->count >= t->usec ) {
             t->count = 0;
             t->func();
         }
         t = t->next;
+        stB = weTicks();
     }
 }
 
@@ -187,6 +178,7 @@ void weTimerKill( void )
 {
     w_timer_t *a = p, *c;
 
+    timer_init = WE_FALSE;
     while ( a != NULL ) {
         c = a->next;
         free( a );
